@@ -4,9 +4,9 @@
 Data-Drivers
 
 ## Team Members:
-Seth Lors
-Ryan Riebesehl
-Maxwell Skinner
+Seth Lors,
+Ryan Riebesehl,
+Maxwell Skinner,
 Zack Swayne
 
 ## Purpose:
