@@ -15,4 +15,7 @@ Stints data from the website in the form of a .csv file. Our group uses R to exp
 and statistics from the final dashboard come from this repository. 
 
 ## Folders:
+* data
+This folder will contain the raw data folder and, eventually, a processed/clean data folder.
 * 
+* scripts
