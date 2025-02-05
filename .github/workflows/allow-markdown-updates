@@ -1,0 +1,16 @@
+name: Allow Markdown Updates
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  allow-markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if only Markdown files changed
+        run: |
+          # Check if any markdown file (e.g., *.md) was changed
+          git diff --name-only HEAD^ HEAD | grep -v '\.md$' && exit 1 || exit 0
