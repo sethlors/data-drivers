@@ -1,0 +1,29 @@
+# Ignore macOS system files
+.DS_Store
+
+# Ignore other OS-specific or editor-specific files
+Thumbs.db
+desktop.ini
+
+# Ignore node_modules (if applicable)
+node_modules/
+
+# Ignore RStudio project files (if using RStudio)
+.Rproj.user/
+.Rhistory
+.RData
+
+# Ignore log files
+*.log
+
+# Ignore compiled source files and temporary files
+*.o
+*.obj
+*.tmp
+*.swp
+*.out
+
+# Ignore build artifacts (if applicable)
+dist/
+build/
+*.egg-info/
