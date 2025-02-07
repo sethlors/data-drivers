@@ -17,7 +17,4 @@ We obtain our F1 data from **[OpenF1](https://openf1.org/)**, which offers real-
 ## Data Structure
 The repository is organized as follows: (TBD)
 
-- Car data broken down by year
-- etc. 
-- etc. 
-- etc. 
+- Raw data folder: Used to store csv files from the OpenF1 API. Current csvs stored include: drivers, stints, and sessions data.
