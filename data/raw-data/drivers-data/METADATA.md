@@ -4,13 +4,13 @@
 
 ### Session Key
 
--   Numerical id number for the racing session. There are five sessions for each meeting.
+-   Id number for the racing session. There are five sessions for each meeting.
 -   Numeric
 -   Ranges from 9461 to 9673
 
 ### Meeting Key
 
--   Numerical id number for the race meeting. A meeting is an entire weekend of F1 racing.
+-   Id number for the race meeting. A meeting is an entire weekend of F1 racing.
 -   Numeric
 -   Ranges from 1229 to 12523
 
