@@ -1,24 +1,45 @@
-# Load required packages
-source(here::here("scripts", "dependencies", "install-packages.R"))
+# Load necessary libraries
+library(here)
 
-# Define year
-year <- 2024
+# Define script paths
+script_dir <- here::here("scripts", "get-data")
 
-# Fetch session data first and store it in a variable
+# Fetch session data
 message("Fetching session data...")
-sessions_df <- source(here::here("scripts", "get-data", "get-sessions-data.R"))$value
+source(file.path(script_dir, "get-sessions-data.R"))
 
-# Ensure sessions_df exists
-if (!exists("sessions_df") || nrow(sessions_df) == 0) {
-  stop("Session data could not be loaded. Exiting.")
-}
-
-# Fetch driver data using the sessions_df
+# Fetch driver data
 message("Fetching driver data...")
-source(here::here("scripts", "get-data", "get-drivers-data.R"), local = TRUE)
+source(file.path(script_dir, "get-drivers-data.R"))
 
-# Fetch stint data using the sessions_df
+# Fetch stint data
 message("Fetching stint data...")
-source(here::here("scripts", "get-data", "get-stints-data.R"), local = TRUE)
+source(file.path(script_dir, "get-stints-data.R"))
 
-message("All data has been fetched and stored in data/raw-data.")
+# Fetch intervals data
+message("Fetching intervals data...")
+source(file.path(script_dir, "get-intervals-data.R"))
+
+# Fetch laps data
+message("Fetching laps data...")
+source(file.path(script_dir, "get-laps-data.R"))
+
+# Fetch meetings data
+message("Fetching meetings data...")
+source(file.path(script_dir, "get-meetings-data.R"))
+
+# Fetch pit data
+message("Fetching pit data...")
+source(file.path(script_dir, "get-pit-data.R"))
+
+# Fetch position data
+message("Fetching position data...")
+source(file.path(script_dir, "get-position-data.R"))
+
+# Fetch team radio data
+message("Fetching team radio data...")
+source(file.path(script_dir, "get-team-radio-data.R"))
+
+# Fetch weather data
+message("Fetching weather data...")
+source(file.path(script_dir, "get-weather-data.R"))

@@ -1,0 +1,25 @@
+"circuit_key","circuit_short_name","meeting_key","meeting_code","location","country_key","country_code","country_name","meeting_name","meeting_official_name","gmt_offset","date_start","year"
+63,"Sakhir",1229,"BRN","Sakhir",36,"BRN","Bahrain","Bahrain Grand Prix","FORMULA 1 GULF AIR BAHRAIN GRAND PRIX 2024","03:00:00","2024-02-29T11:30:00+00:00",2024
+149,"Jeddah",1230,"KSA","Jeddah",153,"KSA","Saudi Arabia","Saudi Arabian Grand Prix","FORMULA 1 STC SAUDI ARABIAN GRAND PRIX 2024","03:00:00","2024-03-07T13:30:00+00:00",2024
+10,"Melbourne",1231,"AUS","Melbourne",5,"AUS","Australia","Australian Grand Prix","FORMULA 1 ROLEX AUSTRALIAN GRAND PRIX 2024","11:00:00","2024-03-22T01:30:00+00:00",2024
+46,"Suzuka",1232,"JPN","Suzuka",4,"JPN","Japan","Japanese Grand Prix","FORMULA 1 MSC CRUISES JAPANESE GRAND PRIX 2024","09:00:00","2024-04-05T02:30:00+00:00",2024
+49,"Shanghai",1233,"CHN","Shanghai",53,"CHN","China","Chinese Grand Prix","FORMULA 1 LENOVO CHINESE GRAND PRIX 2024","08:00:00","2024-04-19T03:30:00+00:00",2024
+151,"Miami",1234,"USA","Miami",19,"USA","United States","Miami Grand Prix","FORMULA 1 CRYPTO.COM MIAMI GRAND PRIX 2024","-04:00:00","2024-05-03T16:30:00+00:00",2024
+6,"Imola",1235,"ITA","Imola",13,"ITA","Italy","Emilia Romagna Grand Prix","FORMULA 1 MSC CRUISES GRAN PREMIO DEL MADE IN ITALY E DELL'EMILIA-ROMAGNA 2024","02:00:00","2024-05-17T11:30:00+00:00",2024
+22,"Monte Carlo",1236,"MON","Monaco",114,"MON","Monaco","Monaco Grand Prix","FORMULA 1 GRAND PRIX DE MONACO 2024","02:00:00","2024-05-24T11:30:00+00:00",2024
+23,"Montreal",1237,"CAN","Montréal",46,"CAN","Canada","Canadian Grand Prix","FORMULA 1 AWS GRAND PRIX DU CANADA 2024","-04:00:00","2024-06-07T17:30:00+00:00",2024
+15,"Catalunya",1238,"ESP","Barcelona",1,"ESP","Spain","Spanish Grand Prix","FORMULA 1 ARAMCO GRAN PREMIO DE ESPAÑA 2024","02:00:00","2024-06-21T11:30:00+00:00",2024
+19,"Spielberg",1239,"AUT","Spielberg",17,"AUT","Austria","Austrian Grand Prix","FORMULA 1 QATAR AIRWAYS AUSTRIAN GRAND PRIX 2024","02:00:00","2024-06-28T10:30:00+00:00",2024
+2,"Silverstone",1240,"GBR","Silverstone",2,"GBR","Great Britain","British Grand Prix","FORMULA 1 QATAR AIRWAYS BRITISH GRAND PRIX 2024","01:00:00","2024-07-05T11:30:00+00:00",2024
+4,"Hungaroring",1241,"HUN","Budapest",14,"HUN","Hungary","Hungarian Grand Prix","FORMULA 1 HUNGARIAN GRAND PRIX 2024","02:00:00","2024-07-19T11:30:00+00:00",2024
+7,"Spa-Francorchamps",1242,"BEL","Spa-Francorchamps",16,"BEL","Belgium","Belgian Grand Prix","FORMULA 1 ROLEX BELGIAN GRAND PRIX 2024","02:00:00","2024-07-26T11:30:00+00:00",2024
+55,"Zandvoort",1243,"NED","Zandvoort",133,"NED","Netherlands","Dutch Grand Prix","FORMULA 1 HEINEKEN DUTCH GRAND PRIX 2024","02:00:00","2024-08-23T10:30:00+00:00",2024
+39,"Monza",1244,"ITA","Monza",13,"ITA","Italy","Italian Grand Prix","FORMULA 1 PIRELLI GRAN PREMIO D’ITALIA 2024","02:00:00","2024-08-30T11:30:00+00:00",2024
+144,"Baku",1245,"AZE","Baku",30,"AZE","Azerbaijan","Azerbaijan Grand Prix","FORMULA 1 QATAR AIRWAYS AZERBAIJAN GRAND PRIX 2024","04:00:00","2024-09-13T09:30:00+00:00",2024
+61,"Singapore",1246,"SGP","Marina Bay",157,"SGP","Singapore","Singapore Grand Prix","FORMULA 1 SINGAPORE AIRLINES SINGAPORE GRAND PRIX 2024","08:00:00","2024-09-20T09:30:00+00:00",2024
+9,"Austin",1247,"USA","Austin",19,"USA","United States","United States Grand Prix","FORMULA 1 PIRELLI UNITED STATES GRAND PRIX 2024","-05:00:00","2024-10-18T17:30:00+00:00",2024
+65,"Mexico City",1248,"MEX","Mexico City",8,"MEX","Mexico","Mexico City Grand Prix","FORMULA 1 GRAN PREMIO DE LA CIUDAD DE MÉXICO 2024","-06:00:00","2024-10-25T18:30:00+00:00",2024
+14,"Interlagos",1249,"BRA","São Paulo",10,"BRA","Brazil","São Paulo Grand Prix","FORMULA 1 LENOVO GRANDE PRÊMIO DE SÃO PAULO 2024","-03:00:00","2024-11-01T14:30:00+00:00",2024
+152,"Las Vegas",1250,"USA","Las Vegas",19,"USA","United States","Las Vegas Grand Prix","FORMULA 1 HEINEKEN SILVER LAS VEGAS GRAND PRIX 2024","-08:00:00","2024-11-22T02:30:00+00:00",2024
+150,"Lusail",1251,"QAT","Lusail",149,"QAT","Qatar","Qatar Grand Prix","FORMULA 1 QATAR AIRWAYS QATAR GRAND PRIX 2024","03:00:00","2024-11-29T13:30:00+00:00",2024
+70,"Yas Marina Circuit",1252,"UAE","Yas Island",21,"UAE","United Arab Emirates","Abu Dhabi Grand Prix","FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX 2024","04:00:00","2024-12-06T09:30:00+00:00",2024
