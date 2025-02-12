@@ -19,4 +19,4 @@ and statistics from the final dashboard come from this repository.
   
 * scripts: Contains all of the methods used (in R) to get the data from the OpenF1 website.
 
-* R: Contains The methods (in R) that get certain aspects of the data.
+* R: Contains the methods (in R) that get certain aspects of the data.
