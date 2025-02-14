@@ -64,25 +64,25 @@ get_location <- function(driver_number = NULL, session_key = NULL, meeting_key =
 # Example usage:
 # Retrieve location data for driver 81 in session 9161 within a date range
 
-#location_data <- get_location(driver_number = 81, session_key = 9161)
+location_data <- get_location(driver_number = 81, session_key = 9161)
 
 
 
 
-#library(ggplot2)
+library(ggplot2)
 
-#if (!is.null(location_data)) {
+if (!is.null(location_data)) {
   
   # Create a scatter plot of x and y coordinates
-  #ggplot(location_data, aes(x = x, y = y)) +
-    #geom_point(color = "blue", alpha = 0.5, size = 1) +  # Scatter plot points
-    #geom_path(color = "red", alpha = 0.8) +  # Line connecting points to show movement
-    #theme_minimal() +  # Use a clean theme
-    #labs(title = "Driver's Location on Track",
-         #x = "X Coordinate",
-         #y = "Y Coordinate") +
-    #theme(plot.title = element_text(hjust = 0.5))  # Center title
+  ggplot(location_data, aes(x = x, y = y)) +
+    geom_point(color = "blue", alpha = 0.5, size = 1) +  # Scatter plot points
+    geom_path(color = "red", alpha = 0.8) +  # Line connecting points to show movement
+    theme_minimal() +  # Use a clean theme
+    labs(title = "Driver's Location on Track",
+         x = "X Coordinate",
+         y = "Y Coordinate") +
+    theme(plot.title = element_text(hjust = 0.5))  # Center title
   
-#} else {
-  #print("No location data found for the given parameters.")
-#}
+} else {
+  print("No location data found for the given parameters.")
+}
