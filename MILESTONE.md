@@ -18,5 +18,4 @@ Ryan:
 
 ### Technology Plan:
 
-=
 
