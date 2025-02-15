@@ -43,6 +43,14 @@ get_meetings <- function(circuit_key = NULL, meeting_key = NULL, country_code = 
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
     df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
+    
+    
+    # Convert date column to proper datetime format with milliseconds
+    df$date_start <- as.POSIXct(df$date_start, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    
+    # Rename date_start to meeting_start for easier clarity when joining to other tables
+    df <- df %>% rename(meeting_start = date_start)
+    
     return(df)
   } else {
     message("No meeting data found for the given parameters.")
@@ -50,6 +58,8 @@ get_meetings <- function(circuit_key = NULL, meeting_key = NULL, country_code = 
   }
 }
 
+
+meetings <- get_meetings()
 
 
 

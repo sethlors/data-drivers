@@ -50,6 +50,8 @@ get_sessions <- function(meeting_key = NULL, session_key = NULL, circuit_key = N
     df$date_start <- as.POSIXct(df$date_start, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
     df$date_end <- as.POSIXct(df$date_end, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
     
+    df <- df %>% rename(session_start = date_start, session_end = date_end)
+    
     #df <- df %>%
     #arrange(driver_number, date) %>%
     #group_by(driver_number) %>%

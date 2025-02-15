@@ -45,14 +45,22 @@ get_location <- function(driver_number = NULL, session_key = NULL, meeting_key =
     df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
     
     # Convert 'date' column to POSIXct while keeping milliseconds
-    df$date <- as.POSIXct(df$date, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    #df$date <- as.POSIXct(df$date, format = "%Y-%m-%dT%H:%M:%OS6", tz = "UTC")
+    #df$date <- ymd_hms(df$date, tz = "UTC")
+    df$date <- ymd_hms(df$date, tz = "UTC")
+    #df$date <- as.POSIXct(sub("(\\.\\d+).*", "\\1", df$date), format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    
+    df <- df %>%
+      arrange(driver_number, date) %>%
+      group_by(driver_number) %>%
+      mutate(time_diff = round(as.numeric(difftime(date, lag(date), units = "secs")), 3))
     
     # Compute time difference between consecutive pit stops in milliseconds
-    df <- df %>%
-      filter(x != 0, y != 0) %>%  # Exclude rows where x or y equals 0
-      arrange(session_key, driver_number, date) %>%
-      group_by(session_key, driver_number) %>%
-      mutate(time_diff = round(as.numeric(difftime(date, lag(date), units = "secs")), 3))
+    #df <- df %>%
+     # filter(x != 0, y != 0) %>%  # Exclude rows where x or y equals 0
+     # arrange(session_key, driver_number, date) %>%
+     # group_by(session_key, driver_number) %>%
+      #mutate(time_diff = round(as.numeric(difftime(date, lag(date), units = "secs")), 4))
     
     return(df)
   } else {
@@ -61,11 +69,12 @@ get_location <- function(driver_number = NULL, session_key = NULL, meeting_key =
   }
 }
 
+
+
 # Example usage:
 # Retrieve location data for driver 81 in session 9161 within a date range
 
 location_data <- get_location(driver_number = 81, session_key = 9161)
-
 
 
 

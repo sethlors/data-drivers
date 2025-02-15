@@ -58,7 +58,8 @@ get_laps <- function(driver_number = NULL, meeting_key = NULL, session_key = NUL
     df <- df %>%
       arrange(driver_number, date_start) %>%
       group_by(driver_number) %>%
-      mutate(time_diff = round(as.numeric(difftime(date_start, lag(date_start), units = "secs")), 3))
+      mutate(time_diff = round(as.numeric(difftime(date_start, lag(date_start), units = "secs")), 3)) %>%
+      rename(lap_start = date_start, prev_lap_duration = lap_duration)
     
     return(df)
   } else {

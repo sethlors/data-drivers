@@ -49,7 +49,8 @@ get_car_data <- function(driver_number = NULL, meeting_key = NULL, session_key =
     df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
     
     # Convert 'date' column to POSIXct while keeping milliseconds
-    df$date <- as.POSIXct(df$date, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    #df$date <- as.POSIXct(df$date, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    df$date <- ymd_hms(df$date, tz = "UTC")
     
     # Compute time difference between consecutive pit stops in milliseconds
     df <- df %>%

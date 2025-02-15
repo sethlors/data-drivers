@@ -47,3 +47,4 @@ get_intervals <- function(driver_number = NULL, meeting_key = NULL, session_key 
     return(NULL)
   }
 }
+
