@@ -1,10 +1,6 @@
 ## 2025-02-17: Acquire Data Milestone
 
 
-### Data Wrangling:
-
-
-
 ### Project Goals:
 
 Ryan:
@@ -33,3 +29,15 @@ For data collection, we have used R to pull from the OpenF1 API. In addition to 
 Maxwell:
 
 For data wrangling, we have primarily used the OpenF1 API to pull F1 racing data. We created R scripts that pulls the data into csv files separated by year. We have also created get methods to pull the data easily into data frames in R for better analysis, these methods can be found in the R folder on our github repo. Basic visualizations of driver's racing location on a given race has been created, but we plan to include dimensions like weather, tire material, lap information, position information, and pit stop data to be able to better flesh out these visualizations. Our current data source, OpenF1, has had some limitations for our project. There is only 2 years worth of racing data, the API lacks race and championship standings, schedules, starting grids, overtakes, undercuts/overcuts data, and tyre statistics. All get methods are pulling separate kinds of data, and work has begun on joining these different datasets together for further analysis. 
+
+
+
+## 2025-02-24: Project Goals Milestone
+
+### Project Goals
+
+### Exploratory Analysis:
+
+### Modeling Plan:
+
+### Project Progress:
