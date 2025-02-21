@@ -4,6 +4,7 @@ library(lubridate)
 library(dplyr)
 library(httr)
 library(jsonlite)
+library(data.table)
 
 # Function to get all lap data or filter by driver_number, meeting_key, session_key, or lap_number
 get_laps <- function(driver_number = NULL, meeting_key = NULL, session_key = NULL, lap_number = NULL, is_pit_out_lap = NULL) {
@@ -49,19 +50,30 @@ get_laps <- function(driver_number = NULL, meeting_key = NULL, session_key = NUL
   
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
+    # Convert to data.table
+    dt <- as.data.table(parsed_data)
     
-    # Convert 'date' column to POSIXct while keeping milliseconds
-    df$date_start <- as.POSIXct(df$date_start, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    # Convert 'date_start' to POSIXct while keeping milliseconds
+    dt[, date_start := as.POSIXct(date_start, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")]
     
-    # Compute time difference between consecutive pit stops in milliseconds
-    df <- df %>%
-      arrange(driver_number, date_start) %>%
-      group_by(driver_number) %>%
-      mutate(time_diff = round(as.numeric(difftime(date_start, lag(date_start), units = "secs")), 3)) %>%
-      rename(lap_start = date_start, prev_lap_duration = lap_duration)
+    # Sort by driver_number and date_start for correct time difference calculation
+    setorder(dt, driver_number, date_start)
     
-    return(df)
+    setnames(dt, "date_start", "date")
+    dt[, lap_start_timestamp := date]
+    
+    # Compute time difference between consecutive pit stops (rounded to milliseconds)
+    #dt[, time_diff := round(as.numeric(difftime(date_start, shift(date_start), units = "secs")), 3), 
+    #   by = driver_number]
+    
+    # Rename columns: date_start -> lap_start, lap_duration -> prev_lap_duration
+    #setnames(dt, c("date_start", "lap_duration"), c("lap_start", "prev_lap_duration"))
+    
+    #dt[, lapstart_timestamp := lap_start]
+    
+    #setkey(lap_data, driver_number, session_key, lap_start)
+    
+    return(dt)
   } else {
     message("No lap data found for the given parameters.")
     return(NULL)
@@ -69,6 +81,6 @@ get_laps <- function(driver_number = NULL, meeting_key = NULL, session_key = NUL
 }
 
 # Example query
-laps <- get_laps(driver_number = 63, meeting_key = 1219)
+#laps <- get_laps(session_key = 9165)
 
 #str(laps)

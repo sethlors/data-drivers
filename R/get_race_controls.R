@@ -4,6 +4,7 @@ library(lubridate)
 library(dplyr)
 library(httr)
 library(jsonlite)
+library(data.table)
 
 get_race_controls <- function(driver_number = NULL, meeting_key = NULL, session_key = NULL, category = NULL, 
                              lap_number = NULL, flag = NULL, scope = NULL, sector = NULL) {
@@ -14,7 +15,7 @@ get_race_controls <- function(driver_number = NULL, meeting_key = NULL, session_
   #}
   
   # Construct base API URL
-  base_url <- "https://api.openf1.org/v1/position"
+  base_url <- "https://api.openf1.org/v1/race_control"
   query_params <- list()
   
   # Add optional filters if provided
@@ -46,21 +47,26 @@ get_race_controls <- function(driver_number = NULL, meeting_key = NULL, session_
   
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
+    dt <- as.data.table(parsed_data)
     
-    # Convert date column to proper datetime format with milliseconds
-    df$date <- as.POSIXct(df$date, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
     
-    #df <- df %>%
-      #arrange(driver_number, date) %>%
-      #group_by(driver_number) %>%
-      #mutate(time_diff = round(as.numeric(difftime(date, lag(date), units = "secs")), 3))
+    dt[, date := ymd_hms(date, tz = "UTC")]
     
-    return(df)
+    dt[, race_control_timestamp := date]
+    
+    
+    # Sort and compute time differences
+    dt <- dt[order(date)]
+    
+    setnames(dt, "driver_number", "rc_driver_number")
+    
+    return(dt)
   } else {
     message("No race control data found for the given parameters.")
     return(NULL)
   }
 }
+
+#race_controls <- get_race_controls(session_key = 9078)
 
 

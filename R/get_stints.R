@@ -1,6 +1,7 @@
 
 library(httr)
 library(jsonlite)
+library(data.table)
 
 # Function to collect stint data from OpenF1 API
 get_stints <- function(meeting_key = NULL, session_key = NULL, driver_number = NULL, 
@@ -43,13 +44,21 @@ get_stints <- function(meeting_key = NULL, session_key = NULL, driver_number = N
   
   # Convert JSON response into a DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
-    return(df)
+    dt <- as.data.table(parsed_data)
+    
+    dt[, stintlap_start := lap_start]
+    dt[, stintlap_end := lap_end]
+    
+    setkey(dt, driver_number, lap_start, lap_end)
+    
+    return(dt)
   } else {
     message("No stint data found for the given parameters.")
     return(NULL)
   }
 }
+
+#stints <- get_stints(meeting_key = 1219, driver_number = 1, session_key = 9165)
 
 
 

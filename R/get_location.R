@@ -4,6 +4,7 @@ library(lubridate)
 library(dplyr)
 library(httr)
 library(jsonlite)
+library(data.table)
 
 # Function to get location data
 get_location <- function(driver_number = NULL, session_key = NULL, meeting_key = NULL) {
@@ -42,25 +43,27 @@ get_location <- function(driver_number = NULL, session_key = NULL, meeting_key =
   
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
     
-    # Convert 'date' column to POSIXct while keeping milliseconds
-    #df$date <- as.POSIXct(df$date, format = "%Y-%m-%dT%H:%M:%OS6", tz = "UTC")
-    #df$date <- ymd_hms(df$date, tz = "UTC")
-    df$date <- ymd_hms(df$date, tz = "UTC")
-    #df$date <- as.POSIXct(sub("(\\.\\d+).*", "\\1", df$date), format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    dt <- as.data.table(parsed_data)
     
-    df <- df %>%
-      arrange(driver_number, date) %>%
-      group_by(driver_number) %>%
-      mutate(time_diff = round(as.numeric(difftime(date, lag(date), units = "secs")), 3))
+    # Convert 'date' column to POSIXct (keeping milliseconds)
+    dt[, date := ymd_hms(date, tz = "UTC")]
     
-    # Compute time difference between consecutive pit stops in milliseconds
-    #df <- df %>%
-     # filter(x != 0, y != 0) %>%  # Exclude rows where x or y equals 0
-     # arrange(session_key, driver_number, date) %>%
-     # group_by(session_key, driver_number) %>%
-      #mutate(time_diff = round(as.numeric(difftime(date, lag(date), units = "secs")), 4))
+    # adding a "interval time stamp" column that is a duplicate date column, this will be important for further joins
+    dt[, location_timestamp := date]
+    
+    # Sort and compute time differences
+    dt <- dt[order(driver_number, date)]
+    
+    # Calculate time difference in seconds (rounded to milliseconds)
+    #dt[, time_diff := round(as.numeric(difftime(date, shift(date), units = "secs")), 3), 
+    #   by = driver_number]
+    
+    setkey(dt, driver_number, session_key, date)
+    
+    return(dt)
+    
+    
     
     return(df)
   } else {
@@ -74,24 +77,24 @@ get_location <- function(driver_number = NULL, session_key = NULL, meeting_key =
 # Example usage:
 # Retrieve location data for driver 81 in session 9161 within a date range
 
-location_data <- get_location(driver_number = 81, session_key = 9161)
+#location_data <- get_location(driver_number = 81, session_key = 9161)
 
 
 
-library(ggplot2)
+#library(ggplot2)
 
-if (!is.null(location_data)) {
+#if (!is.null(location_data)) {
   
   # Create a scatter plot of x and y coordinates
-  ggplot(location_data, aes(x = x, y = y)) +
-    geom_point(color = "blue", alpha = 0.5, size = 1) +  # Scatter plot points
-    geom_path(color = "red", alpha = 0.8) +  # Line connecting points to show movement
-    theme_minimal() +  # Use a clean theme
-    labs(title = "Driver's Location on Track",
-         x = "X Coordinate",
-         y = "Y Coordinate") +
-    theme(plot.title = element_text(hjust = 0.5))  # Center title
+  #ggplot(location_data, aes(x = x, y = y)) +
+    #geom_point(color = "blue", alpha = 0.5, size = 1) +  # Scatter plot points
+    #geom_path(color = "red", alpha = 0.8) +  # Line connecting points to show movement
+    #theme_minimal() +  # Use a clean theme
+    #labs(title = "Driver's Location on Track",
+         #x = "X Coordinate",
+         #y = "Y Coordinate") +
+    #theme(plot.title = element_text(hjust = 0.5))  # Center title
   
-} else {
-  print("No location data found for the given parameters.")
-}
+#} else {
+  #print("No location data found for the given parameters.")
+#}

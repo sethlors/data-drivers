@@ -2,6 +2,7 @@ library(lubridate)
 library(dplyr)
 library(httr)
 library(jsonlite)
+library(data.table)
 
 get_weather <- function(meeting_key = NULL, session_key = NULL) {
   
@@ -36,17 +37,16 @@ get_weather <- function(meeting_key = NULL, session_key = NULL) {
   
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
+    dt <- as.data.table(parsed_data)
     
-    # Convert date column to proper datetime format with milliseconds
-    df$date <- as.POSIXct(df$date, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    dt[, date := ymd_hms(date, tz = "UTC")]
     
-    df <- df %>%
-      arrange(session_key, date) %>%
-      group_by(session_key) %>%
-      mutate(time_diff = round(as.numeric(difftime(date, lag(date), units = "secs")), 3))
+    dt <- dt[order(date)]
     
-    return(df)
+    # adding "weather_timestamp" to weather data
+    dt[, weather_timestamp := date]
+    
+    return(dt)
   } else {
     message("No weather found for the given parameters.")
     return(NULL)

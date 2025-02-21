@@ -3,6 +3,7 @@
 # Load necessary libraries
 library(httr)
 library(jsonlite)
+library(data.table)
 
 # Function to get meeting data from OpenF1 API
 get_meetings <- function(circuit_key = NULL, meeting_key = NULL, country_code = NULL, country_key = NULL, country_name = NULL,
@@ -42,16 +43,14 @@ get_meetings <- function(circuit_key = NULL, meeting_key = NULL, country_code = 
   
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
     
+    dt <- as.data.table(parsed_data)
     
-    # Convert date column to proper datetime format with milliseconds
-    df$date_start <- as.POSIXct(df$date_start, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    dt[, date_start := ymd_hms(date_start, tz = "UTC")]
     
-    # Rename date_start to meeting_start for easier clarity when joining to other tables
-    df <- df %>% rename(meeting_start = date_start)
+    setnames(dt, "date_start", "meeting_start")
     
-    return(df)
+    return(dt)
   } else {
     message("No meeting data found for the given parameters.")
     return(NULL)
@@ -59,7 +58,7 @@ get_meetings <- function(circuit_key = NULL, meeting_key = NULL, country_code = 
 }
 
 
-meetings <- get_meetings()
+#meetings <- get_meetings()
 
 
 

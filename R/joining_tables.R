@@ -1,93 +1,106 @@
 
+
+# Set working directory to the folder containing the scripts
+#setwd("/Users/maxwellskinner/Documents/GitHub/data-drivers/R")  # Replace with your actual path
+
+# List all R script files in the directory
+scripts <- list.files(pattern = "\\.R$", full.names = TRUE)
+scripts <- scripts[!grepl("joining_tables\\.R$", scripts)]
+
+# Source scripts one by one to find the problematic one
+for (script in scripts) {
+  cat("Sourcing:", script, "\n")
+  tryCatch({
+    source(script)
+  }, error = function(e) {
+    cat("Error in", script, ":", e$message, "\n")
+  })
+}
+
+# Source all scripts
+lapply(scripts, source)
+
+library(data.table)
 library(dplyr)
-
-#Trying to join all datasets together
-
-driver_data <- get_car_data(driver_number = 55, session_key = 9165)
-
-session_data <- get_sessions(session_key = 9165)
-
-driver_info_data <- get_drivers(driver_number = 55, session_key = 9165)
-
-#available during races only, updates every 4 seconds
-interval_data <- get_intervals(session_key = 9165, driver_number = 55)
-
-lap_data <- get_laps(session = 9165, driver_number = 55)
-
-location_data <- get_location(session_key = 9165, driver_number = 55)
-
-meeting_data <- get_meetings(meeting_key = 1219)
-
-pit_data <- get_pit_data(session_key = 9165, driver_number = 55)
-
-stint_data <- get_stints(session_key = 9165, driver_number = 55)
 
 options(digits.secs = 6)  # Ensure milliseconds are displayed
 
-# Perform an inner join on session_key and filter by date range
-filtered_driver_data <- driver_data %>%
-  left_join(meeting_data, by = "meeting_key") %>%
-  left_join(session_data, by = "session_key") %>%   # Join on session_key
-  left_join(driver_info_data, by = c("session_key", "driver_number"))
-  #left_join(lap_data, by = c("session_key", "driver_number", "date" = "date_start")) %>%
-  #left_join(location_data, by = c("session_key", "driver_number"))
-  #filter(date >= date_start & date <= date_end)     # Keep only records within session time
+# Load datasets
+driver_data <- get_car_details(driver_number = 1, session_key = 9165)
+session_data <- get_sessions(session_key = 9165)
+driver_info_data <- get_drivers(driver_number = 1, session_key = 9165)
+interval_data <- get_intervals(session_key = 9165, driver_number = 1)
+lap_data <- get_laps(session = 9165, driver_number = 1)
+location_data <- get_location(session_key = 9165, driver_number = 1)
+meeting_data <- get_meetings(meeting_key = 1219)
+pit_data <- get_pit_data(session_key = 9165, driver_number = 1)
+stint_data <- get_stints(session_key = 9165, driver_number = 1)
+weather_data <- get_weather(session_key = 9165)
+race_control_data <- get_race_controls(session_key = 9165)
+
+# Helper function for printing rows and columns
+print_stats <- function(df, description) {
+  cat(paste0(description, ": ", nrow(df), " rows, ", ncol(df), " columns\n"))
+}
+
+# Session summary table
+print_stats(session_data, "Session Data")
+print_stats(driver_info_data, "Driver Info Data")
+driver_session_stats <- session_data[driver_info_data, on = c("meeting_key", "session_key"), nomatch = 0]
+print_stats(driver_session_stats, "After Joining Driver Info with Session Data")
+
+driver_session_stats <- meeting_data[driver_session_stats, on = "meeting_key", nomatch = 0]
+print_stats(driver_session_stats, "After Joining Meeting Data")
+
+# Location Data Join
+print_stats(driver_data, "Driver Data Before Location Join")
+df <- location_data[driver_data, roll = TRUE, on = c("driver_number", "session_key", "meeting_key", "date")]
+print_stats(df, "After Joining Location Data")
+
+# Interval Data Join
+df <- interval_data[df, roll = TRUE, on = c("driver_number", "session_key", "meeting_key", "date")]
+print_stats(df, "After Joining Interval Data")
+
+# Lap Data Join
+df <- lap_data[df, roll = TRUE, on = c("driver_number", "session_key", "meeting_key", "date")]
+print_stats(df, "After Joining Lap Data")
+
+# Stint Data Join (Non-equi join)
+df <- stint_data[df, on = .(driver_number, meeting_key, session_key, lap_start <= lap_number, lap_end >= lap_number), nomatch = 0L]
+setnames(df, "lap_start", "lap_number")
+#setnames(df, "i.lap_start", "date")
+df[, c("lap_end") := NULL]
+print_stats(df, "After Joining Stint Data")
 
 
+# Rename lap_start and lap_end from stint_data to avoid overwrites
+setnames(stint_data, c("lap_start", "lap_end"), c("stintlap_start", "stintlap_end"))
 
-library(data.table)
+# Perform non-equi join while preserving lap_number in df
+df <- stint_data[df, 
+                 on = .(driver_number, 
+                        meeting_key, 
+                        session_key, 
+                        stintlap_start <= lap_number, 
+                        stintlap_end >= lap_number), 
+                 nomatch = 0L]
 
-# Convert to data.table
-setDT(driver_data)
-setDT(location_data)
-
-setDT(lap_data)
-setDT(stint_data)
-
-# Set keys for indexing
-setkey(driver_data, driver_number, session_key, date)
-setkey(location_data, driver_number, session_key, date)
-setkey(lap_data, driver_number, session_key, lap_start)
-setkey(stint_data, driver_number)
-
-lap_data[, lap_start := fifelse(is.na(lap_start), min(lap_start, na.rm = TRUE), lap_start), by = .(driver_number, session_key)]
-
-# Match each location_data timestamp to the closest driver_data timestamp
-#joined_data <- lap_data[driver_data, roll = TRUE, on = c("driver_number", "session_key", "lap_start" = "date")]
-joined_data <- location_data[driver_data, roll = TRUE, on = c("driver_number", "session_key", "date")]
-
-setkey(joined_data, driver_number, session_key, date)
+# Verify if the laps are correctly assigned
+unique(df[, .(lap_number, stint_number, stintlap_start, stintlap_end)])
 
 
-# Matching lap information with the previous join. Note: the "date" column from the joined_data is now "lap_start" but has the same values as date
-final_data <- lap_data[joined_data, roll = TRUE, on = c("driver_number", "session_key", "lap_start" = "date")]
-setnames(final_data, "lap_start", "date")
+# Pit Data Join
+df <- pit_data[df, on = c("session_key", "meeting_key", "driver_number", "lap_number")]
+print_stats(df, "After Joining Pit Data")
 
+# Weather Data Join
+df <- weather_data[df, roll = TRUE, on = c("session_key", "meeting_key", "date")]
+print_stats(df, "After Joining Weather Data")
 
-# Perform a non-equi join to match lap_start within the stint range
-final_final_data <- stint_data[final_data, 
-                         on = .(driver_number, session_key, lap_start <= lap_number, lap_end >= lap_number), 
-                         nomatch = 0L]  # Remove rows that don't match
+# Driver Session Stats Join
+df <- driver_session_stats[df, on = c("session_key", "meeting_key"), nomatch = 0]
+print_stats(df, "After Joining Driver Session Stats")
 
-setnames(final_final_data, "lap_end", "stint_lap_end")
-
-
-
-
-library(dplyr)
-
-# Check if each driver_data date falls within the correct lap interval
-validation_check <- joined_data %>%
-  arrange(driver_number, session_key, date) %>%
-  mutate(next_lap_start = lead(lap_start)) %>%  # Get the next lap start time
-  filter(date < lap_start | (!is.na(next_lap_start) & date >= next_lap_start))
-
-# View rows that fail the check
-print(validation_check)
-
-# View results
-head(joined_data)
-
-
-# View the result
-head(filtered_driver_data)
+# Final Output
+cat("Final DataFrame Shape:\n")
+print_stats(df, "Final Data")

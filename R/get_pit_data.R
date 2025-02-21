@@ -3,6 +3,7 @@ library(lubridate)
 library(dplyr)
 library(httr)
 library(jsonlite)
+library(data.table)
 
 # Function to get pit data from OpenF1 API with optional filters
 get_pit_data <- function(driver_number = NULL, meeting_key = NULL, session_key = NULL, 
@@ -38,25 +39,34 @@ get_pit_data <- function(driver_number = NULL, meeting_key = NULL, session_key =
   
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
     
-    # Convert 'date' column to POSIXct while keeping milliseconds
-    df$date <- as.POSIXct(df$date, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
-    
-    # Compute time difference between consecutive pit stops in milliseconds
-    df <- df %>%
-      arrange(session_key, driver_number, date) %>%
-      group_by(session_key, driver_number) %>%
-      mutate(time_diff = round(as.numeric(difftime(date, lag(date), units = "secs")), 3))
+    dt <- as.data.table(parsed_data)
     
     
-    return(df)
+    dt[, date := ymd_hms(date, tz = "UTC")]
+    
+    dt[, pit_date := date]
+    
+    #setnames(dt, "date", "pit_date")
+    
+    
+    # Sort and compute time differences
+    dt <- dt[order(driver_number, date)]
+    
+    # Calculate time difference in seconds (rounded to milliseconds)
+    #dt[, time_diff := round(as.numeric(difftime(date, shift(date), units = "secs")), 3), 
+    #   by = driver_number]
+    
+    setkey(dt, session_key, meeting_key, driver_number, lap_number)
+    
+    return(dt)
+    
   } else {
     message("No pit stop data found for the given parameters.")
     return(NULL)
   }
 }
 
-pit <- get_pit_data()
+#pit <- get_pit_data(meeting_key = 1219, driver_number = 1, session_key = 9165)
 
 

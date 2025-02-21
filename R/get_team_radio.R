@@ -2,6 +2,7 @@ library(lubridate)
 library(dplyr)
 library(httr)
 library(jsonlite)
+library(data.table)
 
 get_team_radio <- function(meeting_key = NULL, session_key = NULL, driver_number = NULL) {
   
@@ -13,9 +14,9 @@ get_team_radio <- function(meeting_key = NULL, session_key = NULL, driver_number
   if (!is.null(driver_number)) query_params$driver_number <- paste(driver_number, collapse = ",")
   
   # Ensure at least one driver_number and one session_key are provided
-  if (is.null(driver_number) | is.null(session_key) | is.null(meeting_key)) {
-  stop("Error: You must provide at least one driver_number, session_key, or meeting_key.")
-  }
+  #if (is.null(driver_number) | is.null(session_key) | is.null(meeting_key)) {
+  #stop("Error: You must provide at least one driver_number, session_key, or meeting_key.")
+  #}
   
   
   # Send GET request with error handling
@@ -37,17 +38,17 @@ get_team_radio <- function(meeting_key = NULL, session_key = NULL, driver_number
   
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
+    dt <- as.data.table(parsed_data)
     
-    # Convert date column to proper datetime format with milliseconds
-    df$date <- as.POSIXct(df$date, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    dt[, date := ymd_hms(date, tz = "UTC")]
     
-    df <- df %>%
-      arrange(driver_number, date) %>%
-      group_by(driver_number) %>%
-      mutate(time_diff = round(as.numeric(difftime(date, lag(date), units = "secs")), 3))
+    dt[, team_radio_timestamp := date]
     
-    return(df)
+    dt <- dt[order(date)]
+    
+    return(dt)
+    
+    
   } else {
     message("No team radio data found for the given parameters.")
     return(NULL)
@@ -55,5 +56,8 @@ get_team_radio <- function(meeting_key = NULL, session_key = NULL, driver_number
 }
 
 
-team_radio <- get_team_radio()
+#team_radio <- get_team_radio(driver_number = 1, session_key = 9078)
+
+
+#team_radio <- get_team_radio()
 

@@ -2,6 +2,7 @@
 
 library(httr)
 library(jsonlite)
+library(data.table)
 
 get_intervals <- function(driver_number = NULL, meeting_key = NULL, session_key = NULL, gap_to_leader = NULL, interval = NULL) {
   
@@ -40,8 +41,24 @@ get_intervals <- function(driver_number = NULL, meeting_key = NULL, session_key 
   
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
-    return(df)
+    
+    # Convert to data.table
+    dt <- as.data.table(parsed_data)
+    
+    # Convert 'date' column to POSIXct (keeping milliseconds)
+    dt[, date := ymd_hms(date, tz = "UTC")]
+    
+    # adding a "interval time stamp" column that is a duplicate date column, this will be important for further joins
+    dt[, interval_timestamp := date]
+    
+    # Sort and compute time differences
+    dt <- dt[order(driver_number, date)]
+    
+    # Calculate time difference in seconds (rounded to milliseconds)
+    #dt[, time_diff := round(as.numeric(difftime(date, shift(date), units = "secs")), 3), 
+    #   by = driver_number]
+    
+    return(dt)
   } else {
     message("No interval data found for the given parameters.")
     return(NULL)

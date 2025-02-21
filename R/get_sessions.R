@@ -4,6 +4,7 @@ library(lubridate)
 library(dplyr)
 library(httr)
 library(jsonlite)
+library(data.table)
 
 get_sessions <- function(meeting_key = NULL, session_key = NULL, circuit_key = NULL, country_code = NULL, 
                          country_key = NULL, country_name = NULL, location = NULL, session_name = NULL, 
@@ -44,20 +45,19 @@ get_sessions <- function(meeting_key = NULL, session_key = NULL, circuit_key = N
   
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
+    dt <- as.data.table(parsed_data)
     
-    # Convert date column to proper datetime format with milliseconds
-    df$date_start <- as.POSIXct(df$date_start, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
-    df$date_end <- as.POSIXct(df$date_end, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    dt[, date_start := ymd_hms(date_start, tz = "UTC")]
+    dt[, date_end := ymd_hms(date_end, tz = "UTC")]
     
-    df <- df %>% rename(session_start = date_start, session_end = date_end)
+    setnames(dt, "date_start", "session_start")
+    setnames(dt, "date_end", "session_end")
     
-    #df <- df %>%
-    #arrange(driver_number, date) %>%
-    #group_by(driver_number) %>%
-    #mutate(time_diff = round(as.numeric(difftime(date, lag(date), units = "secs")), 3))
+    dt <- dt[order(session_start)]
     
-    return(df)
+    setkey(dt, session_key, meeting_key)
+    
+    return(dt)
   } else {
     message("No session data found for the given parameters.")
     return(NULL)
@@ -65,4 +65,4 @@ get_sessions <- function(meeting_key = NULL, session_key = NULL, circuit_key = N
 }
 
 
-sessions <- get_sessions()
+#sessions <- get_sessions()

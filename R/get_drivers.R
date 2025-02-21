@@ -2,6 +2,7 @@
 
 library(httr)
 library(jsonlite)
+library(data.table)
 
 get_drivers <- function(driver_number = NULL, meeting_key = NULL, session_key = NULL, first_name = NULL, 
                         last_name = NULL, full_name = NULL, team_name = NULL, country_code = NULL, name_acronym = NULL) {
@@ -41,11 +42,16 @@ get_drivers <- function(driver_number = NULL, meeting_key = NULL, session_key = 
   
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
-    return(df)
+    dt <- as.data.table(parsed_data)
+    
+    # Changing country code in driver_info to driver_country_code for clarity
+    setnames(dt, "country_code", "driver_country_code")
+    
+    return(dt)
   } else {
     message("No driver data found for the given parameters.")
     return(NULL)
   }
 }
 
+#driver <- get_drivers(meeting_key = 1219, driver_number = 1, session_key = 9165)

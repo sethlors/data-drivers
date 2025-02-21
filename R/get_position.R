@@ -3,6 +3,7 @@ library(lubridate)
 library(dplyr)
 library(httr)
 library(jsonlite)
+library(data.table)
 
 get_position <- function(driver_number = NULL, meeting_key = NULL, session_key = NULL, position = NULL) {
   
@@ -40,23 +41,29 @@ get_position <- function(driver_number = NULL, meeting_key = NULL, session_key =
   
   # Convert to DataFrame
   if (length(parsed_data) > 0) {
-    df <- as.data.frame(parsed_data, stringsAsFactors = FALSE)
     
-    # Convert date column to proper datetime format with milliseconds
-    df$date <- as.POSIXct(df$date, format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")
+    dt <- as.data.table(parsed_data)
     
-    df <- df %>%
-      arrange(session_key, driver_number, date) %>%
-      group_by(session_key, driver_number) %>%
-      mutate(time_diff = round(as.numeric(difftime(date, lag(date), units = "secs")), 3))
+
+    dt[, date := ymd_hms(date, tz = "UTC")]
     
-    return(df)
+    # adding a "interval time stamp" column that is a duplicate date column, this will be important for further joins
+    dt[, position_timestamp := date]
+    
+    # Sort and compute time differences
+    dt <- dt[order(driver_number, date)]
+    
+    # Calculate time difference in seconds (rounded to milliseconds)
+    #dt[, time_diff := round(as.numeric(difftime(date, shift(date), units = "secs")), 3), 
+    #   by = driver_number]
+    
+    return(dt)
   } else {
     message("No position data found for the given parameters.")
     return(NULL)
   }
 }
 
-positions <- get_position(session_key = 9078)
+#positions <- get_position(session_key = 9078)
 
 
