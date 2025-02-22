@@ -1,5 +1,24 @@
 library(data.table)
 
+# Set working directory to the folder containing the scripts
+setwd("/Users/maxwellskinner/Documents/GitHub/data-drivers/R")  # Replace with your actual path
+
+# List all R script files in the directory
+scripts <- list.files(pattern = "\\.R$", full.names = TRUE)
+
+# Source scripts one by one to find the problematic one
+for (script in scripts) {
+  cat("Sourcing:", script, "\n")
+  tryCatch({
+    source(script)
+  }, error = function(e) {
+    cat("Error in", script, ":", e$message, "\n")
+  })
+}
+
+# Source all scripts
+lapply(scripts, source)
+
 
 get_race_data <- function(driver_number, session_key, meeting_key,
                           include_car_details = FALSE,
