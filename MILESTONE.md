@@ -36,6 +36,10 @@ For data wrangling, we have primarily used the OpenF1 API to pull F1 racing data
 
 ### Project Goals
 
+Seth: 
+
+The target audience for this dashboard consists of beginner and casual F1 fans who are eager to enhance their understanding of the sport. The dashboard will be useful to provide insights for fans interested in exploring how various factors, such as weather conditions and tire compounds, impact F1 race outcomes. To effectively communicate the project’s findings and conclusions, a clear explanation of F1 principles and terminology is essential. In our final dashboard, we will have a quick explanation of what F1 is. During the research phase, we discovered a similar F1 dashboard created by Arizona State University, which is linked in our GitHub repository. One defined research question for this project is: What are the key variables that can help teams predict the optimal tire strategy for different race conditions?
+
 ### Exploratory Analysis:
 
 Zack: Our exploratory analysis has begun and we have started with some driver location mapping using the f1data package. We are all currently working on creating more visualizations and sifting through our data searching for potential model predictors. One lead we have discovered is potentially using weather and race position to look at race time and tire selection. It was suggested to us that we look into how teams are selecting their tires so we have also begun analysis into finding variables that impact tire choice, potentially in both the race and qualifying stages of an event. In our initial analysis, we found that there is a strong correlation between weather and the type of tire used.
