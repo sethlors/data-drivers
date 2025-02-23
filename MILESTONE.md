@@ -38,6 +38,9 @@ For data wrangling, we have primarily used the OpenF1 API to pull F1 racing data
 
 ### Exploratory Analysis:
 
+Zack: Our exploratory analysis has begun and we have started with some driver location mapping using the f1data package. We are all currently working on creating more visualizations and sifting through our data searching for potential model predictors. One lead we have discovered is potentially using weather and race position to look at race time and tire selection. It was suggested to us that we look into how teams are selecting their tires so we have also begun analysis into finding variables that impact tire choice, potentially in both the race and qualifying stages of an event. In our initial analysis, we found that there is a strong correlation between weather and the type of tire used.
+
+
 ### Modeling Plan:
 
 ### Project Progress:
