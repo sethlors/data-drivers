@@ -1,5 +1,3 @@
-
-
 # Formula 1 Data Repository
 
 ## Overview
