@@ -65,4 +65,6 @@ Ryan: After week 5 of our capstone project, each team member has contributed the
 ### Project Progress:
 
 
- ### Exploratory:
+### Exploratory Analysis:
+ 
+Maxwell: After week 5 of our capstone prospect. We have made some major changes over time that has affected our project. We changed our main data source from OpenF1 to the Ergast dataset. Ergast has cleaner, more robust, and more historical F1 data to work with. We still plan on using some of OpenF1's data for our project, but that will likely extend to its location driver data and possibly the second by second breakdowns of the driver racing data during a given race. In terms of exploratory analysis, we have done a lot of work on focusing on driver pit stop durations and how it affects overrall lap times. Seth has done some great work in visualizing this data. There have been no major issues with the Ergast dataset compared to the OpenF1 previously. We are still looking at what predictors are the most important in determining lap times but we looking extensively at stint, pit stop, and car data to find these. An interesting problem we have run into is plotting lap times of all drivers across certain races, we found a lot of outliers that made the visualizations pretty misleading, but found that things like penalties would affect the lap times and thus we are working on looking at what outside factors that are normal to the race, could skew or extend a given driver's lap time and how do we accommodate that. 
