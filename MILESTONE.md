@@ -57,7 +57,7 @@ Ryan: After week 5 of our capstone project, each team member has contributed the
 ## 2025-03-03: Exploratory Analysis Milestone
 
 ### Brainstorm Dashboard:
-
+Ryan: The main message our group is trying to convey with the dashboard is to show the different trends/correlations in F1 racing and show how to be the most successful as an F1 driver on a particular racing day given the track, time, weather, etc. Our group wants to make sure there are at least basic, static plots in our dashboard that describe certain trends that are visually easy to see. We also want to incorporate interactive elements as well, especially with the different track maps/pit stop data through R Shiny, to show the percentage of drivers who stopped for a pit stop at a certain time during the race, given the race map and other additional features. Our group has already created rough drafts of visuals through R that could be potential candidates for our dashboard. We are still deciding if a machine-learning method should be used for our data. Next week, we plan to start creating a sketch of what we want our dashboard should look like and what different features it should have. We will most likely use a data dashboarding tool like Tableau to display the data.
 
 ### Data Report:
 
