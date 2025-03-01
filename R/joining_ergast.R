@@ -1,4 +1,5 @@
 library(dplyr)
+library(lubridate)
 
 circuits_url <- "https://raw.githubusercontent.com/sethlors/data-drivers/refs/heads/main/data/raw-data/ergast-db/circuits.csv"
   
@@ -128,9 +129,6 @@ used_columns <- c(used_columns, colnames(races))
 
 
 }
-
-
-
 
 
 
