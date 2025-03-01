@@ -1,0 +1,26 @@
+cat("Cleaning constructor results data...\n")
+
+# Load necessary libraries
+library(dplyr)
+library(readr)
+
+# Read CSV files
+constructor_results <- read_csv("data/raw-data/constructor_results.csv")
+races <- read_csv("data/raw-data/races.csv")
+
+# Filter races from 2018 to 2024
+races_filtered <- races %>%
+  filter(year >= 2018 & year <= 2024) %>%
+  select(raceId) %>%
+  distinct()  # Remove duplicates
+
+# Keep only constructor results that appear in filtered races
+constructor_results_clean <- constructor_results %>%
+  semi_join(races_filtered, by = "raceId")
+
+# Save cleaned CSV
+write_csv(constructor_results_clean, "data/clean-data/constructor_results.csv")
+
+# Print first few rows
+head(constructor_results_clean)
+cat("Constructor results data cleaned successfully!\n")
