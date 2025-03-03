@@ -1,4 +1,5 @@
 cat("Cleaning fastf1-sessions data...\n")
+
 # Load necessary libraries
 library(dplyr)
 library(stringr)
@@ -36,6 +37,18 @@ convert_time <- function(time_str) {
 # Vectorized function for mutate()
 convert_time_vec <- Vectorize(convert_time)
 
+# Define tire compound colors
+tire_colors <- c(
+  "HARD" = "#FFFFFF",
+  "MEDIUM" = "#FED218",
+  "SOFT" = "#FE2E2C",
+  "SUPERSOFT" = "#FE2E2C",
+  "ULTRASOFT" = "#AE4AA3",
+  "HYPERSOFT" = "#9A6D77",
+  "INTERMEDIATE" = "#45932F",
+  "WET" = "#2F6ECE"
+)
+
 # Rename driver column for join
 drivers <- drivers %>% select(driverId, code)
 
@@ -72,7 +85,13 @@ df_clean <- df %>%
 
   # Join with races to get raceId and drop year/round
   left_join(races, by = c("year", "round")) %>%
-  select(-year, -round)  # Drop year and round
+  select(-year, -round) %>%  # Drop year and round
+
+  # Add compound color
+  mutate(CompoundColor = ifelse(is.na(tireCompound), "#000000", tire_colors[tireCompound])) %>%
+
+  # Rename column to match lowercase style
+  rename(compoundColor = CompoundColor)
 
 # Save cleaned CSV to git repo
 write_csv(df_clean, "data/clean-data/stints.csv")
