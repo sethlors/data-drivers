@@ -18,5 +18,3 @@ and statistics from the final dashboard come from this repository.
 * data: This folder contains all the raw data folders used in the project (.csv) and, eventually, a processed/clean data folder.
   
 * scripts: Contains all of the methods used (in R) to get the data from the OpenF1 website.
-
-* R: Contains the methods used (in R) that get certain aspects of the data to work with for the exploritory data analysis.
