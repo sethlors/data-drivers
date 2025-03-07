@@ -79,3 +79,5 @@ Maxwell: After week 6 of our capstone prospect. We have made some major changes 
 ### Project Progress
 
 ### Custom Milestone: Dashboarding Tech
+
+Seth: So far, we’ve explored various technologies for visualizing F1 data. Initially, R was the primary tool, leveraging packages like ggplot2 for static plots and plotly for interactive visualizations. Given the need for more dynamic and web-based visualizations, we considered JavaScript libraries such as D3.js and Chart.js, which offer powerful ways to render telemetry and lap time data. Additionally, React with frameworks like Recharts was explored for building interactive dashboards. Due to the complexity and time constraint of this project, we will probably end up with a R shiny app that displays all of the information we need. Future improvements could take the JavaScript approach and create the visualizations we will have in Shiny and make them more visually appealing and fit the Formula 1 design aesthetic.
