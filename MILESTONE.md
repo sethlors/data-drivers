@@ -78,7 +78,8 @@ Ryan: The general message our group is trying to convey with the dashboard is to
 
 ### Finalize Data Models
 
-<<<<<<< HEAD
+Zack: So far in our data analysis we have looked into a couple different types of models. Initial testing with simple linear regression attempting to predict lap time resulted in multiple model assumption violations. One potential solution we are looking into is performing analysis on qualifying data because each racer drives individually and is therefore, in theory, not affected by the attempts run by the other drivers. Due to the time based nature of the data we discussed potentially utilizing time series strategies to fit models but it was recommended that we attempt to avoid that due to the complicated nature of time series data. The models we are currently looking into involve trying to find if there is a way to model that ideal tire strategy for a race given weather conditions, position, etc. We have not attempted to use a model selection process yet but it may advantageous to do so because we have a decent amount of potentially important variables. 
+
 ### Project Progress:
 
 Maxwell: The next steps of this project is to create a minimum viable project dashboard, as well as make some major steps towards the modeling component of the project. The team is communicating well either through discussions in class or frequent messaging in our discord channel. There have been no issues in terms of communication. Each team member is focusing on their own aspect of the project and is checking in continuously with the other members of the group on their progress. Since we are primarily focused on R and some Python, each member has the tech stack ready on their local machine. There are no current major roadblocks as we have successfully transferred data sources. 
@@ -89,11 +90,7 @@ Current work done by each team member:
 - Seth Lors: Pulled all of the data needed from both datasets and cleaned them into csv files on the github repo. Has done considerable work on the strucure of the repo and organizing 
 - Ryan Riebesehl: Kept markdown files up to date and ensured that the cleaned data reflects what has been updated to Github. Ryan has also done with on creating visualizations of the F1 data. 
 - Zack S: Worked on early-stage visualizations and has done work on the modeling aspect of the project. Has also worked on combining different areas of the clean F1 data.  
-=======
-Zack: So far in our data analysis we have looked into a couple different types of models. Initial testing with simple linear regression attempting to predict lap time resulted in multiple model assumption violations. One potential solution we are looking into is performing analysis on qualifying data because each racer drives individually and is therefore, in theory, not affected by the attempts run by the other drivers. Due to the time based nature of the data we discussed potentially utilizing time series strategies to fit models but it was recommended that we attempt to avoid that due to the complicated nature of time series data. The models we are currently looking into involve trying to find if there is a way to model that ideal tire strategy for a race given weather conditions, position, etc. We have not attempted to use a model selection process yet but it may advantageous to do so because we have a decent amount of potentially important variables. 
 
-### Project Progress
->>>>>>> 91f178c84860e946af9fa7a977b90e41ce293700
 
 ### Custom Milestone: Dashboarding Tech
 
