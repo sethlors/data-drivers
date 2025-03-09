@@ -74,8 +74,11 @@ Maxwell: After week 6 of our capstone prospect. We have made some major changes 
 
 ### Brainstorm Dashboard:
 
+Ryan: The general message our group is trying to convey with the dashboard is to give the optimal strategy for winning a professional F1 race, given the current weather conditions and the track used for the race. Our group also wants to include fun statistics that our audience may find interesting. We want to include interactive pieces similar to the track and tire strategy data visuals found on https://rapit.com.br/ that do a good job of having interactive elements to see data at different times of the race. Our team plans to integrate this through R shiny so all of our data manipulation and visualizations are in one place. However, if R shiny does not do a good job for us, we will explore JavaScript instead to see if it fits the interactive aspect better. So far, our group has done an excellent job creating static data visuals (we have about 20 rough drafts). So far, the data has looked accurate and shows significant differences in the data models. The data we want to include the most in our dashboard are the stints, results, race, and weather data files because these have the most data, and there have been significant findings so far with these datasets. Our team is going off of this data dashboard we found from Arizona State University that mainly focuses on tire data (https://cisa.asu.edu/sites/default/files/2024-04/Mugge_E_Zandieh.pdf) as a blueprint/sketch for our dashboard that has very effective visuals and also concise explanations of what the data shows. The key functionality we want to use with our chosen dashboarding tool is to make sure the audience can hover over certain parts of a track or tire to see impactful data related to that section.
+
 ### Finalize Data Models
 
+<<<<<<< HEAD
 ### Project Progress:
 
 Maxwell: The next steps of this project is to create a minimum viable project dashboard, as well as make some major steps towards the modeling component of the project. The team is communicating well either through discussions in class or frequent messaging in our discord channel. There have been no issues in terms of communication. Each team member is focusing on their own aspect of the project and is checking in continuously with the other members of the group on their progress. Since we are primarily focused on R and some Python, each member has the tech stack ready on their local machine. There are no current major roadblocks as we have successfully transferred data sources. 
@@ -86,6 +89,11 @@ Current work done by each team member:
 - Seth Lors: Pulled all of the data needed from both datasets and cleaned them into csv files on the github repo. Has done considerable work on the strucure of the repo and organizing 
 - Ryan Riebesehl: Kept markdown files up to date and ensured that the cleaned data reflects what has been updated to Github. Ryan has also done with on creating visualizations of the F1 data. 
 - Zack S: Worked on early-stage visualizations and has done work on the modeling aspect of the project. Has also worked on combining different areas of the clean F1 data.  
+=======
+Zack: So far in our data analysis we have looked into a couple different types of models. Initial testing with simple linear regression attempting to predict lap time resulted in multiple model assumption violations. One potential solution we are looking into is performing analysis on qualifying data because each racer drives individually and is therefore, in theory, not affected by the attempts run by the other drivers. Due to the time based nature of the data we discussed potentially utilizing time series strategies to fit models but it was recommended that we attempt to avoid that due to the complicated nature of time series data. The models we are currently looking into involve trying to find if there is a way to model that ideal tire strategy for a race given weather conditions, position, etc. We have not attempted to use a model selection process yet but it may advantageous to do so because we have a decent amount of potentially important variables. 
+
+### Project Progress
+>>>>>>> 91f178c84860e946af9fa7a977b90e41ce293700
 
 ### Custom Milestone: Dashboarding Tech
 
