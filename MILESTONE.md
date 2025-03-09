@@ -76,7 +76,16 @@ Maxwell: After week 6 of our capstone prospect. We have made some major changes 
 
 ### Finalize Data Models
 
-### Project Progress
+### Project Progress:
+
+Maxwell: The next steps of this project is to create a minimum viable project dashboard, as well as make some major steps towards the modeling component of the project. The team is communicating well either through discussions in class or frequent messaging in our discord channel. There have been no issues in terms of communication. Each team member is focusing on their own aspect of the project and is checking in continuously with the other members of the group on their progress. Since we are primarily focused on R and some Python, each member has the tech stack ready on their local machine. There are no current major roadblocks as we have successfully transferred data sources. 
+
+Current work done by each team member: 
+
+- Maxwell Skinner: Data cleaning/acquisition of OpenF1 data source. Completed visualizations of F1 race data from both OpenF1 and Ergast datasets. Created sample dashboards in both R Shiny and Tableau. 
+- Seth Lors: Pulled all of the data needed from both datasets and cleaned them into csv files on the github repo. Has done considerable work on the strucure of the repo and organizing 
+- Ryan Riebesehl: Kept markdown files up to date and ensured that the cleaned data reflects what has been updated to Github. Ryan has also done with on creating visualizations of the F1 data. 
+- Zack S: Worked on early-stage visualizations and has done work on the modeling aspect of the project. Has also worked on combining different areas of the clean F1 data.  
 
 ### Custom Milestone: Dashboarding Tech
 
