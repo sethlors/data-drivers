@@ -76,6 +76,8 @@ Maxwell: After week 6 of our capstone prospect. We have made some major changes 
 
 ### Finalize Data Models
 
+Zack: So far in our data analysis we have looked into a couple different types of models. Initial testing with simple linear regression attempting to predict lap time resulted in multiple model assumption violations. One potential solution we are looking into is performing analysis on qualifying data because each racer drives individually and is therefore, in theory, not affected by the attempts run by the other drivers. Due to the time based nature of the data we discussed potentially utilizing time series strategies to fit models but it was recommended that we attempt to avoid that due to the complicated nature of time series data. The models we are currently looking into involve trying to find if there is a way to model that ideal tire strategy for a race given weather conditions, position, etc. We have not attempted to use a model selection process yet but it may advantageous to do so because we have a decent amount of potentially important variables. 
+
 ### Project Progress
 
 ### Custom Milestone: Dashboarding Tech
