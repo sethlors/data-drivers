@@ -83,26 +83,7 @@ Once your changes are ready, submit a pull request to merge them into the main b
 6. Submit your pull request for review.
 7. Send the link to the pull request in the discord channel to be approved
 
-
-### 3. Branch Protection Rules
-
-To maintain code stability, the following branch protection rules are in place:
-- Changes to the `main` branch require a pull request and at least one review.
-- README edits are exempt from review requirements to enable easy updates.
-
-If you're working on the README file where review is not required:
-1. Make changes directly on the `main` branch (if you have the appropriate permissions).
-2. Push your changes with a descriptive commit message:
-   ```bash
-   git add README.md
-   git commit -m "Update README with contribution guidelines"
-   git push origin main
-   ```
-
-For any other changes, always create a pull request following the guidelines above.
-
-
-### 4. Following Best Practices
+### 3. Following Best Practices
 
 - Write clear, concise, and meaningful commit messages.
 - Keep your branch up-to-date by pulling from `main` regularly:
