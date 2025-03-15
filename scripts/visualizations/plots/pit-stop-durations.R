@@ -1,7 +1,7 @@
 library(tidyverse)
 
-drivers <- read.csv("data/clean-data/drivers.csv")
-pit_stops <- read.csv("data/clean-data/pit_stops.csv")
+drivers <- read.csv("../../../data/clean-data/drivers.csv")
+pit_stops <- read.csv("../../../data/clean-data/pit_stops.csv")
 
 # Ensure duration is numeric
 pit_stops$duration <- as.numeric(pit_stops$duration)
@@ -19,8 +19,8 @@ pit_stops %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
 
 
-results <- read.csv("data/clean-data/results.csv")  # This links driverId to constructorId
-constructors <- read.csv("data/clean-data/constructors.csv")
+results <- read.csv("../../../data/clean-data/results.csv")  # This links driverId to constructorId
+constructors <- read.csv("../../../data/clean-data/constructors.csv")
 
 # Ensure duration is numeric
 pit_stops$duration <- as.numeric(pit_stops$duration)

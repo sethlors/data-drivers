@@ -1,5 +1,5 @@
-constructor_standings <- read.csv("data/clean-data/constructor_standings.csv")
-constructors <- read.csv("data/clean-data/constructors.csv")
+constructor_standings <- read.csv("../../../data/clean-data/constructor_standings.csv")
+constructors <- read.csv("../../../data/clean-data/constructors.csv")
 
 constructor_standings %>%
   inner_join(races, by = "raceId") %>%
