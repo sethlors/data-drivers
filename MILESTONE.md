@@ -95,3 +95,23 @@ Current work done by each team member:
 ### Custom Milestone: Dashboarding Tech
 
 Seth: So far, we’ve explored various technologies for visualizing F1 data. Initially, R was the primary tool, leveraging packages like ggplot2 for static plots and plotly for interactive visualizations. Given the need for more dynamic and web-based visualizations, we considered JavaScript libraries such as D3.js and Chart.js, which offer powerful ways to render telemetry and lap time data. Additionally, React with frameworks like Recharts was explored for building interactive dashboards. Due to the complexity and time constraint of this project, we will probably end up with a R shiny app that displays all of the information we need. Future improvements could take the JavaScript approach and create the visualizations we will have in Shiny and make them more visually appealing and fit the Formula 1 design aesthetic.
+
+## 2025-03-16: Finalize Data Models Milestone
+
+### Finalize Data Models
+
+Zack: 
+
+### Project Progress
+
+Seth: The R environment is fully set up with necessary libraries like shiny, tidyverse, and f1dataR. CSV files are well-organized, and scripts are running without major compatibility issues. Moving forward, we plan to enhance documentation to make setting up the environment locally as seamless as possible. The immediate next steps involve implementing dropdown-based filtering and interactive plots to improve usability. The team is communicating effectively via Discord, successfully balancing both online and in-person collaboration. A key challenge we are currently facing is selecting a suitable model. Many of our approaches so far have been limited by various constraints, making it difficult to identify a successful model. Overcoming this roadblock will be a primary focus in the next phase of the project.
+
+### Dashboard Sketch
+
+Ryan:
+
+### Spring Break Plans
+
+Max: 
+
+
