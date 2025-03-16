@@ -108,7 +108,11 @@ Seth: The R environment is fully set up with necessary libraries like shiny, tid
 
 ### Dashboard Sketch
 
-Ryan:
+Ryan: The problems that our project will solve will be illustrated by using both a static and non-static dashboard. Our static dashboard will be in the format of a PDF file, and our non-static dashboard will be in the form of a website URL so the target audience can reach them. We still plan to go off of this dashboard (https://cisa.asu.edu/sites/default/files/2024-04/Mugge_E_Zandieh.pdf) for our static dashboard and this website (https://rapit.com.br/) for implementing interactive elements in our non-static dashboard. The current layout our group is thinking about is like this,
+
+<img width="1366" alt="Screenshot 2025-03-16 at 6 52 00 PM" src="https://github.com/user-attachments/assets/fb723eec-4519-490a-a4d4-3c07e2e81c13" />
+
+where we have different interactive elements about a particular race. We will probably include 2-3 additional different tabs to jump from where users can look at different ML methods we used to predict certain features of the data. Having two different dashboards will definitely give us room for everything we need to include. We still plan to add the interactive pieces through R shiny using a website users can access. Our groups will incorporate these models by clicking through a different list of races/dates to show the different trends that happened during that particular race. With the data we have and what we want to include, our dashboard will have many functional elements throughout. The current models our group plans to include are the fastest laps per driver, the tyre type strategy used on that race day, and any additional fun statistical differences we find important during that particular race. The only thing blocking us from implementing everything is gaining more knowledge on R Shiny and what different features we can learn about to implement it for our non-static dashboard. We plan to make the dashboard visually appealing using a wide variety of colors and aesthetics matching F1 racing culture. 
 
 ### Spring Break Plans
 
