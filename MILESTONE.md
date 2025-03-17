@@ -100,7 +100,9 @@ Seth: So far, we’ve explored various technologies for visualizing F1 data. Ini
 
 ### Finalize Data Models
 
-Zack: 
+Zack: We are considering using a random forest model, which is well-suited for handling non-linear relationships, multiple variables, and large datasets. To optimize the model, hyperparameters like tree depth and number of trees can be tuned using grid search or cross-validation to improve generalization. The dependent variable depends on our end goal. If we end up predicting lap times, it’s continuous; if classifying race outcomes, it’s categorical; and if predicting race completion, it’s binary. Key explanatory variables could include track conditions, driver stats, car performance, and tire strategy choices. Challenges include data quality issues (missing values, inconsistencies), feature selection (avoiding noise while keeping key factors), and computational efficiency, as random forests can be resource-intensive. Assumptions include having enough data for meaningful predictions and ensuring no single variable dominates results. If dealing with time-series data, incorporating lagged variables or rolling averages may be necessary. The model aims to answer questions like: What factors influence race performance? What’s the best tire strategy? How do conditions affect lap times? These answers will ultimately answer how we communicate this data to the people who use our dashboard. Right now, our dashboard will look something like this:
+
+<img width="1366" alt="Screenshot 2025-03-16 at 6 52 00 PM" src="https://github.com/user-attachments/assets/fb723eec-4519-490a-a4d4-3c07e2e81c13" />
 
 ### Project Progress
 
