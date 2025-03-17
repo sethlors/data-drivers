@@ -116,6 +116,6 @@ where we have different interactive elements about a particular race. We will pr
 
 ### Spring Break Plans
 
-Max: 
+Max: Since the team is on track to finish before the deadline, we decided we do not need to spend time over Spring Break working on our F1 project. If we end up having time, we've assigned these tasks to each person: Max is going to work on ways to style our dashboard better to be more visually appealing, Ryan is going to come up with more ideas on how to organize and structure our dashboard, and Zack/Seth/Ryan are going to identify different variables to use in a Random Forest model.  
 
 
