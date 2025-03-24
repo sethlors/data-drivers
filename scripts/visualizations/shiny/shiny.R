@@ -1,14 +1,18 @@
 library(shiny)
 library(dplyr)
 library(f1dataR)
+library(here)
+
 
 # Sample Data (replace with your actual data)
-status <- read.csv("/Users/sethlors/Developer/data-drivers/data/clean-data/status.csv")
-races <- read.csv("/Users/sethlors/Developer/data-drivers/data/clean-data/races.csv")
-circuits <- read.csv("/Users/sethlors/Developer/data-drivers/data/clean-data/circuits.csv")
-drivers <- read.csv("/Users/sethlors/Developer/data-drivers/data/clean-data/drivers.csv")
-results <- read.csv("/Users/sethlors/Developer/data-drivers/data/clean-data/results.csv")
-constructors <- read.csv("/Users/sethlors/Developer/data-drivers/data/clean-data/constructors.csv")
+
+status <- read.csv(here("data", "clean-data", "status.csv"))
+races <- read.csv(here("data", "clean-data", "races.csv"))
+circuits <- read.csv(here("data", "clean-data", "circuits.csv"))
+drivers <- read.csv(here("data", "clean-data", "drivers.csv"))
+results <- read.csv(here("data", "clean-data", "results.csv"))
+constructors <- read.csv(here("data", "clean-data", "constructors.csv"))
+
 
 # Points Allocation based on Position
 points_table <- c(25, 18, 15, 12, 10, 8, 6, 4, 2, 1)  # Points for positions 1-10
