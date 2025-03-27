@@ -69,6 +69,7 @@ df_clean <- df %>%
     tireCompound = Compound,
     tyreLife = TyreLife,
     freshTyre = FreshTyre,
+    trackStatus = TrackStatus,
     team = Team,
     year = Year,
     round = Round
