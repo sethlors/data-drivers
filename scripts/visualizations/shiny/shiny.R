@@ -1,18 +1,12 @@
 library(shiny)
 library(dplyr)
-library(f1dataR)
 library(here)
-
-
-# Sample Data (replace with your actual data)
 
 status <- read.csv(here("data", "clean-data", "status.csv"))
 races <- read.csv(here("data", "clean-data", "races.csv"))
-circuits <- read.csv(here("data", "clean-data", "circuits.csv"))
 drivers <- read.csv(here("data", "clean-data", "drivers.csv"))
 results <- read.csv(here("data", "clean-data", "results.csv"))
 constructors <- read.csv(here("data", "clean-data", "constructors.csv"))
-
 
 # Points Allocation based on Position
 points_table <- c(25, 18, 15, 12, 10, 8, 6, 4, 2, 1)  # Points for positions 1-10
@@ -30,28 +24,28 @@ ui <- fluidPage(
   ),
   
   tableOutput("raceResults"),
-  plotOutput("fastestLapPlot")  # Add the plot output for fastest lap
 )
 
 server <- function(input, output, session) {
   
-  observe({
-    most_recent_year <- max(races$year)
-    updateSelectInput(session, "year", selected = most_recent_year)
+  observeEvent(input$year, {
+    # Reset the track selection when year changes
+    updateSelectInput(session, "track", choices = NULL, selected = NULL)
     
-    races_for_year <- races[races$year == most_recent_year, ]
+    # Filter races for the selected year
+    races_for_year <- races[races$year == input$year, ]
     
-    most_recent_race <- races_for_year[which.max(races_for_year$raceId), ]
-    selected_track <- circuits[circuits$circuitId == most_recent_race$circuitId, "name"]
+    # Create named choices (Display: "Race Name - Round X", Actual Value: "Race Name")
+    available_tracks <- setNames(races_for_year$name, paste0(races_for_year$name, " - Round ", races_for_year$round))
     
-    updateSelectInput(session, "track", choices = circuits[circuits$circuitId %in% races_for_year$circuitId, "name"], selected = selected_track)
+    updateSelectInput(session, "track", choices = available_tracks)
   })
   
   race_data <- reactive({
     selected_race <- races[races$year == input$year, ]
-    selected_circuit <- circuits[circuits$name == input$track, ]
+    selected_race_name <- input$track  # Get selected race name from input
     
-    race_ids <- selected_race$raceId[selected_race$circuitId == selected_circuit$circuitId]
+    race_ids <- selected_race$raceId[selected_race$name == selected_race_name]
     if (length(race_ids) == 0) {
       return(NULL)
     }
@@ -97,50 +91,6 @@ server <- function(input, output, session) {
   
   output$raceResults <- renderTable({
     race_data()
-  })
-  
-  # Function to find the driver with the fastest lap in a given race
-  get_fastest_driver <- function(season, round) {
-    selected_race <- races[races$year == season & races$round == round, ]
-    
-    if (nrow(selected_race) == 0) {
-      return(NULL)  # If no race is found, return NULL
-    }
-    
-    selected_results <- results[results$raceId == selected_race$raceId, ]
-    
-    if (nrow(selected_results) == 0) {
-      return(NULL)  # If no results are found, return NULL
-    }
-    
-    # Find the driver with the fastest lap time (min value)
-    fastest_lap_driver_id <- selected_results[which.min(selected_results$fastestLap), ]$driverId
-    fastest_driver <- drivers[drivers$driverId == fastest_lap_driver_id, ]
-    
-    if (nrow(fastest_driver) == 0) {
-      return(NULL)  # If no fastest driver is found, return NULL
-    }
-    
-    return(fastest_driver$forename)
-  }
-  
-  # Render the fastest lap plot using plot_fastest from f1dataR
-  output$fastestLapPlot <- renderPlot({
-    season <- input$year
-    round <- as.integer(input$track)  # Assuming track corresponds to round for plotting
-    
-    driver <- "VER"
-    
-    if (is.null(driver)) {
-      return(NULL)  # If no driver is found, don't plot anything
-    }
-    
-    # Use f1dataR's plot_fastest function with the necessary parameters
-    plot_fastest(season = season, 
-                 round = round, 
-                 session = "R", 
-                 driver = driver, 
-                 color = "speed")
   })
 }
 
