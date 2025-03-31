@@ -120,4 +120,8 @@ where we have different interactive elements about a particular race. We will pr
 
 Max: Since the team is on track to finish before the deadline, we decided we do not need to spend time over Spring Break working on our F1 project. If we end up having time, we've assigned these tasks to each person: Max is going to work on ways to style our dashboard better to be more visually appealing, Ryan is going to come up with more ideas on how to organize and structure our dashboard, and Zack/Seth/Ryan are going to identify different variables to use in a Random Forest model.  
 
+## 2025-03-30: Finalize Dashboard Sketch
 
+Our F1 Data Dashboard is an interactive interface designed to provide insightful visualizations and analysis of Formula 1 race data. It offers dropdown menus for selecting seasons and race rounds, making it easy to navigate through historical data. The dashboard highlights key metrics like lap times, pit stop strategies, and driver performances. There is going to be a second part of our dashboard to predict the fastest lap for future sessions. It will use the metrics Driver, Track, and Year to help predict future fastest laps. By integrating multiple datasets, the dashboard enables fans and analysts to explore detailed race insights, compare driver strategies, and identify patterns across different circuits. With its responsive layout, the F1 Data Dashboard serves as a powerful tool for both casual fans and dedicated motorsport enthusiasts. We are also working on potential models to predict lap times for specific tracks based on race position, lap number, tire type, and other factors.
+
+<img width="1366" alt="Screenshot 2025-03-16 at 6 52 00 PM" src="https://github.com/user-attachments/assets/fb723eec-4519-490a-a4d4-3c07e2e81c13" />
