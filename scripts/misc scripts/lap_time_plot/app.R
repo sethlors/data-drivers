@@ -4,10 +4,10 @@ library(ggplot2)
 library(dplyr)
 
 # Load data from URLs
-race_url <- "https://raw.githubusercontent.com/sethlors/data-drivers/refs/heads/feature/restructure-repo/data/clean-data/races.csv"
-lap_time_url <- "https://raw.githubusercontent.com/sethlors/data-drivers/refs/heads/feature/restructure-repo/data/clean-data/lap_times.csv"
-drivers_url <- "https://raw.githubusercontent.com/sethlors/data-drivers/refs/heads/feature/restructure-repo/data/clean-data/drivers.csv"
-circuits_url <- "https://raw.githubusercontent.com/sethlors/data-drivers/refs/heads/feature/restructure-repo/data/clean-data/circuits.csv"
+race_url <- "https://raw.githubusercontent.com/sethlors/data-drivers/refs/heads/main/data/clean-data/races.csv"
+lap_time_url <- "https://raw.githubusercontent.com/sethlors/data-drivers/refs/heads/main/data/clean-data/lap_times.csv"
+drivers_url <- "https://raw.githubusercontent.com/sethlors/data-drivers/refs/heads/main/data/clean-data/drivers.csv"
+circuits_url <- "https://raw.githubusercontent.com/sethlors/data-drivers/refs/heads/main/data/clean-data/circuits.csv"
 
 # Read CSV files
 races <- read.csv(race_url)
