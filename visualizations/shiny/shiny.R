@@ -4,7 +4,7 @@ library(ggplot2)
 library(plotly)
 library(here)
 
-# Load data
+# Load data files from the clean-data directory
 status <- read.csv(here("data", "clean-data", "status.csv"))
 races <- read.csv(here("data", "clean-data", "races.csv"))
 drivers <- read.csv(here("data", "clean-data", "drivers.csv"))
@@ -12,62 +12,22 @@ results <- read.csv(here("data", "clean-data", "results.csv"))
 constructors <- read.csv(here("data", "clean-data", "constructors.csv"))
 stints <- read.csv(here("data", "clean-data", "stints.csv"))
 
-# Points Allocation based on Position
-points_table <- c(25, 18, 15, 12, 10, 8, 6, 4, 2, 1)  # Points for positions 1-10
+# Points allocation for positions 1-10
+points_table <- c(25, 18, 15, 12, 10, 8, 6, 4, 2, 1)
 
+# UI Definition
 ui <- fluidPage(
+  # Link to external CSS file in www directory
   tags$head(
-    tags$style(HTML("
-      @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap');
-
-      body {
-        background-color: #121212;
-        color: white;
-        font-family: 'Titillium Web', sans-serif;
-      }
-      .well, .panel {
-        background-color: #1e1e1e;
-        border-color: #333;
-      }
-      .selectize-input {
-        background-color: #2a2a2a !important;
-        color: white !important;
-        border-color: #444 !important;
-      }
-      .selectize-dropdown {
-        background-color: #2a2a2a;
-        color: white;
-      }
-      .selectize-dropdown-content .option {
-        background-color: #2a2a2a;
-        color: white;
-      }
-      .selectize-dropdown-content .option.active {
-        background-color: #3a3a3a;
-      }
-      h3, h4, label {
-        color: white;
-        font-family: 'Titillium Web', sans-serif;
-        font-weight: 600;
-      }
-      .table {
-        color: white;
-        background-color: #1e1e1e;
-        font-family: 'Titillium Web', sans-serif;
-      }
-      .table-striped > tbody > tr:nth-child(odd) > td {
-        background-color: #2a2a2a;
-      }
-      .table-hover > tbody > tr:hover > td {
-        background-color: #3a3a3a;
-      }
-    "))
+    tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")
   ),
-  
+
+  # App title
   titlePanel(
     "F1 Race Analysis"
   ),
-  
+
+  # Year and track selection inputs
   fluidRow(
     column(6,
            selectInput("year", "Year", choices = unique(races$year), selected = NULL)
@@ -76,81 +36,82 @@ ui <- fluidPage(
            selectInput("track", "Track", choices = NULL)
     )
   ),
-  
-  # Display results table
+
+  # Results table section
   h3("Race Results"),
   tableOutput("raceResults"),
-  
-  # Display tire strategy chart - switched to plotlyOutput for interactivity
+
+  # Tire strategy visualization section
   h3("Tire Strategy"),
   plotlyOutput("tireStrategyPlot", height = "600px")
 )
 
+# Server logic
 server <- function(input, output, session) {
+  # Update track dropdown when year is selected
   observeEvent(input$year, {
-    # Reset the track selection when year changes
     updateSelectInput(session, "track", choices = NULL, selected = NULL)
-    # Filter races for the selected year
-    races_for_year <- races[races$year == input$year, ]
-    # Create named choices (Display: "Race Name - Round X", Actual Value: "Race Name")
+    races_for_year <- races[races$year == input$year,]
     available_tracks <- setNames(races_for_year$name, paste0(races_for_year$name, " - Round ", races_for_year$round))
     updateSelectInput(session, "track", choices = available_tracks)
   })
-  
+
+  # Get race ID based on selected year and track
   selected_race_id <- reactive({
     req(input$year, input$track)
-    selected_race <- races[races$year == input$year & races$name == input$track, ]
-    if(nrow(selected_race) > 0) {
+    selected_race <- races[races$year == input$year & races$name == input$track,]
+    if (nrow(selected_race) > 0) {
       return(selected_race$raceId[1])
     } else {
       return(NULL)
     }
   })
-  
+
+  # Prepare race results data
   race_data <- reactive({
     req(selected_race_id())
-    
-    results_filtered <- results[results$raceId == selected_race_id(), ]
+
+    # Get results for the selected race and merge with driver information
+    results_filtered <- results[results$raceId == selected_race_id(),]
     race_results <- merge(results_filtered, drivers, by = "driverId")
-    
-    # Replace '\\N' with NA for time columns and clean up position column
+
+    # Clean up missing values
     race_results$time <- ifelse(race_results$time == "\\N", NA, race_results$time)
     race_results$position <- ifelse(race_results$position == "\\N", NA, race_results$position)
-    
-    # Merge with status and constructors
+
+    # Add status and constructor information
     race_results <- merge(race_results, status, by = "statusId", all.x = TRUE)
     race_results <- merge(race_results, constructors, by = "constructorId", all.x = TRUE)
-    
+
     # Convert position to numeric
     race_results$position <- as.numeric(race_results$position)
-    
-    # For non-finishing positions, replace with the actual status message
+
+    # Use status message for DNF entries
     race_results$time <- ifelse(!is.na(race_results$time), race_results$time, race_results$status)
-    
-    # Create the Driver column
+
+    # Create driver full name
     race_results$Driver <- paste(race_results$forename, race_results$surname)
-    
-    # Sort by position (NA values will be at the end)
-    race_results <- race_results[order(race_results$position, na.last = TRUE), ]
-    
-    # Assign points based on position
+
+    # Sort by finishing position
+    race_results <- race_results[order(race_results$position, na.last = TRUE),]
+
+    # Calculate points earned
     race_results$Points <- ifelse(race_results$position >= 1 & race_results$position <= 10,
                                   points_table[race_results$position], 0)
     race_results$Points <- paste0("+", race_results$Points)
-    
-    # Check which constructor name column exists
+
+    # Handle different column name variations from merges
     constructor_col <- ifelse("name.y" %in% colnames(race_results), "name.y",
                               ifelse("name.1" %in% colnames(race_results), "name.1", "name"))
-    
-    # Create abbreviations for drivers (first 3 letters of surname, uppercase)
+
+    # Create 3-letter driver codes
     race_results$Driver_Code <- toupper(substr(race_results$surname, 1, 3))
-    
-    # Format positions as "1st", "2nd", "3rd", etc. or "DNF" for NA
+
+    # Format positions with ordinals (1st, 2nd, etc.) or DNF
     race_results$formatted_position <- sapply(race_results$position, function(pos) {
       if (is.na(pos)) {
         return("DNF")
       } else {
-        # Add ordinal suffix
         suffix <- switch(
           as.character(pos %% 10),
           "1" = if (pos %% 100 == 11) "th" else "st",
@@ -161,11 +122,10 @@ server <- function(input, output, session) {
         return(paste0(pos, suffix))
       }
     })
-    
-    # Create a subset with only needed columns
-    # Use dynamic column referencing to avoid errors
+
+    # Create final dataset for display
     result_subset <- data.frame(
-      Position = race_results$formatted_position,  # Use formatted position
+      Position = race_results$formatted_position,
       Driver = race_results$Driver,
       Code = race_results$Driver_Code,
       Time = race_results$time,
@@ -173,34 +133,33 @@ server <- function(input, output, session) {
       Points = race_results$Points,
       driverId = race_results$driverId
     )
-    
+
     return(result_subset)
   })
-  
-  # Prepare tire stints data
+
+  # Prepare tire strategy data
   tire_stints <- reactive({
     req(selected_race_id())
-    
+
     # Get race results for driver order
     results_order <- race_data()
-    if(is.null(results_order) || nrow(results_order) == 0) return(NULL)
-    
-    # Get all stints for this race
-    race_stints <- stints[stints$raceId == selected_race_id(), ]
-    if(nrow(race_stints) == 0) return(NULL)
-    
-    # Get driver info and create a Driver column
+    if (is.null(results_order) || nrow(results_order) == 0) return(NULL)
+
+    # Get tire stints for the selected race
+    race_stints <- stints[stints$raceId == selected_race_id(),]
+    if (nrow(race_stints) == 0) return(NULL)
+
+    # Add driver information to stints
     driver_info <- merge(race_stints, drivers, by = "driverId", all.x = TRUE)
     driver_info$Driver <- paste(driver_info$forename, driver_info$surname)
-    
-    # Add driver code (3 letter abbreviation)
+
+    # Create 3-letter driver codes
     driver_info$Driver_Code <- toupper(substr(driver_info$surname, 1, 3))
-    
-    # Filter out NA Driver values
-    driver_info <- driver_info[!is.na(driver_info$Driver), ]
-    
-    # Process the stint data - identify tire changes
-    # We'll consider each sequence of laps with the same compound as one stint
+
+    # Remove rows with missing driver info
+    driver_info <- driver_info[!is.na(driver_info$Driver),]
+
+    # Identify tire changes to determine stint boundaries
     driver_info <- driver_info %>%
       arrange(driverId, lap) %>%
       group_by(driverId) %>%
@@ -210,8 +169,8 @@ server <- function(input, output, session) {
         stint_number = cumsum(new_stint)
       ) %>%
       ungroup()
-    
-    # Summarize stint information
+
+    # Summarize stint information (start lap, end lap, compound)
     stint_summary <- driver_info %>%
       filter(!is.na(tireCompound)) %>%
       group_by(driverId, Driver, Driver_Code, stint_number, tireCompound, compoundColor) %>%
@@ -221,87 +180,84 @@ server <- function(input, output, session) {
         laps = end_lap - start_lap + 1,
         .groups = "drop"
       )
-    
+
     # Order drivers according to race finish position
-    # We need to maintain the full name for hover, but use code for display
     driver_levels <- results_order$Driver
     driver_codes <- results_order$Code
-    
-    # Create a factor for plotting based on the driver code but keeping the order
+
+    # Prepare data for visualization
     stint_summary$Driver_Name <- stint_summary$Driver  # Keep full name for hover
     stint_summary$Driver <- factor(stint_summary$Driver, levels = driver_levels)  # For ordering
-    stint_summary$Driver_Code <- factor(stint_summary$Driver_Code, 
+    stint_summary$Driver_Code <- factor(stint_summary$Driver_Code,
                                         levels = driver_codes[match(driver_levels, results_order$Driver)])
-    
-    # Ensure very short stints (1-2 laps) have minimum visual width
-    stint_summary$visual_width <- pmax(stint_summary$laps, 2)  # Minimum visual width of 2 laps
-    stint_summary$label_x_adj <- ifelse(stint_summary$laps == 1, 0.5, 0)  # Adjust label position for 1-lap stints
-    
+
+    # Adjust visual properties for short stints
+    stint_summary$visual_width <- pmax(stint_summary$laps, 2)  # Minimum visual width
+    stint_summary$label_x_adj <- ifelse(stint_summary$laps == 1, 0.5, 0)  # Adjust label position
+
     return(stint_summary)
   })
-  
-  # Output the race results table
+
+  # Render results table
   output$raceResults <- renderTable({
     results <- race_data()
-    if(is.null(results)) return(NULL)
-    
-    # Remove driverId column for display
+    if (is.null(results)) return(NULL)
+
+    # Remove driver ID column before display
     results$driverId <- NULL
-    
-    # Style the table for better presentation
+
     results
   }, striped = TRUE, hover = TRUE, bordered = TRUE)
-  
-  # Output the tire strategy plot using plotly for interactivity
+
+  # Render tire strategy plot
   output$tireStrategyPlot <- renderPlotly({
     stints <- tire_stints()
-    if(is.null(stints) || nrow(stints) == 0) {
+    if (is.null(stints) || nrow(stints) == 0) {
       return(NULL)
     }
-    
-    # Better color scheme matching F1 tire compounds
+
+    # Define F1 tire compound colors
     tire_colors <- c(
-      "HARD" = "#FFFFFF",     # White
-      "MEDIUM" = "#FED218",   # Yellow
-      "SOFT" = "#DD0741",     # Red
-      "SUPERSOFT" = "#DA0640",
-      "ULTRASOFT" = "#A9479E",
-      "HYPERSOFT" = "#FEB4C3",
-      "INTERMEDIATE" = "#45932F",
-      "WET" = "#2F6ECE"
+      "HARD" = "#FFFFFF",      # White
+      "MEDIUM" = "#FED218",    # Yellow
+      "SOFT" = "#DD0741",      # Red
+      "SUPERSOFT" = "#DA0640", # Red
+      "ULTRASOFT" = "#A9479E", # Purple
+      "HYPERSOFT" = "#FEB4C3", # Pink
+      "INTERMEDIATE" = "#45932F", # Green
+      "WET" = "#2F6ECE"        # Blue
     )
-    
-    # Calculate max lap for better x-axis limits
+
     max_lap <- max(stints$end_lap, na.rm = TRUE)
-    
-    # Create a hover text for each stint
+
+    # Create hover text for interactive display
     stints$hover_text <- paste0(
       stints$Driver_Name, "<br>",  # Use full name in the hover
       stints$tireCompound, ": ", stints$laps, " Laps<br>",
       "Laps ", stints$start_lap, "-", stints$end_lap
     )
-    
-    # For 1-lap stints, make the visual end lap wider
+
+    # Adjust visual width for short stints
     stints$visual_end_lap <- ifelse(stints$laps == 1,
-                                    stints$start_lap + 1.5,  # Make 1-lap stints wider visually
-                                    stints$end_lap + 1)     # Normal end lap + 1 to avoid gaps
-    
-    # Create ggplot object - use Driver_Code for y-axis instead of Driver
+                                    stints$start_lap + 1.5,  # Make 1-lap stints wider
+                                    stints$end_lap + 1)      # Normal end lap + 1
+
+    # Create strategy visualization with ggplot
     p <- ggplot(stints, aes(xmin = start_lap, xmax = visual_end_lap, y = Driver_Code, fill = tireCompound)) +
-      # Draw rectangles without gaps
+      # Draw rectangles for tire stints
       geom_rect(aes(ymin = as.numeric(Driver_Code) - 0.4,
                     ymax = as.numeric(Driver_Code) + 0.4,
                     text = hover_text),
                 color = "#222222", size = 0.1) +
-      # Add lap count labels with conditional positioning for short stints
+      # Add lap count labels
       geom_text(aes(
         x = ifelse(laps <= 2,
                    start_lap + 0.75,  # Center text for short stints
-                   start_lap + (end_lap - start_lap)/2),  # Center text for normal stints
+                   start_lap + (end_lap - start_lap) / 2),  # Center text for normal stints
         y = Driver_Code,
         label = laps
       ),
-      color = "black", size = 3.5, fontface = "bold") +
+                color = "black", size = 3.5, fontface = "bold") +
       # Apply tire colors
       scale_fill_manual(values = tire_colors, name = "Tire Compound") +
       # Add labels
@@ -311,7 +267,7 @@ server <- function(input, output, session) {
         x = "Lap",
         y = ""
       ) +
-      # Apply dark theme with enhancements
+      # Apply dark theme
       theme_minimal() +
       theme(
         text = element_text(family = "Titillium Web"),
@@ -338,8 +294,8 @@ server <- function(input, output, session) {
         breaks = seq(0, max_lap + 5, by = 5),
         limits = c(0, max_lap + 2)
       )
-    
-    # Convert to plotly for interactivity
+
+    # Convert to interactive plotly visualization
     ggplotly(p, tooltip = "text") %>%
       layout(
         hoverlabel = list(
@@ -356,4 +312,5 @@ server <- function(input, output, session) {
   })
 }
 
+# Start the Shiny app
 shinyApp(ui = ui, server = server)
