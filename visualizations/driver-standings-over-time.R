@@ -1,9 +1,9 @@
 library(ggplot2)
 library(dplyr)
 
-driver_standings <- read.csv("data/clean-data/driver_standings.csv")
-races <- read.csv("data/clean-data/races.csv")
-drivers <- read.csv("data/clean-data/drivers.csv")
+driver_standings <- read.csv("../data/clean-data/driver_standings.csv")
+races <- read.csv("../data/clean-data/races.csv")
+drivers <- read.csv("../data/clean-data/drivers.csv")
 
 driver_standings %>%
   inner_join(races, by = "raceId") %>%

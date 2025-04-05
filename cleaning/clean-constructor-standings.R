@@ -4,8 +4,8 @@ library(dplyr)
 library(readr)
 
 # Read CSV files
-constructor_standings <- read_csv("data/raw-data/constructor_standings.csv")
-races <- read_csv("data/raw-data/races.csv")
+constructor_standings <- read_csv("../data/raw-data/constructor_standings.csv")
+races <- read_csv("../data/raw-data/races.csv")
 
 # Filter races from 2018 to 2024
 races_filtered <- races %>%
@@ -18,7 +18,7 @@ constructor_standings_clean <- constructor_standings %>%
   semi_join(races_filtered, by = "raceId")
 
 # Save cleaned CSV
-write_csv(constructor_standings_clean, "data/clean-data/constructor_standings.csv")
+write_csv(constructor_standings_clean, "../data/clean-data/constructor_standings.csv")
 
 # Print first few rows
 head(constructor_standings_clean)
