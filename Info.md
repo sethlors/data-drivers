@@ -8,13 +8,16 @@ To work with this repository on your local machine, you need to clone it from th
    If Git is not installed on your system, download and install it for your OS from [git-scm.com](https://git-scm.com/).
 
 2. **Set up SSH keys (optional but recommended)**  
-   To securely communicate with GitHub (or your preferred Git hosting platform), it's recommended to set up SSH keys. Follow these steps:
+   To securely communicate with GitHub (or your preferred Git hosting platform), it's recommended to set up SSH keys.
+   Follow these steps:
 
-    - [Generate an SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) if you don’t already have one:
+    - [Generate an SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+      if you don’t already have one:
       ```bash
       ssh-keygen -t ed25519 -C "your_github_email@example.com"
       ```
-    - Add the SSH key to your GitHub account by following the steps in [GitHub's documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+    - Add the SSH key to your GitHub account by following the steps
+      in [GitHub's documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
    **Note:** If you prefer HTTPS instead of SSH, you can skip this step.
 
@@ -34,63 +37,19 @@ To work with this repository on your local machine, you need to clone it from th
 
 ---
 
-## Branch Protection and Contributions
+## Running Locally
 
+To run the project locally, you need to have R and RStudio installed on your machine.
 
-We aim to keep this project organized and ensure high-quality contributions. Please follow these steps when contributing to the repository:
+Assuming you have R and RStudio installed, install the following libraries:
 
-### 1. Creating a New Branch
-Before making any changes, create a new branch for your work. This ensures the `main` branch remains stable and that changes can be reviewed effectively. Use the following steps:
+```r
+install.packages("shiny")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("plotly")
+install.packages("here")
+```
 
-1. **Fetch the latest changes from `main`:**
-   ```bash
-   git checkout main
-   git pull origin main
-   ```
-
-2. **Create a new branch:**
-   Branch names should be descriptive of the work being done. For example:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-   Examples of branch names:
-    - `feature/add-api-methods`
-    - `bugfix/fix-auth-issue`
-    - `docs/update-readme`
-
-3. **Work and commit on your branch:**
-   Make your changes and commit them to your branch:
-   ```bash
-   git add .
-   git commit -m "Descriptive message about your changes"
-   ```
-
-4. **Push your branch to the remote repository:**
-   ```bash
-   git push -u origin feature/your-feature-name
-   ```
-
-
-### 2. Submitting a Pull Request (PR)
-
-Once your changes are ready, submit a pull request to merge them into the main branch. Follow these steps:
-
-1. Go to the repository on GitHub.
-2. Navigate to the **Pull Requests** tab.
-3. Click **New Pull Request**.
-4. Select your branch and compare it with `main`.
-5. Write a clear title and description for your pull request, explaining the changes you made.
-6. Submit your pull request for review.
-7. Send the link to the pull request in the discord channel to be approved
-
-### 3. Following Best Practices
-
-- Write clear, concise, and meaningful commit messages.
-- Keep your branch up-to-date by pulling from `main` regularly:
-  ```bash
-  git checkout main
-  git pull origin main
-  git checkout your-branch
-  git merge main
-  ```
-- Ensure your code is linted before submitting a pull request.
+After installing the required packages, you can run the Shiny app by opening the shiny.R file in RStudio and clicking
+the "Run App" button in the top right corner of the script editor. 
