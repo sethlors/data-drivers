@@ -135,7 +135,6 @@ Year: Users can choose a specific year from a list of available years.
 
 Track: Based on the selected year, the track dropdown dynamically updates with relevant tracks for that year.
 
-
 Dynamic Updates:
 
 Race Results: When a user selects a year and track, the race results table is updated with driver information, race times, positions, and points based on the selected race.
