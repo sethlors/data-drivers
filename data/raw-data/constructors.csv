@@ -7,7 +7,7 @@ constructorId,constructorRef,name,nationality,url,color
 6,"ferrari","Ferrari","Italian","http://en.wikipedia.org/wiki/Scuderia_Ferrari","#DC0000"
 7,"toyota","Toyota","Japanese","http://en.wikipedia.org/wiki/Toyota_Racing"
 8,"super_aguri","Super Aguri","Japanese","http://en.wikipedia.org/wiki/Super_Aguri_F1"
-9,"red_bull","Red Bull","Austrian","http://en.wikipedia.org/wiki/Red_Bull_Racing","#1E41FF"
+9,"red_bull","Red Bull","Austrian","http://en.wikipedia.org/wiki/Red_Bull_Racing",#1C2743
 10,"force_india","Force India","Indian","http://en.wikipedia.org/wiki/Racing_Point_Force_India","#F596C8"
 11,"honda","Honda","Japanese","http://en.wikipedia.org/wiki/Honda_Racing_F1"
 12,"spyker","Spyker","Dutch","http://en.wikipedia.org/wiki/Spyker_F1"
@@ -128,7 +128,7 @@ constructorId,constructorRef,name,nationality,url,color
 128,"gordini","Gordini","French","http://en.wikipedia.org/wiki/Gordini"
 129,"stevens","Stevens","American","http://en.wikipedia.org/wiki/Stevens_(constructor)"
 130,"bugatti","Bugatti","French","http://en.wikipedia.org/wiki/Bugatti"
-131,"mercedes","Mercedes","German","http://en.wikipedia.org/wiki/Mercedes-Benz_in_Formula_One","#6CD3BF"
+131,"mercedes","Mercedes","German","http://en.wikipedia.org/wiki/Mercedes-Benz_in_Formula_One",#147970
 132,"lancia","Lancia","Italian","http://en.wikipedia.org/wiki/Lancia_in_Formula_One"
 133,"hwm","HWM","British","http://en.wikipedia.org/wiki/Hersham_and_Walton_Motors"
 134,"schroeder","Schroeder","American","http://en.wikipedia.org/wiki/Schroeder_(constructor)"
