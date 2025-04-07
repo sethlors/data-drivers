@@ -36,99 +36,125 @@ ui <- fluidPage(
   # Link to external CSS file in www directory
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
-    # Only include the specific styles for podium visualization
+    # Include all required styles
     tags$style(HTML("
-      /* Podium visualization specific styles */
-      .podium-row {
-        margin-top: 20px;
-        margin-bottom: 30px;
-      }
-      .podium-box {
-        position: relative;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        height: 250px;
-        /* Removed hover effect */
-      }
-      .box-gradient {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
-        z-index: 1;
-      }
-      .glass-footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 60px;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(5px);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 15px;
-        z-index: 2;
-      }
-      .driver-code {
-        font-size: 24px;
-        font-weight: bold;
-        font-family: 'Titillium Web', sans-serif;
-      }
-      .position-label {
-        font-size: 24px;
-        font-weight: bold;
-        font-family: 'Titillium Web', sans-serif;
-      }
-      .time-diff {
-        font-size: 20px;
-        font-weight: bold;
-        font-family: 'Titillium Web', sans-serif;
-      }
-      .driver-img {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -60%);
-        height: 150px;
-        z-index: 1;
-        border-radius: 5px;
-        /* Make sure driver images don't cover controls */
-        pointer-events: none;
-      }
-      .constructor-img {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        height: 60px;
-        z-index: 2;
-      }
-      /* Control panel extension for year/track selectors */
-      .control-panel {
-        background-color: #141414;
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        padding: 22px;
-        margin-bottom: 25px;
-        transition: transform 0.2s, box-shadow 0.2s;
-        /* Ensure the control panel has a higher z-index */
-        position: relative;
-        z-index: 10;
-      }
-      /* Add error message style */
-      .error-message {
-        color: #ff5555;
-        text-align: center;
-        padding: 20px;
-        background-color: #1a1a1a;
-        border-radius: 8px;
-        margin: 20px 0;
-      }
-    "))
+    /* Podium visualization specific styles */
+    .podium-row {
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+    .podium-box {
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      height: 250px;
+      /* Removed hover effect */
+    }
+    .box-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
+      z-index: 1;
+    }
+    .glass-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      z-index: 2;
+    }
+    .driver-code {
+      font-size: 24px;
+      font-weight: bold;
+      font-family: 'Titillium Web', sans-serif;
+    }
+    .position-label {
+      font-size: 24px;
+      font-weight: bold;
+      font-family: 'Titillium Web', sans-serif;
+    }
+    .time-diff {
+      font-size: 20px;
+      font-weight: bold;
+      font-family: 'Titillium Web', sans-serif;
+    }
+    .driver-img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      height: 150px;
+      z-index: 1;
+      border-radius: 5px;
+      /* Make sure driver images don't cover controls */
+      pointer-events: none;
+    }
+    .constructor-img {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      height: 60px;
+      z-index: 2;
+    }
+    /* Control panel extension for year/track selectors */
+    .control-panel {
+      background-color: #141414;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      padding: 22px;
+      margin-bottom: 25px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      /* Ensure the control panel has a higher z-index */
+      position: relative;
+      z-index: 10;
+    }
+    /* Add error message style */
+    .error-message {
+      color: #ff5555;
+      text-align: center;
+      padding: 20px;
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    
+    /* Results table styling - NEW STYLES ADDED HERE */
+    .table-custom {
+      font-size: 16px !important;  /* Increase font size */
+      width: 100%;
+    }
+    
+    .table-custom th {
+      text-align: center !important;
+      font-size: 18px !important;  /* Larger header text */
+      font-weight: bold;
+      padding: 12px 8px !important;  /* Add more padding */
+      vertical-align: middle !important;
+    }
+    
+    .table-custom td {
+      text-align: center !important;
+      vertical-align: middle !important;
+      padding: 10px 8px !important;  /* Add more padding */
+    }
+    
+    /* Make sure table uses the full width */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;  /* Allow horizontal scrolling on small screens */
+    }
+  "))
   ),
   
   # App title
@@ -412,7 +438,7 @@ server <- function(input, output, session) {
       select(Position, Driver, Code, Constructor, Time, Points) %>%
       mutate(
         Constructor = paste0(
-          '<div style="display: flex; align-items: center;">',
+          '<div style="display: flex; align-items: center; justify-content: center;">',  
           '<img src="', results$Constructor_Image, '" height="30" style="margin-right: 10px;"> ',
           Constructor,
           '</div>'
@@ -421,7 +447,14 @@ server <- function(input, output, session) {
     
     # Return the results with HTML formatting
     display_results
-  }, sanitize.text.function = function(x) x, striped = TRUE, hover = TRUE, bordered = TRUE, align = 'c')
+  }, 
+  sanitize.text.function = function(x) x,
+  striped = TRUE, 
+  hover = TRUE, 
+  bordered = TRUE, 
+  align = 'c',  
+  width = "100%",  # Ensure table uses full width available
+  class = "table-custom")  # Add a custom class for styling
   
   # Prepare tire strategy data
   tire_stints <- reactive({
@@ -468,14 +501,14 @@ server <- function(input, output, session) {
       )
     
     # Order drivers according to race finish position
-    driver_levels <- results_order$Driver
-    driver_codes <- results_order$Code
+    driver_levels <- rev(results_order$Driver)
+    driver_codes <- rev(results_order$Code)
     
     # Prepare data for visualization
     stint_summary$Driver_Name <- stint_summary$Driver  # Keep full name for hover
     stint_summary$Driver <- factor(stint_summary$Driver, levels = driver_levels)  # For ordering
     stint_summary$Driver_Code <- factor(stint_summary$Driver_Code,
-                                        levels = driver_codes[match(driver_levels, results_order$Driver)])
+                                        levels = driver_codes[match(driver_levels, results_order$Driver[order(results_order$position, decreasing = TRUE)])])
     
     # Adjust visual properties for short stints
     stint_summary$visual_width <- pmax(stint_summary$laps, 2)  # Minimum visual width
@@ -564,10 +597,10 @@ server <- function(input, output, session) {
         legend.key.size = unit(1, "cm"),
         plot.margin = margin(20, 20, 20, 20)
       ) +
-      # Set x-axis breaks and limits
+      # Set x-axis breaks and limits - CHANGED HERE to start at lap 1
       scale_x_continuous(
-        breaks = seq(0, max_lap + 5, by = 5),
-        limits = c(0, max_lap + 2)
+        breaks = seq(1, max_lap + 5, by = 5),  # Starting from 1 instead of 0
+        limits = c(1, max_lap + 2)             # Starting from 1 instead of 0
       )
     
     # Convert to interactive plotly visualization
