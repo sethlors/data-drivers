@@ -125,3 +125,22 @@ Max: Since the team is on track to finish before the deadline, we decided we do 
 Our F1 Data Dashboard is an interactive interface designed to provide insightful visualizations and analysis of Formula 1 race data. It offers dropdown menus for selecting seasons and race rounds, making it easy to navigate through historical data. The dashboard highlights key metrics like lap times, pit stop strategies, and driver performances. There is going to be a second part of our dashboard to predict the fastest lap for future sessions. It will use the metrics Driver, Track, and Year to help predict future fastest laps. By integrating multiple datasets, the dashboard enables fans and analysts to explore detailed race insights, compare driver strategies, and identify patterns across different circuits. With its responsive layout, the F1 Data Dashboard serves as a powerful tool for both casual fans and dedicated motorsport enthusiasts. We are also working on potential models to predict lap times for specific tracks based on race position, lap number, tire type, and other factors.
 
 <img width="1366" alt="Screenshot 2025-03-16 at 6 52 00 PM" src="https://github.com/user-attachments/assets/fb723eec-4519-490a-a4d4-3c07e2e81c13" />
+
+## 2025-04-06: Minimum Viable Dashboard
+
+The current status of the F1 Race Analysis dashboard is designed to provide an interactive experience with a focus on race results and tire strategies. Users can input the year and track from dropdown menus, which dynamically updates the content displayed on the dashboard. Once a user selects a year and track, the race results and tire strategy for that specific race are shown. Features:
+
+User Input:
+Year: Users can choose a specific year from a list of available years.
+
+Track: Based on the selected year, the track dropdown dynamically updates with relevant tracks for that year.
+
+Dynamic Updates:
+
+Race Results: When a user selects a year and track, the race results table is updated with driver information, race times, positions, and points based on the selected race.
+
+Tire Strategy Visualization: The tire strategy plot visualizes the tire stints for each driver in the selected race. The plot updates dynamically when the user selects a different year or track, showing the number of laps completed on each tire compound for all drivers.
+
+The user input directly influences the race data displayed, such as updating the results table with race outcomes and generating an updated tire strategy plot. This ensures that the dashboard is interactive and responsive to user selections.
+
+Here is the link to instructions to run locally (https://github.com/sethlors/data-drivers/blob/main/Info.md)
