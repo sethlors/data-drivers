@@ -52,6 +52,10 @@ tire_colors <- c(
 # Rename driver column for join
 drivers <- drivers %>% select(driverId, code)
 
+# Rename "Red Bull Racing" to "Red Bull"
+df <- df %>%
+  mutate(team = if_else(team == "Red Bull Racing","Red Bull",team))
+
 # Rename constructor column for join
 constructors <- constructors %>% select(constructorId, name) %>% rename(team = name)
 
