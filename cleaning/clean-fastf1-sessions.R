@@ -52,9 +52,10 @@ tire_colors <- c(
 # Rename driver column for join
 drivers <- drivers %>% select(driverId, code)
 
-# Rename "Red Bull Racing" to "Red Bull"
+# Rename constructors to remove NA values in join
 df <- df %>%
-  mutate(Team = if_else(Team == "Red Bull Racing","Red Bull",Team))
+  mutate(Team = if_else(Team == "Red Bull Racing","Red Bull",Team),
+         Team = if_else(Team == "Alpine","Alpine F1 Team",Team))
 
 # Rename constructor column for join
 constructors <- constructors %>% select(constructorId, name) %>% rename(team = name)
