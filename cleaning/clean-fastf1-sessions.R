@@ -54,7 +54,7 @@ drivers <- drivers %>% select(driverId, code)
 
 # Rename "Red Bull Racing" to "Red Bull"
 df <- df %>%
-  mutate(team = if_else(team == "Red Bull Racing","Red Bull",team))
+  mutate(Team = if_else(Team == "Red Bull Racing","Red Bull",Team))
 
 # Rename constructor column for join
 constructors <- constructors %>% select(constructorId, name) %>% rename(team = name)
