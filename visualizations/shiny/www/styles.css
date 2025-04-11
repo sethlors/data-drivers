@@ -3,404 +3,718 @@
 
 /* Base styles */
 body {
-  background-color: #0a0a0a;
-  color: #f5f5f7;
-  font-family: 'Inter', sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  padding: 20px;
+    background-color: #0a0a0a;
+    color: #f5f5f7;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
 }
 
 /* Header/Title styling */
 .container-fluid h2 {
-  font-family: 'Titillium Web', sans-serif;
-  font-weight: 700;
-  font-size: 2.5rem;
-  letter-spacing: -0.5px;
-  color: #ffffff;
-  margin-bottom: 30px;
-  text-align: center;
-  text-transform: uppercase;
-  position: relative;
-  padding-bottom: 15px;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 15px;
 }
 
 .container-fluid h2:after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, #e10600, #ff8700);
-  border-radius: 2px;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #e10600, #ff8700);
+    border-radius: 2px;
 }
 
 /* Section headers */
 h3 {
-  font-family: 'Titillium Web', sans-serif;
-  font-weight: 600;
-  font-size: 1.8rem;
-  color: #ffffff;
-  margin: 35px 0 20px;
-  border-left: 4px solid #e10600;
-  padding-left: 15px;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 600;
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin: 35px 0 20px;
+    border-left: 4px solid #e10600;
+    padding-left: 15px;
 }
 
 /* Cards & panels */
 .well, .panel {
-  background-color: #141414;
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  padding: 22px;
-  margin-bottom: 25px;
-  transition: transform 0.2s, box-shadow 0.2s;
+    background-color: #141414;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    padding: 22px;
+    margin-bottom: 25px;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .well:hover, .panel:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* Dropdown styling */
 label {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  color: #cccccc;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: #cccccc;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
 }
 
 .selectize-control {
-  margin-bottom: 25px;
+    margin-bottom: 25px;
 }
 
 .selectize-input {
-  background-color: #1e1e1e !important;
-  color: white !important;
-  border: 1px solid #333 !important;
-  border-radius: 8px !important;
-  padding: 12px !important;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
-  transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #1e1e1e !important;
+    color: white !important;
+    border: 1px solid #333 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .selectize-input.focus {
-  border-color: #e10600 !important;
-  box-shadow: 0 0 0 2px rgba(225, 6, 0, 0.25) !important;
+    border-color: #e10600 !important;
+    box-shadow: 0 0 0 2px rgba(225, 6, 0, 0.25) !important;
 }
 
 .selectize-input.dropdown-active {
-  border-radius: 8px 8px 0 0 !important;
+    border-radius: 8px 8px 0 0 !important;
 }
 
 .selectize-dropdown {
-  background-color: #1e1e1e;
-  border: 1px solid #333;
-  border-top: none;
-  border-radius: 0 0 8px 8px;
-  margin-top: -1px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    margin-top: -1px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .selectize-dropdown-content .option {
-  background-color: #1e1e1e;
-  color: #cccccc;
-  padding: 10px 12px;
-  font-size: 0.95rem;
-  border-bottom: 1px solid #2a2a2a;
+    background-color: #1e1e1e;
+    color: #cccccc;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #2a2a2a;
 }
 
 .selectize-dropdown-content .option:last-child {
-  border-bottom: none;
-  border-radius: 0 0 8px 8px;
+    border-bottom: none;
+    border-radius: 0 0 8px 8px;
 }
 
 .selectize-dropdown-content .option.active {
-  background-color: #2a2a2a;
-  color: #ffffff;
+    background-color: #2a2a2a;
+    color: #ffffff;
 }
 
 /* Tables */
 .table-container {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  overflow-x: auto;  /* Allow horizontal scrolling on small screens */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    overflow-x: auto; /* Allow horizontal scrolling on small screens */
 }
 
 .table {
-  color: #f5f5f7;
-  background-color: #141414;
-  font-family: 'Inter', sans-serif;
-  margin-bottom: 0;
-  border-collapse: separate;
-  border-spacing: 0;
-  width: 100%;
+    color: #f5f5f7;
+    background-color: #141414;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
 }
 
 .table thead th {
-  background-color: #1a1a1a;
-  color: #999999;
-  font-weight: 500;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
-  padding: 15px;
-  border-bottom: 2px solid #2a2a2a;
+    background-color: #1a1a1a;
+    color: #999999;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    padding: 15px;
+    border-bottom: 2px solid #2a2a2a;
 }
 
 .table tbody tr {
-  transition: background-color 0.2s;
+    transition: background-color 0.2s;
 }
 
 .table-striped > tbody > tr:nth-child(odd) > td {
-  background-color: #1a1a1a;
+    background-color: #1a1a1a;
 }
 
 .table-striped > tbody > tr:nth-child(even) > td {
-  background-color: #141414;
+    background-color: #141414;
 }
 
 .table-hover > tbody > tr:hover > td {
-  background-color: #2a2a2a;
+    background-color: #2a2a2a;
 }
 
 .table td {
-  padding: 12px 15px;
-  border-top: 1px solid #2a2a2a;
-  font-size: 0.95rem;
+    padding: 12px 15px;
+    border-top: 1px solid #2a2a2a;
+    font-size: 0.95rem;
 }
 
 /* Position column styling */
 .table td:first-child {
-  font-weight: 600;
+    font-weight: 600;
 }
 
 /* Constructor name styling */
 .table td:nth-child(5) {
-  font-weight: 500;
+    font-weight: 500;
 }
 
 /* Points column styling */
 .table td:last-child {
-  font-weight: 600;
-  color: #00e676;
+    font-weight: 600;
+    color: #00e676;
 }
 
 /* Plot styling */
 .plotly {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  margin-top: 10px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    margin-top: 10px;
 }
 
 /* Podium visualization specific styles */
 .podium-row {
-  margin-top: 20px;
-  margin-bottom: 30px;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 .podium-box {
-  position: relative;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  height: 250px;
-  /* Removed hover effect */
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    height: 250px;
+    /* Removed hover effect */
 }
 
 .box-gradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
-  z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+    z-index: 1;
 }
 
 .glass-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 50px; /* Adjust height if needed */
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 15px;
-  z-index: 2;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px; /* Adjust height if needed */
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    z-index: 2;
 }
 
 .driver-code {
-  font-size: 24px;
-  font-weight: bold;
-  font-family: 'Titillium Web', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .position-label {
-  font-size: 24px;
-  font-weight: bold;
-  font-family: 'Titillium Web', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .time-diff {
-  font-size: 20px;
-  font-weight: bold;
-  font-family: 'Titillium Web', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .driver-img {
-  position: absolute;
-  top: 0; /* Align the image to the top of the container */
-  left: 50%;
-  transform: translateX(-50%);
-  height: 240px; /* Increase the size of the image */
-  z-index: 1;
-  border-radius: 5px;
-  pointer-events: none; /* Ensure the image doesn't interfere with controls */
+    position: absolute;
+    top: 0; /* Align the image to the top of the container */
+    left: 50%;
+    transform: translateX(-50%);
+    height: 240px; /* Increase the size of the image */
+    z-index: 1;
+    border-radius: 5px;
+    pointer-events: none; /* Ensure the image doesn't interfere with controls */
 }
 
 .constructor-img {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  height: 100px;
-  z-index: 2;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 100px;
+    z-index: 2;
 }
 
 /* Control panel extension for year/track selectors */
 .control-panel {
-  background-color: #141414;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  padding: 22px;
-  margin-bottom: 25px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  /* Ensure the control panel has a higher z-index */
-  position: relative;
-  z-index: 10;
+    background-color: #141414;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    padding: 22px;
+    margin-bottom: 25px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    /* Ensure the control panel has a higher z-index */
+    position: relative;
+    z-index: 10;
 }
 
 /* Add error message style */
 .error-message {
-  color: #ff5555;
-  text-align: center;
-  padding: 20px;
-  background-color: #1a1a1a;
-  border-radius: 8px;
-  margin: 20px 0;
+    color: #ff5555;
+    text-align: center;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    margin: 20px 0;
 }
 
 /* Results table styling */
 .table-custom {
-  font-size: 16px !important;  /* Increase font size */
-  width: 100%;
+    font-size: 16px !important; /* Increase font size */
+    width: 100%;
 }
 
 .table-custom th {
-  text-align: center !important;
-  font-size: 18px !important;  /* Larger header text */
-  font-weight: bold;
-  padding: 12px 8px !important;  /* Add more padding */
-  vertical-align: middle !important;
+    text-align: center !important;
+    font-size: 18px !important; /* Larger header text */
+    font-weight: bold;
+    padding: 12px 8px !important; /* Add more padding */
+    vertical-align: middle !important;
 }
 
 .table-custom td {
-  text-align: center !important;
-  vertical-align: middle !important;
-  padding: 10px 8px !important;  /* Add more padding */
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 10px 8px !important; /* Add more padding */
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
+    body {
+        padding: 10px;
+    }
 
-  .container-fluid h2 {
-    font-size: 2rem;
-  }
+    .container-fluid h2 {
+        font-size: 2rem;
+    }
 
-  h3 {
-    font-size: 1.5rem;
-  }
+    h3 {
+        font-size: 1.5rem;
+    }
 
-  .well, .panel {
-    padding: 15px;
-  }
+    .well, .panel {
+        padding: 15px;
+    }
 
-  .table td, .table th {
-    padding: 10px;
-  }
+    .table td, .table th {
+        padding: 10px;
+    }
 }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+    width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #141414;
+    background: #141414;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
+    background: #333;
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+    background: #444;
 }
 
 /* Add F1 branding accent line at the top */
 body:before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #e10600 0%, #ff8700 100%);
-  z-index: 1000;
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #e10600 0%, #ff8700 100%);
+    z-index: 1000;
 }
 
 /* Button styling (if added later) */
 .btn {
-  background-color: #1e1e1e;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  transition: background-color 0.2s, transform 0.1s;
+    background-color: #1e1e1e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 .btn:hover {
-  background-color: #2a2a2a;
-  color: white;
-  transform: translateY(-2px);
+    background-color: #2a2a2a;
+    color: white;
+    transform: translateY(-2px);
 }
 
 .btn:active {
-  transform: translateY(0);
+    transform: translateY(0);
 }
 
 .btn-primary {
-  background-color: #e10600;
+    background-color: #e10600;
 }
 
 .btn-primary:hover {
-  background-color: #ff0a00;
+    background-color: #ff0a00;
+}
+
+/* ======================================== */
+/* Chatbot Specific Styles                  */
+/* ======================================== */
+
+.chatbot-container {
+  /* Inherits .panel styles: background, border-radius, box-shadow, padding */
+  /* Add specific overrides if needed */
+  display: flex; /* Use flexbox for vertical layout */
+  flex-direction: column; /* Stack elements vertically */
+  height: 600px; /* Or adjust as needed, maybe make it flexible? */
+  max-height: 70vh; /* Limit height */
+  background-color: #101010; /* Slightly different background */
+  border: 1px solid #2a2a2a;
+  padding: 15px; /* Override panel padding if needed */
+}
+
+.chat-log-area {
+  flex-grow: 1; /* Allow this area to take up available space */
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #0a0a0a; /* Match body background */
+  border-radius: 8px;
+  border: 1px solid #252525;
+  position: relative; /* For absolute positioning of welcome container */
+}
+
+/* Welcome Container Styles */
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  color: #f0f0f0;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.welcome-logo {
+  width: 120px;
+  margin-bottom: 15px;
+}
+
+.f1-logo {
+  width: 100%;
+  height: auto;
+}
+
+.welcome-message h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.welcome-message p {
+  margin-bottom: 15px;
+  line-height: 1.5;
+  color: #cccccc;
+  font-size: 0.95rem;
+}
+
+.welcome-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.suggestion-item {
+  background-color: #1e1e1e;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  max-width: 45%;
+  transition: all 0.2s ease;
+}
+
+.suggestion-item:hover {
+  background-color: #2a2a2a;
+  transform: translateY(-2px);
+}
+
+.suggestion-item i {
+  color: #e10600;
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+/* Individual message styling */
+.message {
+  margin-bottom: 12px;
+  padding: 10px 15px;
+  border-radius: 12px;
+  max-width: 85%; /* Prevent messages from taking full width */
+  word-wrap: break-word; /* Ensure long words break */
+  line-height: 1.5;
+  display: flex; /* For potential icon alignment */
+  align-items: flex-start; /* Align icon top */
+}
+
+.message-icon {
+    margin-right: 8px;
+    margin-top: 2px; /* Adjust vertical alignment */
+    color: #cccccc;
+}
+
+.message-content {
+    flex-grow: 1; /* Should already be there */
+    font-size: 0.95rem; /* Or your preferred size from the last fix */
+    color: inherit; /* <<< ADD THIS LINE */
+}
+
+
+.user-message {
+  background-color: #e10600; /* F1 Red for user */
+  color: #ffffff;
+  margin-left: auto; /* Align user messages to the right */
+  border-bottom-right-radius: 3px; /* Slightly pointy corner */
+  text-align: left; /* Keep text left-aligned within the box */
+}
+
+.bot-message {
+  background-color: #2a2a2a; /* Darker grey for bot */
+  color: #f0f0f0;
+  margin-right: auto; /* Align bot messages to the left */
+  border-bottom-left-radius: 3px; /* Slightly pointy corner */
+}
+
+.system-message pre {
+  /* Style the initial prompt message if needed */
+  font-size: 0.85rem;
+  color: #888888;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  white-space: pre-wrap; /* Allow wrapping */
+  font-family: 'Inter', sans-serif;
+}
+
+.error-message .message-content { /* Style error messages within the chat */
+   color: #ff6b6b; /* Use a distinct error color */
+   font-weight: 500;
+}
+.error-message .message-icon {
+    color: #ff6b6b;
+}
+
+
+/* Thinking Indicator */
+.thinking-indicator {
+    padding: 8px 15px;
+    color: #cccccc;
+    font-size: 0.9rem;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 10px;
+}
+/* Animated dots for thinking */
+.thinking-indicator .dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background-color: #cccccc;
+    border-radius: 50%;
+    margin: 0 2px;
+    animation: thinking-dots 1.4s infinite ease-in-out both;
+}
+.thinking-indicator .dot:nth-child(1) { animation-delay: -0.32s; }
+.thinking-indicator .dot:nth-child(2) { animation-delay: -0.16s; }
+/* No delay for the third dot */
+
+@keyframes thinking-dots {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+
+/* Example Questions Styling */
+.example-questions {
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  gap: 8px; /* Space between buttons */
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #2a2a2a; /* Separator */
+}
+
+.example-question-btn {
+  background-color: #2a2a2a;
+  color: #cccccc;
+  border: 1px solid #333;
+  border-radius: 15px; /* Rounded pill shape */
+  padding: 5px 12px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.example-question-btn:hover {
+  background-color: #333;
+  color: #ffffff;
+  border-color: #444;
+  transform: translateY(-1px);
+}
+
+/* Input Area Styling */
+.input-area {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 44px;
+}
+
+/* Style the text input within the input area */
+.input-area .form-control { /* Target Shiny's textInput */
+  flex-grow: 1; /* Allow input to take available space */
+  background-color: #1e1e1e !important;
+  color: white !important;
+  border: 1px solid #333 !important;
+  border-radius: 8px !important; /* Match dropdowns */
+  padding: 10px 15px !important; /* Adjust padding */
+  box-shadow: none !important; /* Remove default shadow if any */
+  margin-bottom: 0; /* Remove default margin from textInput */
+  transition: border-color 0.3s;
+}
+
+.input-area .form-control:focus {
+  border-color: #e10600 !important;
+  box-shadow: 0 0 0 2px rgba(225, 6, 0, 0.25) !important; /* Focus glow */
+}
+
+/* Style the Send button */
+.input-area .btn-send {
+  background-color: #e10600; /* F1 Red */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Match input field */
+  padding: 9px 15px; /* Adjust padding to align height */
+  font-size: 1.1rem; /* Slightly larger icon */
+  line-height: 1.2; /* Adjust line height for vertical centering */
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.input-area .btn-send:hover {
+  background-color: #ff3c3c; /* Lighter red on hover */
+  transform: translateY(-1px);
+}
+.input-area .btn-send:disabled {
+    background-color: #555 !important; /* Grey out when disabled */
+    cursor: not-allowed;
+}
+
+.input-area textarea {
+  resize: none;
+  overflow-y: hidden;
+  min-height: 44px;
+  max-height: 150px; /* Increased maximum height before scrolling */
+  width: 100%;
+  padding: 10px 50px 10px 15px;
+  border-radius: 22px;
+  border: 1px solid #444;
+  background-color: #222;
+  color: #fff;
+  line-height: 1.5;
+}
+
+.btn-send {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #e63946;
+  color: white;
+  border: none;
+  z-index: 5; /* Ensure button stays on top */
+}
+
+/* Refine Scrollbar for Chat Log Area */
+.chat-log-area::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-log-area::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 3px;
+}
+.chat-log-area::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+}
+.chat-log-area::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
