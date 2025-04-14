@@ -144,3 +144,24 @@ Tire Strategy Visualization: The tire strategy plot visualizes the tire stints f
 The user input directly influences the race data displayed, such as updating the results table with race outcomes and generating an updated tire strategy plot. This ensures that the dashboard is interactive and responsive to user selections.
 
 Here is the link to instructions to run locally (https://github.com/sethlors/data-drivers/blob/main/Info.md)
+
+## 2025-04-13: Add Models to Dashboard
+
+The current state of the F1 Race Analysis dashboard is the same as reported in the previous week with the addition of the win probability plot using our random forest win probability model.
+
+Model Overview: The win probability model used to create the plot is a random forest model. The training data is lap-by-lap data for each driver in each race. There are seven models trained for the seven years in the data set. Depending on which year is selected in the drop down menu, the predicted values correspond to the model in which that year was the testing data (to avoid over fitting/double dipping on training data) The model currently has 500 trees and a minimum node size of 200, but these numbers will likely change as we analyze which combinations perform the best.
+
+Response Variable: Winner, a numeric value of 0 if the driver lost the race and 1 if the driver won the race.
+
+Explanatory Variables:
+- Laps Remaining: Laps left in the race
+- Tire Compound: type of tire used by the driver in that lap; factor including hard,soft,medium,wet
+- Track Status: Factor indicating if the track is clear, at a yellow flag, red flag, or other status
+- Position: Place the driver currently is at in the race
+- Time Back: Time back, in milliseconds, the driver is from first
+- Circuit: The race track the race took place on
+- Season Standing: The place in the overall driver's standings the driver was before the race
+
+Future Plans: The win probability model is still a work in progress and we are working on cleaning the data and experimenting with other possible explanatory variables. We are also considering adding a similar random forest model that attempts to predict final position instead of simply winning or losing. The win probability model visualization plot also needs to be updated for usability. Overall, the group is in a good spot and the dashboard is nearly complete.
+
+Here is the link to instructions to run locally (https://github.com/sethlors/data-drivers/blob/main/Info.md)
