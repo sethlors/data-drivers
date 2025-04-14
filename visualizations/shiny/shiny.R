@@ -3,6 +3,7 @@ library(dplyr)
 library(ggplot2)
 library(plotly)
 library(here)
+library(tibble)
 
 # Load data files from the clean-data directory
 status <- read.csv(here("data", "clean-data", "status.csv"))
