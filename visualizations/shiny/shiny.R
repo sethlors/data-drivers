@@ -11,6 +11,7 @@ drivers <- read.csv(here("data", "clean-data", "drivers.csv"))
 results <- read.csv(here("data", "clean-data", "results.csv"))
 constructors <- read.csv(here("data", "clean-data", "constructors.csv"))
 stints <- read.csv(here("data", "clean-data", "stints.csv"))
+win_prob <- read.csv(here("data", "clean-data", "win_prob.csv"))
 
 # Points allocation for positions 1-10
 points_table <- c(25, 18, 15, 12, 10, 8, 6, 4, 2, 1)
@@ -210,6 +211,11 @@ ui <- fluidPage(
       div(class = "row",
           div(class = "col-12",
               plotlyOutput("tireStrategyPlot", height = "600px")
+          )
+      ),
+      div(class = "row",
+          div(class = "col-12",
+              plotlyOutput("winProbPlot")
           )
       )
   )
@@ -622,6 +628,64 @@ server <- function(input, output, session) {
       ) %>%
       config(displayModeBar = FALSE)
   })
+  
+  output$winProbPlot <- renderPlotly({
+    
+    req(selected_race_id())
+    
+    win_prob_filtered <- win_prob[win_prob$raceId == selected_race_id(),]
+    
+    # Create a named vector: names are drivers, values are colors
+    driver_colors <- win_prob_filtered %>%
+      select(driver, team_color) %>%
+      distinct() %>%
+      deframe()  # turns two-column data into a named vector
+    
+    # Find the last lap for each driver
+    last_lap <- win_prob_filtered %>%
+      group_by(driver) %>%
+      filter(lap == max(lap)) %>%
+      ungroup()
+    
+    # Get order of drivers based on final prediction
+    driver_order <- last_lap %>%
+      arrange(desc(win_prob)) %>%  # or asc() if lower = better
+      pull(driver)
+    
+    # Reorder the driver factor in your dataset
+    win_prob_filtered <- win_prob_filtered %>%
+      mutate(driver = factor(driver, levels = driver_order))
+    
+    # Create the win probability plot
+    p <- ggplot(win_prob_filtered, aes(
+      x = lap,
+      y = win_prob,
+      color = driver,
+      group = driver,
+      text = paste0("Driver: ", driver,
+                    "<br>Lap: ", lap,
+                    "<br>Win Prob: ", round(win_prob, 3))
+    )) +
+      geom_line(linewidth = 1) +
+      scale_color_manual(values = driver_colors) +
+      scale_x_continuous(limits = c(1, NA)) +
+      scale_y_continuous(limits = c(0, 1)) +
+      labs(
+        title = "Random Forest Win Probability by Driver",
+        x = "Lap",
+        y = "Win Probability",
+        color = "Driver"
+      ) +
+      theme_minimal()
+    
+    # Convert to a plotly interactive
+    ggplotly(p, tooltip = "text") %>%
+      config(displayModeBar = FALSE)
+    
+  })
+  
+  
+  
 }
 
 # Start the Shiny app
