@@ -6,13 +6,13 @@ library(here)
 library(tibble)
 
 # Load data files from the clean-data directory
-status <- read.csv(here("data", "clean-data", "status.csv"))
-races <- read.csv(here("data", "clean-data", "races.csv"))
-drivers <- read.csv(here("data", "clean-data", "drivers.csv"))
-results <- read.csv(here("data", "clean-data", "results.csv"))
-constructors <- read.csv(here("data", "clean-data", "constructors.csv"))
-stints <- read.csv(here("data", "clean-data", "stints.csv"))
-win_prob <- read.csv(here("data", "clean-data", "win_prob.csv"))
+status       <- read.csv("data/clean-data/status.csv")
+races        <- read.csv("data/clean-data/races.csv")
+drivers      <- read.csv("data/clean-data/drivers.csv")
+results      <- read.csv("data/clean-data/results.csv")
+constructors <- read.csv("data/clean-data/constructors.csv")
+stints       <- read.csv("data/clean-data/stints.csv")
+win_prob     <- read.csv("data/clean-data/win_prob.csv")
 
 # Points allocation for positions 1-10
 points_table <- c(25, 18, 15, 12, 10, 8, 6, 4, 2, 1)
@@ -23,12 +23,20 @@ get_image_path <- function(base_path, id, default_path="assets/default.jpg") {
     return(default_path)
   }
   full_path <- paste0(base_path, id, ".jpg")
+  
+  # Check if file exists without www prefix
+  direct_path <- file.path("assets", basename(dirname(full_path)), paste0(id, ".jpg"))
+  if (file.exists(direct_path)) {
+    return(direct_path)
+  }
+  
+  # Fall back to checking with www prefix
   www_path <- file.path("www", full_path)
   if (file.exists(www_path)) {
-    return(full_path)
+    return(full_path)  # Return original path as this will work with Shiny's URL structure
   } else {
     # Print debug info for missing files
-    message(paste("File not found:", www_path))
+    message(paste("File not found:", www_path, "or", direct_path))
     return(default_path)
   }
 }
@@ -37,7 +45,7 @@ get_image_path <- function(base_path, id, default_path="assets/default.jpg") {
 ui <- fluidPage(
   # Link to external CSS file in www directory
   tags$head(
-    tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
+    tags$link(rel = "stylesheet", type = "text/css", href = "assets/styles.css"),
     # Include all required styles
     tags$style(HTML("
     /* Podium visualization specific styles */
