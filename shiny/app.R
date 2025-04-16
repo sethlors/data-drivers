@@ -14,23 +14,31 @@ constructors <- read.csv("data/clean-data/constructors.csv")
 stints       <- read.csv("data/clean-data/stints.csv")
 win_prob     <- read.csv("data/clean-data/win_prob.csv")
 
+addResourcePath("assets", "assets")
+
 # Points allocation for positions 1-10
 points_table <- c(25, 18, 15, 12, 10, 8, 6, 4, 2, 1)
 
 # Helper function to check if image exists and provide fallback
-get_image_path <- function(base_path, id, default_path="default.jpg") {
+get_image_path <- function(base_path, id, default_path = "assets/default.jpg") {
   if (is.na(id) || id == "") {
     return(default_path)
   }
+  full_path <- file.path(base_path, paste0(id, ".jpg"))
 
-  return(paste0(base_path, id, ".jpg"))
+  if (file.exists(full_path)) {
+    return(full_path)
+  } else {
+    message(paste("File not found:", full_path))
+    return(default_path)
+  }
 }
 
 # UI Definition
 ui <- fluidPage(
   # Link to external CSS file in www directory
   tags$head(
-    tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
+    tags$link(rel = "stylesheet", type = "text/css", href = "assets/styles.css"),
     # Include all required styles
     tags$style(HTML("
     /* Podium visualization specific styles */
@@ -123,13 +131,13 @@ ui <- fluidPage(
       border-radius: 8px;
       margin: 20px 0;
     }
-    
+
     /* Results table styling - NEW STYLES ADDED HERE */
     .table-custom {
       font-size: 16px !important;  /* Increase font size */
       width: 100%;
     }
-    
+
     .table-custom th {
       text-align: center !important;
       font-size: 18px !important;  /* Larger header text */
@@ -137,13 +145,13 @@ ui <- fluidPage(
       padding: 12px 8px !important;  /* Add more padding */
       vertical-align: middle !important;
     }
-    
+
     .table-custom td {
       text-align: center !important;
       vertical-align: middle !important;
       padding: 10px 8px !important;  /* Add more padding */
     }
-    
+
     /* Make sure table uses the full width */
     .table-container {
       width: 100%;
@@ -151,7 +159,7 @@ ui <- fluidPage(
     }
   "))
   ),
-  
+
   # App title
   div(class = "container-fluid",
       div(class = "row",
@@ -159,7 +167,7 @@ ui <- fluidPage(
               h2("F1 Race Analysis")
           )
       ),
-      
+
       # Year and track selection inputs
       div(class = "row",
           div(class = "col-12",
@@ -175,13 +183,13 @@ ui <- fluidPage(
               )
           )
       ),
-      
+
       # Debug info (can be removed in production)
       verbatimTextOutput("debugInfo"),
-      
+
       # Podium visualization
       uiOutput("podiumVisualization"),
-      
+
       # Results table section
       div(class = "row",
           div(class = "col-12",
@@ -195,7 +203,7 @@ ui <- fluidPage(
               )
           )
       ),
-      
+
       # Tire strategy visualization section
       div(class = "row",
           div(class = "col-12",
@@ -224,7 +232,7 @@ server <- function(input, output, session) {
     available_tracks <- setNames(races_for_year$name, paste0(races_for_year$name, " - Round ", races_for_year$round))
     updateSelectInput(session, "track", choices = available_tracks)
   })
-  
+
   # Get race ID based on selected year and track
   selected_race_id <- reactive({
     req(input$year, input$track)
@@ -235,56 +243,56 @@ server <- function(input, output, session) {
       return(NULL)
     }
   })
-  
+
   # Prepare race results data
   race_data <- reactive({
     req(selected_race_id())
-    
+
     # Get results for the selected race and merge with driver information
     results_filtered <- results[results$raceId == selected_race_id(),]
-    
+
     # Check if we have results data
     if (nrow(results_filtered) == 0) {
       return(NULL)
     }
-    
+
     # Merge with driver information
     race_results <- merge(results_filtered, drivers, by = "driverId")
-    
+
     # Clean up missing values
     race_results$time <- ifelse(race_results$time == "\\N", NA, race_results$time)
     race_results$position <- ifelse(race_results$position == "\\N", NA, race_results$position)
-    
+
     # Add status information
     race_results <- merge(race_results, status, by = "statusId", all.x = TRUE)
-    
+
     # Add constructor information including color
     race_results <- merge(race_results, constructors, by = "constructorId", all.x = TRUE)
-    
+
     # Convert position to numeric - ensure proper conversion
     race_results$position <- suppressWarnings(as.numeric(as.character(race_results$position)))
-    
+
     # Use status message for DNF entries
     race_results$time <- ifelse(!is.na(race_results$time), race_results$time, race_results$status)
-    
+
     # Create driver full name
     race_results$Driver <- paste(race_results$forename, race_results$surname)
-    
+
     # Sort by finishing position
     race_results <- race_results[order(race_results$position, na.last = TRUE),]
-    
+
     # Calculate points earned
     race_results$Points <- ifelse(race_results$position >= 1 & race_results$position <= 10,
                                   points_table[race_results$position], 0)
     race_results$Points <- paste0("+", race_results$Points)
-    
+
     # Handle different column name variations from merges
     constructor_col <- ifelse("name.y" %in% colnames(race_results), "name.y",
                               ifelse("name.1" %in% colnames(race_results), "name.1", "name"))
-    
+
     # Use actual driver code from the data rather than generating from surname
     race_results$Driver_Code <- race_results$code
-    
+
     # Format positions with ordinals (1st, 2nd, etc.) or DNF
     race_results$formatted_position <- sapply(race_results$position, function(pos) {
       if (is.na(pos)) {
@@ -300,16 +308,16 @@ server <- function(input, output, session) {
         return(paste0(pos, suffix))
       }
     })
-    
+
     # Add image paths for constructors and drivers with path validation
     race_results$Constructor_Image <- sapply(race_results$constructorId, function(id) {
       get_image_path("assets/constructor-images/", id, "assets/default.jpg")
     })
-    
+
     race_results$Driver_Image <- sapply(race_results$driverId, function(id) {
       get_image_path("assets/driver-images/", id, "assets/default.jpg")
     })
-    
+
     # Create final dataset for display
     result_subset <- data.frame(
       Position = race_results$formatted_position,
@@ -325,10 +333,10 @@ server <- function(input, output, session) {
       constructorId = race_results$constructorId,
       constructorColor = race_results$color
     )
-    
+
     return(result_subset)
   })
-  
+
   # Function to adjust colors for better visibility if needed
   adjustColor <- function(hexColor) {
     # Function to adjust color brightness if needed
@@ -337,38 +345,38 @@ server <- function(input, output, session) {
     }
     return(hexColor)
   }
-  
+
   # Render podium visualization with improved error handling
   output$podiumVisualization <- renderUI({
     results <- race_data()
     if (is.null(results) || nrow(results) == 0) {
       return(div(class = "error-message", "No race data available"))
     }
-    
+
     # Get top 3 drivers
     podium <- results[results$position <= 3, ]
-    
+
     # Check if we have enough drivers for podium
     if (nrow(podium) < 3) {
       return(div(class = "error-message", "Not enough drivers finished in top 3 positions to display podium"))
     }
-    
+
     # Make sure positions are correctly ordered
     podium <- podium[order(podium$position),]
-    
+
     # Check if we have exactly positions 1, 2, and 3
     expected_positions <- c(1, 2, 3)
     actual_positions <- sort(podium$position[1:3])
-    
+
     if (!all(actual_positions == expected_positions)) {
-      return(div(class = "error-message", 
-                 paste("Expected positions 1, 2, 3, but found:", 
+      return(div(class = "error-message",
+                 paste("Expected positions 1, 2, 3, but found:",
                        paste(actual_positions, collapse=", "))))
     }
-    
+
     # Use natural order (1st, 2nd, 3rd) instead of traditional podium layout
     podium_order <- podium[c(1, 2, 3), ]
-    
+
     # Create position labels and time differences
     position_labels <- c("P1", "P2", "P3")
     time_diffs <- c(
@@ -376,11 +384,11 @@ server <- function(input, output, session) {
       paste0("+ ", ifelse(is.na(podium_order$Time[2]) || podium_order$position[2] == 1, "0.000", podium_order$Time[2])),
       paste0("+ ", ifelse(is.na(podium_order$Time[3]) || podium_order$position[3] == 1, "0.000", podium_order$Time[3]))
     )
-    
+
     # Create the podium boxes
     fluidRow(
       class = "podium-row",
-      
+
       # P1 - First Place (Left)
       column(4,
              div(class = "podium-box",
@@ -395,7 +403,7 @@ server <- function(input, output, session) {
                  )
              )
       ),
-      
+
       # P2 - Second Place (Middle)
       column(4,
              div(class = "podium-box",
@@ -410,7 +418,7 @@ server <- function(input, output, session) {
                  )
              )
       ),
-      
+
       # P3 - Third Place (Right)
       column(4,
              div(class = "podium-box",
@@ -427,57 +435,57 @@ server <- function(input, output, session) {
       )
     )
   })
-  
+
   # Render results table with formatted HTML content
   output$raceResults <- renderTable({
     results <- race_data()
     if (is.null(results) || nrow(results) == 0) return(NULL)
-    
+
     # Create a formatted version for display
     display_results <- results %>%
       select(Position, Driver, Code, Constructor, Time, Points) %>%
       mutate(
         Constructor = paste0(
-          '<div style="display: flex; align-items: center; justify-content: center;">',  
+          '<div style="display: flex; align-items: center; justify-content: center;">',
           '<img src="', results$Constructor_Image, '" height="30" style="margin-right: 10px;"> ',
           Constructor,
           '</div>'
         )
       )
-    
+
     # Return the results with HTML formatting
     display_results
-  }, 
+  },
   sanitize.text.function = function(x) x,
-  striped = TRUE, 
-  hover = TRUE, 
-  bordered = TRUE, 
-  align = 'c',  
+  striped = TRUE,
+  hover = TRUE,
+  bordered = TRUE,
+  align = 'c',
   width = "100%",  # Ensure table uses full width available
   class = "table-custom")  # Add a custom class for styling
-  
+
   # Prepare tire strategy data
   tire_stints <- reactive({
     req(selected_race_id())
-    
+
     # Get race results for driver order
     results_order <- race_data()
     if (is.null(results_order) || nrow(results_order) == 0) return(NULL)
-    
+
     # Get tire stints for the selected race
     race_stints <- stints[stints$raceId == selected_race_id(),]
     if (nrow(race_stints) == 0) return(NULL)
-    
+
     # Add driver information to stints
     driver_info <- merge(race_stints, drivers, by = "driverId", all.x = TRUE)
     driver_info$Driver <- paste(driver_info$forename, driver_info$surname)
-    
+
     # Use actual driver code
     driver_info$Driver_Code <- driver_info$code
-    
+
     # Remove rows with missing driver info
     driver_info <- driver_info[!is.na(driver_info$Driver),]
-    
+
     # Identify tire changes to determine stint boundaries
     driver_info <- driver_info %>%
       arrange(driverId, lap) %>%
@@ -488,7 +496,7 @@ server <- function(input, output, session) {
         stint_number = cumsum(new_stint)
       ) %>%
       ungroup()
-    
+
     # Summarize stint information (start lap, end lap, compound)
     stint_summary <- driver_info %>%
       filter(!is.na(tireCompound)) %>%
@@ -499,31 +507,31 @@ server <- function(input, output, session) {
         laps = end_lap - start_lap + 1,
         .groups = "drop"
       )
-    
+
     # Order drivers according to race finish position
     driver_levels <- rev(results_order$Driver)
     driver_codes <- rev(results_order$Code)
-    
+
     # Prepare data for visualization
     stint_summary$Driver_Name <- stint_summary$Driver  # Keep full name for hover
     stint_summary$Driver <- factor(stint_summary$Driver, levels = driver_levels)  # For ordering
     stint_summary$Driver_Code <- factor(stint_summary$Driver_Code,
                                         levels = driver_codes[match(driver_levels, results_order$Driver[order(results_order$position, decreasing = TRUE)])])
-    
+
     # Adjust visual properties for short stints
     stint_summary$visual_width <- pmax(stint_summary$laps, 2)  # Minimum visual width
     stint_summary$label_x_adj <- ifelse(stint_summary$laps == 1, 0.5, 0)  # Adjust label position
-    
+
     return(stint_summary)
   })
-  
+
   # Render tire strategy plot
   output$tireStrategyPlot <- renderPlotly({
     stints <- tire_stints()
     if (is.null(stints) || nrow(stints) == 0) {
       return(NULL)
     }
-    
+
     # Define F1 tire compound colors
     tire_colors <- c(
       "HARD" = "#FFFFFF",      # White
@@ -535,21 +543,21 @@ server <- function(input, output, session) {
       "INTERMEDIATE" = "#45932F", # Green
       "WET" = "#2F6ECE"        # Blue
     )
-    
+
     max_lap <- max(stints$end_lap, na.rm = TRUE)
-    
+
     # Create hover text for interactive display
     stints$hover_text <- paste0(
       stints$Driver_Name, "<br>",  # Use full name in the hover
       stints$tireCompound, ": ", stints$laps, " Laps<br>",
       "Laps ", stints$start_lap, "-", stints$end_lap
     )
-    
+
     # Adjust visual width for short stints
     stints$visual_end_lap <- ifelse(stints$laps == 1,
                                     stints$start_lap + 1.5,  # Make 1-lap stints wider
                                     stints$end_lap + 1)      # Normal end lap + 1
-    
+
     # Create strategy visualization with ggplot
     p <- ggplot(stints, aes(xmin = start_lap, xmax = visual_end_lap, y = Driver_Code, fill = tireCompound)) +
       # Draw rectangles for tire stints
@@ -602,7 +610,7 @@ server <- function(input, output, session) {
         breaks = seq(1, max_lap + 5, by = 5),  # Starting from 1 instead of 0
         limits = c(1, max_lap + 2)             # Starting from 1 instead of 0
       )
-    
+
     # Convert to interactive plotly visualization
     ggplotly(p, tooltip = "text") %>%
       layout(
@@ -622,34 +630,34 @@ server <- function(input, output, session) {
       ) %>%
       config(displayModeBar = FALSE)
   })
-  
+
   output$winProbPlot <- renderPlotly({
-    
+
     req(selected_race_id())
-    
+
     win_prob_filtered <- win_prob[win_prob$raceId == selected_race_id(),]
-    
+
     # Create a named vector: names are drivers, values are colors
     driver_colors <- win_prob_filtered %>%
       select(driver, team_color) %>%
       distinct() %>%
       deframe()  # turns two-column data into a named vector
-    
+
     # Find the last lap for each driver
     last_lap <- win_prob_filtered %>%
       group_by(driver) %>%
       filter(lap == max(lap)) %>%
       ungroup()
-    
+
     # Get order of drivers based on final prediction
     driver_order <- last_lap %>%
       arrange(desc(win_prob)) %>%  # or asc() if lower = better
       pull(driver)
-    
+
     # Reorder the driver factor in your dataset
     win_prob_filtered <- win_prob_filtered %>%
       mutate(driver = factor(driver, levels = driver_order))
-    
+
     # Create the win probability plot
     p <- ggplot(win_prob_filtered, aes(
       x = lap,
@@ -671,15 +679,15 @@ server <- function(input, output, session) {
         color = "Driver"
       ) +
       theme_minimal()
-    
+
     # Convert to a plotly interactive
     ggplotly(p, tooltip = "text") %>%
       config(displayModeBar = FALSE)
-    
+
   })
-  
-  
-  
+
+
+
 }
 
 # Start the Shiny app
