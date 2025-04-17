@@ -6,13 +6,13 @@ library(here)
 library(tibble)
 
 # Load data files from the clean-data directory
-status       <- read.csv("data/clean-data/status.csv")
-races        <- read.csv("data/clean-data/races.csv")
-drivers      <- read.csv("data/clean-data/drivers.csv")
-results      <- read.csv("data/clean-data/results.csv")
+status <- read.csv("data/clean-data/status.csv")
+races <- read.csv("data/clean-data/races.csv")
+drivers <- read.csv("data/clean-data/drivers.csv")
+results <- read.csv("data/clean-data/results.csv")
 constructors <- read.csv("data/clean-data/constructors.csv")
-stints       <- read.csv("data/clean-data/stints.csv")
-win_prob     <- read.csv("data/clean-data/win_prob.csv")
+stints <- read.csv("data/clean-data/stints.csv")
+win_prob <- read.csv("data/clean-data/win_prob.csv")
 
 addResourcePath("assets", "assets")
 
@@ -39,125 +39,13 @@ ui <- fluidPage(
   # Link to external CSS file in www directory
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "assets/styles.css"),
-    # Include all required styles
-    tags$style(HTML("
-    /* Podium visualization specific styles */
-    .podium-row {
-      margin-top: 20px;
-      margin-bottom: 30px;
-    }
-    .podium-box {
-      position: relative;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-      height: 250px;
-      /* Removed hover effect */
-    }
-    .box-gradient {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
-      z-index: 1;
-    }
-    .glass-footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(5px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 15px;
-      z-index: 2;
-    }
-    .driver-code {
-      font-size: 24px;
-      font-weight: bold;
-      font-family: 'Titillium Web', sans-serif;
-    }
-    .position-label {
-      font-size: 24px;
-      font-weight: bold;
-      font-family: 'Titillium Web', sans-serif;
-    }
-    .time-diff {
-      font-size: 20px;
-      font-weight: bold;
-      font-family: 'Titillium Web', sans-serif;
-    }
-    .driver-img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -60%);
-      height: 150px;
-      z-index: 1;
-      border-radius: 5px;
-      /* Make sure driver images don't cover controls */
-      pointer-events: none;
-    }
-    .constructor-img {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      height: 60px;
-      z-index: 2;
-    }
-    /* Control panel extension for year/track selectors */
-    .control-panel {
-      background-color: #141414;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-      padding: 22px;
-      margin-bottom: 25px;
-      transition: transform 0.2s, box-shadow 0.2s;
-      /* Ensure the control panel has a higher z-index */
-      position: relative;
-      z-index: 10;
-    }
-    /* Add error message style */
-    .error-message {
-      color: #ff5555;
-      text-align: center;
-      padding: 20px;
-      background-color: #1a1a1a;
-      border-radius: 8px;
-      margin: 20px 0;
-    }
+    tags$style(HTML("body { font-family: Formula1Font, sans-serif; }"))
+  ),
 
-    /* Results table styling - NEW STYLES ADDED HERE */
-    .table-custom {
-      font-size: 16px !important;  /* Increase font size */
-      width: 100%;
-    }
-
-    .table-custom th {
-      text-align: center !important;
-      font-size: 18px !important;  /* Larger header text */
-      font-weight: bold;
-      padding: 12px 8px !important;  /* Add more padding */
-      vertical-align: middle !important;
-    }
-
-    .table-custom td {
-      text-align: center !important;
-      vertical-align: middle !important;
-      padding: 10px 8px !important;  /* Add more padding */
-    }
-
-    /* Make sure table uses the full width */
-    .table-container {
-      width: 100%;
-      overflow-x: auto;  /* Allow horizontal scrolling on small screens */
-    }
-  "))
+  tags$div(
+    id = "infoButton",
+    style = "position: fixed; bottom: 20px; right: 20px; z-index: 1000;",
+    actionButton("infoBtn", "?", class = "info-btn")
   ),
 
   # App title
@@ -190,34 +78,25 @@ ui <- fluidPage(
       # Podium visualization
       uiOutput("podiumVisualization"),
 
-      # Results table section
       div(class = "row",
           div(class = "col-12",
-              h3("Race Results")
-          )
-      ),
-      div(class = "row",
-          div(class = "col-12",
-              div(class = "table-container",
+              div(class = "plot-container",
                   tableOutput("raceResults")
               )
           )
       ),
-
-      # Tire strategy visualization section
       div(class = "row",
           div(class = "col-12",
-              h3("Tire Strategy")
+              div(class = "plot-container",
+                  plotlyOutput("tireStrategyPlot", height = "600px")
+              )
           )
       ),
       div(class = "row",
           div(class = "col-12",
-              plotlyOutput("tireStrategyPlot", height = "600px")
-          )
-      ),
-      div(class = "row",
-          div(class = "col-12",
-              plotlyOutput("winProbPlot")
+              div(class = "plot-container",
+                  plotlyOutput("winProbPlot")
+              )
           )
       )
   )
@@ -229,7 +108,7 @@ server <- function(input, output, session) {
   observeEvent(input$year, {
     updateSelectInput(session, "track", choices = NULL, selected = NULL)
     races_for_year <- races[races$year == input$year,]
-    available_tracks <- setNames(races_for_year$name, paste0(races_for_year$name, " - Round ", races_for_year$round))
+    available_tracks <- setNames(races_for_year$name, paste0(races_for_year$name, " - R", races_for_year$round))
     updateSelectInput(session, "track", choices = available_tracks)
   })
 
@@ -242,6 +121,56 @@ server <- function(input, output, session) {
     } else {
       return(NULL)
     }
+  })
+
+  # Info button
+  observeEvent(input$infoBtn, {
+    showModal(
+      modalDialog(
+        title = span("F1 Race Analysis Dashboard", style = "color: white;"),
+        size = "l",
+        easyClose = TRUE,
+        footer = NULL,
+
+        # Adding explicit HTML content with app information
+        HTML('
+        <div style="max-height: 500px; overflow-y: auto; color: white;">
+          <h4>About This Dashboard</h4>
+          <p>Welcome to our F1 Race Analysis Dashboard. This application visualizes Formula 1 race data to provide insights on race results, driver performance, and race strategies.</p>
+
+          <h4>Dashboard Features</h4>
+          <ul>
+            <li><b>Race Selection:</b> Choose a season and Grand Prix from the dropdown menus at the top.</li>
+            <li><b>Podium Visualization:</b> The top three finishers with their team colors, finishing positions, and time differences.</li>
+            <li><b>Race Results Table:</b> Finishing order with drivers, teams, and timing information.</li>
+            <li><b>Tire Strategy Plot:</b> Visual representation of each driver\'s tire compound choices throughout the race, showing stint lengths and tire changes.</li>
+            <li><b>Win Probability Chart:</b> How each driver\'s chances of winning evolved throughout the race based on position, pace, and other factors.</li>
+          </ul>
+
+          <h4>Understanding the Data</h4>
+          <p>The dashboard combines official race results with tire strategy data to provide a comprehensive view of race dynamics.</p>
+
+          <h4>Common F1 Terms</h4>
+          <ul>
+            <li><b>Pit Stop:</b> A stop during the race for tire changes, repairs, or adjustments.</li>
+            <li><b>Stint:</b> A period of the race between pit stops, typically on the same set of tires.</li>
+            <li><b>Undercut/Overcut:</b> Strategic pit stop timing to gain track position over competitors.</li>
+            <li><b>Pole Position:</b> The first starting position, awarded to the fastest qualifier.</li>
+            <li><b>DRS:</b> Drag Reduction System, a mechanism to reduce drag and increase speed.</li>
+          </ul>
+
+          <h4>Tire Compounds</h4>
+          <ul>
+            <li><b>Soft (Red):</b> Fastest but shortest lifespan.</li>
+            <li><b>Medium (Yellow):</b> Balance of speed and durability.</li>
+            <li><b>Hard (White):</b> Slowest but most durable.</li>
+            <li><b>Intermediate (Green):</b> For damp conditions.</li>
+            <li><b>Wet (Blue):</b> For heavy rain conditions.</li>
+          </ul>
+        </div>
+      ')
+      )
+    )
   })
 
   # Prepare race results data
@@ -354,7 +283,7 @@ server <- function(input, output, session) {
     }
 
     # Get top 3 drivers
-    podium <- results[results$position <= 3, ]
+    podium <- results[results$position <= 3,]
 
     # Check if we have enough drivers for podium
     if (nrow(podium) < 3) {
@@ -371,11 +300,11 @@ server <- function(input, output, session) {
     if (!all(actual_positions == expected_positions)) {
       return(div(class = "error-message",
                  paste("Expected positions 1, 2, 3, but found:",
-                       paste(actual_positions, collapse=", "))))
+                       paste(actual_positions, collapse = ", "))))
     }
 
     # Use natural order (1st, 2nd, 3rd) instead of traditional podium layout
-    podium_order <- podium[c(1, 2, 3), ]
+    podium_order <- podium[c(1, 2, 3),]
 
     # Create position labels and time differences
     position_labels <- c("P1", "P2", "P3")
@@ -437,32 +366,44 @@ server <- function(input, output, session) {
   })
 
   # Render results table with formatted HTML content
-  output$raceResults <- renderTable({
+  output$raceResults <- renderUI({
     results <- race_data()
-    if (is.null(results) || nrow(results) == 0) return(NULL)
+    if (is.null(results) || nrow(results) == 0) {
+      return(div(class = "error-message", "No race data available"))
+    }
 
-    # Create a formatted version for display
-    display_results <- results %>%
-      select(Position, Driver, Code, Constructor, Time, Points) %>%
-      mutate(
-        Constructor = paste0(
-          '<div style="display: flex; align-items: center; justify-content: center;">',
-          '<img src="', results$Constructor_Image, '" height="30" style="margin-right: 10px;"> ',
-          Constructor,
-          '</div>'
-        )
+    # Generate HTML table rows
+    rows <- apply(results, 1, function(row) {
+      constructor_img <- tags$img(src = row[["Constructor_Image"]], height = "30", style = "margin-right:10px;")
+
+      tags$tr(
+        tags$td(row[["Position"]]),
+        tags$td(row[["Driver"]]),
+        tags$td(row[["Code"]]),
+        tags$td(div(constructor_img, row[["Constructor"]])),
+        tags$td(row[["Time"]]),
+        tags$td(row[["Points"]])
       )
+    })
 
-    # Return the results with HTML formatting
-    display_results
-  },
-  sanitize.text.function = function(x) x,
-  striped = TRUE,
-  hover = TRUE,
-  bordered = TRUE,
-  align = 'c',
-  width = "100%",  # Ensure table uses full width available
-  class = "table-custom")  # Add a custom class for styling
+    # Build the table
+    table_tag <- tags$table(
+      class = "table race-results-table",
+      tags$thead(
+        tags$tr(
+          tags$th("Pos"), tags$th("Driver"), tags$th("Code"),
+          tags$th("Constructor"), tags$th("Time"), tags$th("Points")
+        )
+      ),
+      tags$tbody(rows)
+    )
+
+    # Wrap the table in a styled container
+    div(
+      class = "race-results-container",
+      table_tag
+    )
+  })
 
   # Prepare tire strategy data
   tire_stints <- reactive({
@@ -479,14 +420,10 @@ server <- function(input, output, session) {
     # Add driver information to stints
     driver_info <- merge(race_stints, drivers, by = "driverId", all.x = TRUE)
     driver_info$Driver <- paste(driver_info$forename, driver_info$surname)
-
-    # Use actual driver code
     driver_info$Driver_Code <- driver_info$code
-
-    # Remove rows with missing driver info
     driver_info <- driver_info[!is.na(driver_info$Driver),]
 
-    # Identify tire changes to determine stint boundaries
+    # Identify tire changes
     driver_info <- driver_info %>%
       arrange(driverId, lap) %>%
       group_by(driverId) %>%
@@ -497,7 +434,7 @@ server <- function(input, output, session) {
       ) %>%
       ungroup()
 
-    # Summarize stint information (start lap, end lap, compound)
+    # Summarize stint data
     stint_summary <- driver_info %>%
       filter(!is.na(tireCompound)) %>%
       group_by(driverId, Driver, Driver_Code, stint_number, tireCompound, compoundColor) %>%
@@ -508,140 +445,188 @@ server <- function(input, output, session) {
         .groups = "drop"
       )
 
-    # Order drivers according to race finish position
+    # Order for plotting
     driver_levels <- rev(results_order$Driver)
     driver_codes <- rev(results_order$Code)
 
-    # Prepare data for visualization
-    stint_summary$Driver_Name <- stint_summary$Driver  # Keep full name for hover
-    stint_summary$Driver <- factor(stint_summary$Driver, levels = driver_levels)  # For ordering
-    stint_summary$Driver_Code <- factor(stint_summary$Driver_Code,
-                                        levels = driver_codes[match(driver_levels, results_order$Driver[order(results_order$position, decreasing = TRUE)])])
+    stint_summary$Driver_Name <- stint_summary$Driver
+    stint_summary$Driver <- factor(stint_summary$Driver, levels = driver_levels)
+    stint_summary$Driver_Code <- factor(
+      stint_summary$Driver_Code,
+      levels = driver_codes[match(driver_levels, results_order$Driver[order(results_order$position, decreasing = TRUE)])]
+    )
 
-    # Adjust visual properties for short stints
-    stint_summary$visual_width <- pmax(stint_summary$laps, 2)  # Minimum visual width
-    stint_summary$label_x_adj <- ifelse(stint_summary$laps == 1, 0.5, 0)  # Adjust label position
+    stint_summary$visual_width <- pmax(stint_summary$laps, 2)
+    stint_summary$label_x_adj <- ifelse(stint_summary$laps == 1, 0.5, 0)
 
     return(stint_summary)
   })
 
-  # Render tire strategy plot
   output$tireStrategyPlot <- renderPlotly({
-    stints <- tire_stints()
-    if (is.null(stints) || nrow(stints) == 0) {
-      return(NULL)
+    stints_data <- tire_stints() # This has 'Driver_Code'
+    results_order <- race_data() # This has 'Code'
+
+    # Check if data is available
+    if (is.null(stints_data) ||
+      nrow(stints_data) == 0 ||
+      is.null(results_order) ||
+      nrow(results_order) == 0) {
+      return(plotly_empty(type = "scatter", mode = "markers") %>%
+               layout(title = "Tire Strategy Data Not Available",
+                      paper_bgcolor = "#181F28",
+                      plot_bgcolor = "#181F28",
+                      font = list(family = "Formula1Font", color = "white")) %>%
+               config(displayModeBar = FALSE))
     }
 
-    # Define F1 tire compound colors
+    driver_positions <- results_order %>%
+      select(Driver_Code = Code, position) %>%
+      filter(!is.na(position)) %>%
+      arrange(position)
+
+    stints_plot_data <- stints_data %>%
+      inner_join(driver_positions, by = "Driver_Code") %>%
+      arrange(position, start_lap) %>%
+      mutate(Driver_Code = factor(Driver_Code, levels = rev(unique(driver_positions$Driver_Code))))
+
+    if (nrow(stints_plot_data) == 0) {
+      return(plotly_empty(type = "scatter", mode = "markers") %>%
+               layout(title = "No Matching Stint Data for Classified Drivers",
+                      paper_bgcolor = "#181F28",
+                      plot_bgcolor = "#181F28",
+                      font = list(family = "Formula1Font", color = "white")) %>%
+               config(displayModeBar = FALSE))
+    }
+
     tire_colors <- c(
-      "HARD" = "#FFFFFF",      # White
-      "MEDIUM" = "#FED218",    # Yellow
-      "SOFT" = "#DD0741",      # Red
-      "SUPERSOFT" = "#DA0640", # Red
-      "ULTRASOFT" = "#A9479E", # Purple
-      "HYPERSOFT" = "#FEB4C3", # Pink
-      "INTERMEDIATE" = "#45932F", # Green
-      "WET" = "#2F6ECE"        # Blue
+      "HARD" = "#F0F0F0", "MEDIUM" = "#FFDA00", "SOFT" = "#E80600",
+      "INTERMEDIATE" = "#4DDB30", "WET" = "#00AFFF",
+      "SUPERSOFT" = "#DA0640", "ULTRASOFT" = "#A9479E", "HYPERSOFT" = "#FEB4C3"
     )
 
-    max_lap <- max(stints$end_lap, na.rm = TRUE)
+    max_lap <- max(stints_plot_data$end_lap, na.rm = TRUE)
 
-    # Create hover text for interactive display
-    stints$hover_text <- paste0(
-      stints$Driver_Name, "<br>",  # Use full name in the hover
-      stints$tireCompound, ": ", stints$laps, " Laps<br>",
-      "Laps ", stints$start_lap, "-", stints$end_lap
+    # --- Prepare hover text & coordinates (Same as before) ---
+    stints_plot_data$hover_text <- paste0(
+      stints_plot_data$Driver_Name, "<br>",
+      stints_plot_data$tireCompound, ": ", stints_plot_data$laps, " Laps<br>",
+      "Laps ", stints_plot_data$start_lap, "-", stints_plot_data$end_lap
     )
+    stints_plot_data$x_start <- stints_plot_data$start_lap - 0.5
+    stints_plot_data$x_end <- stints_plot_data$end_lap + 0.5
+    stints_plot_data$text_x <- stints_plot_data$start_lap + (stints_plot_data$laps / 2) - 0.5
 
-    # Adjust visual width for short stints
-    stints$visual_end_lap <- ifelse(stints$laps == 1,
-                                    stints$start_lap + 1.5,  # Make 1-lap stints wider
-                                    stints$end_lap + 1)      # Normal end lap + 1
-
-    # Create strategy visualization with ggplot
-    p <- ggplot(stints, aes(xmin = start_lap, xmax = visual_end_lap, y = Driver_Code, fill = tireCompound)) +
-      # Draw rectangles for tire stints
-      geom_rect(aes(ymin = as.numeric(Driver_Code) - 0.4,
-                    ymax = as.numeric(Driver_Code) + 0.4,
-                    text = hover_text),
-                color = "#222222", size = 0.1) +
-      # Add lap count labels
-      geom_text(aes(
-        x = ifelse(laps <= 2,
-                   start_lap + 0.75,  # Center text for short stints
-                   start_lap + (end_lap - start_lap) / 2),  # Center text for normal stints
-        y = Driver_Code,
-        label = laps
-      ),
-      color = "black", size = 3.5, fontface = "bold") +
-      # Apply tire colors
-      scale_fill_manual(values = tire_colors, name = "Tire Compound") +
-      # Add labels
-      labs(
-        title = paste("Tire Strategy:", input$track, input$year),
-        subtitle = "Showing number of laps per compound",
-        x = "Lap",
-        y = ""
+    # --- Create ggplot ---
+    p <- ggplot(stints_plot_data, aes(y = Driver_Code)) +
+      geom_rect( # Rect remains the same (no gaps)
+        aes(xmin = x_start, xmax = x_end, fill = tireCompound,
+            ymin = as.numeric(Driver_Code) - 0.4,
+            ymax = as.numeric(Driver_Code) + 0.4,
+            text = hover_text),
+        color = NA,
+        size = 0
       ) +
-      # Apply dark theme
-      theme_minimal() +
+      geom_text( # Text remains the same
+        aes(x = text_x, label = laps),
+        color = "black", size = 3, fontface = "bold", family = "Formula1Font"
+      ) +
+      # --- MODIFICATION: Re-enable Legend in Scale ---
+      scale_fill_manual(
+        values = tire_colors,
+        name = "Tire Compound", # Set legend title (optional)
+        na.value = "grey50"
+        # guide = "none"  <-- REMOVED this line
+      ) +
+      # --- End Modification ---
+      scale_x_continuous( # X Axis remains the same
+        breaks = seq(0, max_lap + (15 - max_lap %% 15), by = 15),
+        limits = c(0, max_lap + 1),
+        expand = c(0.005, 0.005)
+      ) +
+      labs( # Labels remain the same
+        title = "TIRE STRATEGY",
+        x = "LAP",
+        y = NULL
+      ) +
+      theme_minimal(base_family = "Formula1Font") +
+      # --- MODIFICATION: Adjust Theme for Legend ---
       theme(
-        text = element_text(family = "Titillium Web"),
-        plot.background = element_rect(fill = "#0a0a0a", color = "#0a0a0a"),
-        panel.background = element_rect(fill = "#0a0a0a", color = "#0a0a0a"),
-        panel.grid.major.x = element_line(color = "#333333", size = 0.2),
-        panel.grid.major.y = element_line(color = "#333333", size = 0.2),
+        plot.title = element_text(hjust = 0, face = "bold", colour = "white", size = 14, margin = margin(b = 15, t = 10)),
+        plot.background = element_rect(fill = "#181F28", color = "#181F28"),
+        panel.background = element_rect(fill = "#181F28", color = "#181F28"),
+        panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-        plot.title = element_text(hjust = 0.5, size = 18, face = "bold", color = "white", margin = margin(b = 10)),
-        plot.subtitle = element_text(hjust = 0.5, size = 12, color = "#cccccc", margin = margin(b = 20)),
-        axis.text = element_text(color = "white", size = 10),
-        axis.title = element_text(color = "white", size = 12),
-        axis.text.y = element_text(size = 11, face = "bold", margin = margin(r = 5)),
-        legend.background = element_rect(fill = "#0a0a0a"),
-        legend.text = element_text(color = "white"),
-        legend.title = element_text(color = "white", face = "bold"),
-        legend.position = "bottom",
-        legend.key = element_rect(color = NA),
-        legend.key.size = unit(1, "cm"),
-        plot.margin = margin(20, 20, 20, 20)
-      ) +
-      # Set x-axis breaks and limits - CHANGED HERE to start at lap 1
-      scale_x_continuous(
-        breaks = seq(1, max_lap + 5, by = 5),  # Starting from 1 instead of 0
-        limits = c(1, max_lap + 2)             # Starting from 1 instead of 0
+        axis.text.y = element_text(colour = "white", size = 9, face = "bold"),
+        axis.text.x = element_text(colour = "white", size = 9),
+        axis.title.x = element_text(colour = "white", size = 10, face = "bold", margin = margin(t = 10)),
+        axis.ticks = element_line(colour = "grey50"),
+        axis.ticks.length = unit(0.2, "cm"),
+        axis.line.x = element_line(colour = "grey50"),
+        axis.line.y = element_blank(),
+        legend.position = "bottom",  # Position legend at the bottom
+        legend.background = element_rect(fill = "#181F28", color = NA), # Match plot bg
+        legend.key = element_rect(fill = "#181F28", color = NA),        # Match plot bg for key area
+        legend.title = element_text(colour = "white", size = 10, face = "bold"), # Style legend title
+        legend.text = element_text(colour = "white", size = 9)             # Style legend text
       )
+    # --- End Modification ---
 
-    # Convert to interactive plotly visualization
-    ggplotly(p, tooltip = "text") %>%
+    # --- Convert to Plotly & ADD Legend Layout ---
+    plotly_plot <- ggplotly(p, tooltip = "text") %>%
       layout(
-        paper_bgcolor = "#0a0a0a",
-        plot_bgcolor = "#0a0a0a",
-        font = list(color = "white", family = "Titillium Web"),
-        hoverlabel = list(
-          bgcolor = "black",
-          bordercolor = "white",
-          font = list(family = "Titillium Web", size = 12, color = "white")
+        paper_bgcolor = "#181F28",
+        plot_bgcolor = "#181F28",
+        font = list(family = "Formula1Font", color = "white"),
+        xaxis = list( # X axis layout remains the same
+          fixedrange = TRUE, zeroline = FALSE, showgrid = FALSE,
+          tickfont = list(color = "white", size = 9),
+          titlefont = list(color = "white", size = 10, face = "bold")
         ),
+        yaxis = list( # Y axis layout remains the same
+          fixedrange = TRUE, zeroline = FALSE, showgrid = FALSE,
+          tickfont = list(color = "white", size = 9, face = "bold")
+        ),
+        # --- ADDITION: Plotly Legend Styling ---
         legend = list(
-          orientation = "h",
-          y = -0.15,
-          bgcolor = "rgba(20,20,20,0.7)"
-        )
+          orientation = "h",      # Horizontal items
+          xanchor = 'center',     # Anchor point on legend is center
+          x = 0.5,                # Position legend center at 50% of plot width
+          yanchor = 'top',        # Anchor point on legend is top
+          y = -0.15,              # Position legend top slightly below x-axis title (adjust if needed)
+          bgcolor = '#181F28',    # Legend background color
+          bordercolor = '#181F28', # Legend border color
+          font = list(color = "white", size = 9) # Styling for legend item text
+          # Plotly takes title from ggplot scale name by default
+          # title = list(text = "Tyre Compound", font = list(color = "white", size = 10, face = "bold")) # Optional: Override title style here if needed
+        ),
+        # --- End Addition ---
+        margin = list(l = 50, r = 20, t = 50, b = 70) # Adjusted bottom margin slightly for legend space
       ) %>%
       config(displayModeBar = FALSE)
+
+    plotly_plot
   })
 
   output$winProbPlot <- renderPlotly({
-
     req(selected_race_id())
 
     win_prob_filtered <- win_prob[win_prob$raceId == selected_race_id(),]
+
+    # Check if data is available
+    if (is.null(win_prob_filtered) || nrow(win_prob_filtered) == 0) {
+      return(plotly_empty(type = "scatter", mode = "markers") %>%
+               layout(title = "Win Probability Data Not Available",
+                      paper_bgcolor = "#181F28",
+                      plot_bgcolor = "#181F28",
+                      font = list(family = "Formula1Font", color = "white")) %>%
+               config(displayModeBar = FALSE))
+    }
 
     # Create a named vector: names are drivers, values are colors
     driver_colors <- win_prob_filtered %>%
       select(driver, team_color) %>%
       distinct() %>%
-      deframe()  # turns two-column data into a named vector
+      deframe()
 
     # Find the last lap for each driver
     last_lap <- win_prob_filtered %>%
@@ -649,14 +634,18 @@ server <- function(input, output, session) {
       filter(lap == max(lap)) %>%
       ungroup()
 
-    # Get order of drivers based on final prediction
+    # Get order of drivers based on final prediction for legend order (optional but nice)
     driver_order <- last_lap %>%
-      arrange(desc(win_prob)) %>%  # or asc() if lower = better
+      arrange(desc(win_prob)) %>%
       pull(driver)
 
     # Reorder the driver factor in your dataset
     win_prob_filtered <- win_prob_filtered %>%
       mutate(driver = factor(driver, levels = driver_order))
+
+    # Dynamically calculate the number of breaks based on window size
+    plot_width <- session$clientData$output_winProbPlot_width
+    num_breaks <- ifelse(is.null(plot_width), 10, max(5, floor(plot_width / 100)))
 
     # Create the win probability plot
     p <- ggplot(win_prob_filtered, aes(
@@ -664,29 +653,93 @@ server <- function(input, output, session) {
       y = win_prob,
       color = driver,
       group = driver,
-      text = paste0("Driver: ", driver,
+      text = paste0("Driver: ", driver, # Tooltip text definition
                     "<br>Lap: ", lap,
-                    "<br>Win Prob: ", round(win_prob, 3))
+                    "<br>Win Prob: ", scales::percent(win_prob, accuracy = 0.1))
     )) +
       geom_line(linewidth = 1) +
-      scale_color_manual(values = driver_colors) +
-      scale_x_continuous(limits = c(1, NA)) +
-      scale_y_continuous(limits = c(0, 1)) +
-      labs(
-        title = "Random Forest Win Probability by Driver",
-        x = "Lap",
-        y = "Win Probability",
-        color = "Driver"
+      # --- MODIFICATION: Removed guide = "none" to allow legend ---
+      scale_color_manual(
+        values = driver_colors,
+        name = "Driver" # Set legend title for ggplot (Plotly might override)
       ) +
-      theme_minimal()
+      # --- End Modification ---
+      scale_x_continuous(
+        breaks = scales::pretty_breaks(n = num_breaks),
+        expand = c(0.01, 0.01)
+      ) +
+      scale_y_continuous(
+        limits = c(0, 1),
+        labels = scales::percent_format(accuracy = 1),
+        expand = c(0.01, 0.01)
+      ) +
+      labs(
+        title = "WIN PROBABILITY",
+        x = "LAP",
+        y = "WIN PROBABILITY",
+        color = "Driver" # Legend title (used by ggplot, can be overridden by Plotly)
+      ) +
+      theme_minimal(base_family = "Formula1Font") +
+      theme(
+        plot.title = element_text(hjust = 0, face = "bold", colour = "white", size = 14, margin = margin(b = 15, t = 10)),
+        plot.background = element_rect(fill = "#181F28", color = "#181F28"),
+        panel.background = element_rect(fill = "#181F28", color = "#181F28"),
+        panel.grid.major = element_line(color = "#333333"),
+        panel.grid.minor = element_blank(),
+        axis.text.y = element_text(colour = "white", size = 9),
+        axis.text.x = element_text(colour = "white", size = 9),
+        axis.title.x = element_text(colour = "white", size = 10, face = "bold", margin = margin(t = 10)),
+        axis.title.y = element_text(colour = "white", size = 10, face = "bold", margin = margin(r = 10)),
+        axis.ticks = element_line(colour = "grey50"),
+        axis.ticks.length = unit(0.2, "cm"),
+        axis.line = element_line(colour = "grey50"),
+        # --- MODIFICATION: Allow legend positioning via Plotly layout ---
+        # legend.position = "none" # REMOVED this line
+        # Style legend elements for consistency if ggplot were to render it
+        legend.background = element_rect(fill = "#181F28", color = NA),
+        legend.key = element_rect(fill = "#181F28", color = NA),
+        legend.title = element_text(colour = "white", size = 10, face = "bold"),
+        legend.text = element_text(colour = "white", size = 9)
+        # --- End Modification ---
+      )
 
     # Convert to a plotly interactive
-    ggplotly(p, tooltip = "text") %>%
+    plotly_plot <- ggplotly(p, tooltip = "text") %>%
+      layout(
+        paper_bgcolor = "#181F28",
+        plot_bgcolor = "#181F28",
+        font = list(family = "Formula1Font", color = "white"),
+        xaxis = list(
+          fixedrange = TRUE, zeroline = FALSE, showgrid = TRUE,
+          gridcolor = "#333333",
+          tickfont = list(color = "white", size = 9),
+          titlefont = list(color = "white", size = 10, face = "bold")
+        ),
+        yaxis = list(
+          fixedrange = TRUE, zeroline = FALSE, showgrid = TRUE,
+          gridcolor = "#333333",
+          tickformat = '.0%',
+          tickfont = list(color = "white", size = 9),
+          titlefont = list(color = "white", size = 10, face = "bold")
+        ),
+        legend = list(
+          orientation = "h",
+          xanchor = 'center',
+          x = 0.5,
+          yanchor = 'top',
+          y = -0.25,  # Adjusted to move the legend further down
+          bgcolor = '#181F28',
+          bordercolor = '#181F28',
+          font = list(color = "white", size = 9),
+          title = list(text = "Driver", font = list(color = "white", size = 10, family = "Formula1Font", face = "bold")),
+          traceorder = 'normal'
+        ),
+        margin = list(l = 60, r = 20, t = 50, b = 100)  # Increased bottom margin for space
+      ) %>%
       config(displayModeBar = FALSE)
 
+    plotly_plot
   })
-
-
 
 }
 

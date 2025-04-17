@@ -1,284 +1,319 @@
-@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+/* --- Font Definitions --- */
+@font-face {
+    font-family: Formula1Font;
+    src: url(fonts/f1-font-bold.ttf) format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
 
-/* Base styles */
+@font-face {
+    font-family: Formula1Font;
+    src: url(fonts/f1-font-regular.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* --- Global Styling --- */
 body {
-  background-color: #0a0a0a;
-  color: #f5f5f7;
-  font-family: 'Inter', sans-serif;
-  line-height: 1.6;
+  background-color: #131c22; /* Set the entire app background color */
+  color: white; /* Ensure text remains visible */
+  font-family: Formula1Font, sans-serif; /* Use regular font globally */
   margin: 0;
+  padding: 0;
+}
+
+/* --- h4 Styling --- */
+h4 {
+  font-family: Formula1Font, sans-serif; /* Use bold font for h4 */
+  font-weight: bold;
+}
+
+/* --- Add Spacing Between Graphs --- */
+.plot-container {
+  margin-bottom: 20px; /* Add space between graphs */
+}
+
+/* Ensure all containers inherit the background */
+.container-fluid, .row, .col-12 {
+  background-color: #131c22; /* Match the global background color */
+}
+
+/* Optional: Adjust padding/margins for better spacing */
+.container-fluid {
   padding: 20px;
 }
 
-/* Header/Title styling */
-.container-fluid h2 {
-  font-family: 'Titillium Web', sans-serif;
-  font-weight: 700;
-  font-size: 2.5rem;
-  letter-spacing: -0.5px;
-  color: #ffffff;
-  margin-bottom: 30px;
-  text-align: center;
-  text-transform: uppercase;
-  position: relative;
-  padding-bottom: 15px;
+/* --- Podium visualization specific styles --- */
+.podium-row {
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
-.container-fluid h2:after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, #e10600, #ff8700);
-  border-radius: 2px;
+.podium-box {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    height: 250px;
 }
 
-/* Section headers */
-h3 {
-  font-family: 'Titillium Web', sans-serif;
-  font-weight: 600;
-  font-size: 1.8rem;
-  color: #ffffff;
-  margin: 35px 0 20px;
-  border-left: 4px solid #e10600;
-  padding-left: 15px;
+.box-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+    z-index: 1;
 }
 
-/* Cards & panels */
-.well, .panel {
-  background-color: #141414;
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  padding: 22px;
-  margin-bottom: 25px;
-  transition: transform 0.2s, box-shadow 0.2s;
+.glass-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    z-index: 2;
 }
 
-.well:hover, .panel:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+.driver-code {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: Formula1Font, emoji;
 }
 
-/* Dropdown styling */
-label {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  color: #cccccc;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
+.position-label {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: Formula1Font, emoji;
 }
 
-.selectize-control {
-  margin-bottom: 25px;
+.time-diff {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Formula1Font, emoji;
 }
 
-.selectize-input {
-  background-color: #1e1e1e !important;
+.driver-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Adjusted translateY to shift it down */
+    height: 250px;
+    z-index: 1;
+    border-radius: 5px;
+    pointer-events: none;
+}
+
+.constructor-img {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 125px;
+    z-index: 2;
+}
+
+.control-panel label {
+  color: white; /* Set label text color to white */
+  font-family: Formula1Font, sans-serif; /* Match font */
+}
+
+/* Control panel extension for year/track selectors */
+.control-panel {
+    background-color: #131c22;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 25px;
+    transition: transform 0.2s;
+    position: relative;
+    z-index: 10;
+}
+
+/* --- Dropdown Styling --- */
+.control-panel select {
+  background-color: #131c22; /* Set dropdown background color */
+  border: 1px solid #333333; /* Optional: Add a subtle border */
+  border-radius: 4px; /* Optional: Add rounded corners */
+  padding: 5px; /* Add padding for better spacing */
+  font-family: Formula1Font, sans-serif; /* Match font */
+}
+
+/* Add error message style */
+.error-message {
+    color: #ff5555;
+    text-align: center;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+/* RACE RESULTS TABLE */
+
+/* --- Race Results Container --- */
+.race-results-container {
+  background-color: #181F29; /* Match the background color of other graphs */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px; /* Add padding for spacing */
+  overflow: hidden; /* Prevent content overflow */
+}
+
+/* --- Race Results Table --- */
+.race-results-table {
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Remove gaps between table cells */
+  color: white; /* Text color */
+  font-family: Formula1Font, sans-serif; /* Match font */
+  background-color: #181F29; /* Entire table background */
+}
+
+.race-results-table th {
+  background-color: #181F29; /* Header background */
+  color: white; /* Header text color */
+  font-size: 14px; /* Header font size */
+  font-weight: bold; /* Header font weight */
+  text-align: center; /* Center align header text */
+  padding: 10px; /* Header padding */
+  text-transform: uppercase; /* Uppercase text */
+}
+
+.race-results-table td {
+  background-color: #181F29; /* Default row background */
+  color: white; /* Row text color */
+  font-size: 12px; /* Row font size */
+  text-align: center; /* Center align row text */
+  padding: 8px; /* Row padding */
+}
+
+.race-results-table tr:nth-child(even) td {
+  background-color: #19212b; /* Alternate row background */
+}
+
+.race-results-table img {
+  vertical-align: middle; /* Align images with text */
+}
+
+/* --- TIRE STRATEGY GRAPH --- */
+
+/* Container styling (optional, R code sets background) */
+#tireStrategyPlot .plotly .hovertext {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
   color: white !important;
-  border: 1px solid #333 !important;
-  border-radius: 8px !important;
-  padding: 12px !important;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  font-family: Formula1Font, sans-serif !important;
 }
 
-.selectize-input.focus {
-  border-color: #e10600 !important;
-  box-shadow: 0 0 0 2px rgba(225, 6, 0, 0.25) !important;
+#tireStrategyPlot text {
+    font-family: Formula1Font, sans-serif !important;
+}
+#tireStrategyPlot .xtitle, #tireStrategyPlot .ytitle {
+    font-family: Formula1Font, sans-serif !important;
+}
+#tireStrategyPlot .xaxislayer-above .tick text, #tireStrategyPlot .yaxislayer-above .tick text {
+    font-family: Formula1Font, sans-serif !important;
+}
+#tireStrategyPlot .gtitle {
+    font-family: Formula1Font, sans-serif !important;
 }
 
-.selectize-input.dropdown-active {
-  border-radius: 8px 8px 0 0 !important;
-}
+/* --- WIN PROBABILITY GRAPH --- */
 
-.selectize-dropdown {
-  background-color: #1e1e1e;
-  border: 1px solid #333;
-  border-top: none;
-  border-radius: 0 0 8px 8px;
-  margin-top: -1px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-.selectize-dropdown-content .option {
-  background-color: #1e1e1e;
-  color: #cccccc;
-  padding: 10px 12px;
-  font-size: 0.95rem;
-  border-bottom: 1px solid #2a2a2a;
-}
-
-.selectize-dropdown-content .option:last-child {
-  border-bottom: none;
-  border-radius: 0 0 8px 8px;
-}
-
-.selectize-dropdown-content .option.active {
-  background-color: #2a2a2a;
-  color: #ffffff;
-}
-
-/* Tables */
-.table-container {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.table {
-  color: #f5f5f7;
-  background-color: #141414;
-  font-family: 'Inter', sans-serif;
-  margin-bottom: 0;
-  border-collapse: separate;
-  border-spacing: 0;
-  width: 100%;
-}
-
-.table thead th {
-  background-color: #1a1a1a;
-  color: #999999;
-  font-weight: 500;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
-  padding: 15px;
-  border-bottom: 2px solid #2a2a2a;
-}
-
-.table tbody tr {
-  transition: background-color 0.2s;
-}
-
-.table-striped > tbody > tr:nth-child(odd) > td {
-  background-color: #1a1a1a;
-}
-
-.table-striped > tbody > tr:nth-child(even) > td {
-  background-color: #141414;
-}
-
-.table-hover > tbody > tr:hover > td {
-  background-color: #2a2a2a;
-}
-
-.table td {
-  padding: 12px 15px;
-  border-top: 1px solid #2a2a2a;
-  font-size: 0.95rem;
-}
-
-/* Position column styling */
-.table td:first-child {
-  font-weight: 600;
-}
-
-/* Constructor name styling */
-.table td:nth-child(5) {
-  font-weight: 500;
-}
-
-/* Points column styling */
-.table td:last-child {
-  font-weight: 600;
-  color: #00e676;
-}
-
-/* Plot styling */
-.plotly {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  margin-top: 10px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
-
-  .container-fluid h2 {
-    font-size: 2rem;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-  }
-
-  .well, .panel {
-    padding: 15px;
-  }
-
-  .table td, .table th {
-    padding: 10px;
-  }
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #141414;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #444;
-}
-
-/* Add F1 branding accent line at the top */
-body:before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #e10600 0%, #ff8700 100%);
-  z-index: 1000;
-}
-
-/* Button styling (if added later) */
-.btn {
-  background-color: #1e1e1e;
-  color: white;
-  border: none;
+#winProbPlot {
   border-radius: 8px;
-  padding: 10px 20px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  transition: background-color 0.2s, transform 0.1s;
+  overflow: hidden;
 }
 
-.btn:hover {
-  background-color: #2a2a2a;
+#winProbPlot text {
+    font-family: Formula1Font, sans-serif !important;
+}
+#winProbPlot .xtitle, #winProbPlot .ytitle {
+    font-family: Formula1Font, sans-serif !important;
+}
+#winProbPlot .xaxislayer-above .tick text, #winProbPlot .yaxislayer-above .tick text {
+    font-family: Formula1Font, sans-serif !important;
+}
+#winProbPlot .gtitle {
+    font-family: Formula1Font, sans-serif !important;
+}
+
+/* FLOATING INFO BUTTON */
+#infoButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+
+.info-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #007bff;
   color: white;
-  transform: translateY(-2px);
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.btn:active {
-  transform: translateY(0);
+.info-btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
-.btn-primary {
-  background-color: #e10600;
+/* Modal Dialog styling */
+.modal-content {
+  background-color: #131c22 !important;
+  color: white !important;
 }
 
-.btn-primary:hover {
-  background-color: #ff0a00;
+.modal-header {
+  background-color: #181F29 !important;
+  color: white !important;
+  border-bottom: 1px solid #333 !important;
+}
+
+.modal-title {
+  color: white !important;
+}
+
+.close {
+  color: white !important;
+  opacity: 0.8 !important;
+}
+
+.close:hover {
+  color: white !important;
+  opacity: 1 !important;
+}
+
+.modal-body {
+  color: white !important;
+}
+
+/* Style headings inside modal */
+.modal-body h4 {
+  color: white !important; /* F1 red for headings */
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Style list items inside modal */
+.modal-body li {
+  margin-bottom: 5px;
+}
+
+/* Style bold text inside modal */
+.modal-body b {
+  color: white !important; /* F1 red for bold text */
 }
