@@ -337,7 +337,7 @@ server <- function(input, output, session) {
   observeEvent(input$infoBtn, {
     showModal(
       modalDialog(
-        title = span("F1 Race Analysis Dashboard", style = "color: white;"),
+        title = span("ABOUT THIS DASHBOARD", style = "color: white;"),
         size = "l",
         easyClose = TRUE,
         footer = NULL,
@@ -345,20 +345,32 @@ server <- function(input, output, session) {
         # Adding explicit HTML content with app information
         HTML('
         <div style="max-height: 500px; overflow-y: auto; color: white;">
-          <h4>About This Dashboard</h4>
-          <p>Welcome to our F1 Race Analysis Dashboard. This application visualizes Formula 1 race data to provide insights on race results, driver performance, and race strategies.</p>
+          <p>Hi! 👋</p>
+          <p>This dashboard visualizes Formula 1 race data to provide insights on race results, driver performance, and race strategies.</p>
 
-          <h4>Dashboard Features</h4>
+          <h4>WHAT IS FORMULA 1?</h4>
+          <ul>
+            <li><b>Drivers – 20 total drivers (there can be more, but typically there are only 20 in a season)
+            <li><b>Teams – Companies, or constructors (like Ferrari, Mercedes, and Red Bull), who build the cars and manage the racing operations.
+            <li><b>Cars – There are different classes of Formula racing: Formula 4, 3, 2, and what we are working with, Formula 1. F1 uses the fastest cars.
+            <li><b>Circuits – Tracks where the races are held, including both permanent racetracks and temporary street circuits all around the world.
+          </ul>
+
+          <h4>HOW TO USE THE DASHBOARD</h4>
           <ul>
             <li><b>Race Selection:</b> Choose a season and Grand Prix from the dropdown menus at the top.</li>
             <li><b>Podium Visualization:</b> The top three finishers with their team colors, finishing positions, and time differences.</li>
             <li><b>Race Results Table:</b> Finishing order with drivers, teams, and timing information.</li>
             <li><b>Tire Strategy Plot:</b> Visual representation of each driver\'s tire compound choices throughout the race, showing stint lengths and tire changes.</li>
+              <ul>
+                <li><b>Soft (Red):</b> Fastest speed, but shortest lifespan.</li>
+                <li><b>Medium (Yellow):</b> Balance of speed and durability.</li>
+                <li><b>Hard (White):</b> Slowest, but most durable.</li>
+                <li><b>Intermediate (Green):</b> For damp conditions.</li>
+                <li><b>Wet (Blue):</b> For heavy rain conditions.</li>
+               </ul>
             <li><b>Win Probability Chart:</b> How each driver\'s chances of winning evolved throughout the race based on position, pace, and other factors.</li>
           </ul>
-
-          <h4>Understanding the Data</h4>
-          <p>The dashboard combines official race results with tire strategy data to provide a comprehensive view of race dynamics.</p>
 
           <h4>Common F1 Terms</h4>
           <ul>
@@ -369,14 +381,6 @@ server <- function(input, output, session) {
             <li><b>DRS:</b> Drag Reduction System, a mechanism to reduce drag and increase speed.</li>
           </ul>
 
-          <h4>Tire Compounds</h4>
-          <ul>
-            <li><b>Soft (Red):</b> Fastest but shortest lifespan.</li>
-            <li><b>Medium (Yellow):</b> Balance of speed and durability.</li>
-            <li><b>Hard (White):</b> Slowest but most durable.</li>
-            <li><b>Intermediate (Green):</b> For damp conditions.</li>
-            <li><b>Wet (Blue):</b> For heavy rain conditions.</li>
-          </ul>
         </div>
       ')
       )
