@@ -127,11 +127,18 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   # Update track dropdown when year is selected
   observeEvent(input$year, {
+    # Exclude 2018 from the dropdown
+    filtered_races <- races[races$year != 2018,]
+
+    # Update the track dropdown based on the selected year
     updateSelectInput(session, "track", choices = NULL, selected = NULL)
-    races_for_year <- races[races$year == input$year,]
+    races_for_year <- filtered_races[filtered_races$year == input$year,]
     available_tracks <- setNames(races_for_year$name, paste0(races_for_year$name, " - R", races_for_year$round))
     updateSelectInput(session, "track", choices = available_tracks)
   })
+
+  # Update the year dropdown to exclude 2018
+  updateSelectInput(session, "year", choices = sort(unique(races$year[races$year != 2018]), decreasing = TRUE), selected = 2024)
 
   fastest_lap_data <- reactive({
     req(selected_race_id())
