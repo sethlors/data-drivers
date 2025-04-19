@@ -116,7 +116,7 @@ ui <- fluidPage(
       div(class = "row",
           div(class = "col-12",
               div(class = "plot-container",
-                  plotlyOutput("winProbPlot")
+                  plotlyOutput("winProbPlot", height = "600px")
               )
           )
       )
