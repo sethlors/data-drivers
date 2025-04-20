@@ -165,3 +165,10 @@ Explanatory Variables:
 Future Plans: The win probability model is still a work in progress and we are working on cleaning the data and experimenting with other possible explanatory variables. We are also considering adding a similar random forest model that attempts to predict final position instead of simply winning or losing. The win probability model visualization plot also needs to be updated for usability. Overall, the group is in a good spot and the dashboard is nearly complete.
 
 Here is the link to instructions to run locally (https://github.com/sethlors/data-drivers/blob/main/Info.md)
+
+## 2025-04-20: Dashboard Peer Review
+[This dashboard](https://lorsseth-data-drivers.share.connect.posit.cloud/) is supposed to help you visualize and understand how race strategies evolve over the course of the race selected. 
+In the bottom right corner of the dashboard, there is an information button that will give a basic understanding of Formula 1 before using the dashboard. 
+
+Here is a more in depth explanation:
+[Formula 1 Explanation](https://github.com/sethlors/data-drivers/blob/main/f1-explanation.md)
