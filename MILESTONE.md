@@ -1,3 +1,7 @@
+## Team Formation
+
+Once we were assigned to our groups at the beginning of the semester, our group first wanted to decide what our interests were and how we could apply them to our data exploration for the capstone project. Our group came to the conclusion that doing data analysis with Formula 1 data would be a great choice because we all either had previous F1 knowledge or were curious to learn more about it through creating the dashboard. When it was time to figure out what our team name should be shortly after, Ryan came up with the cool name "Data Drivers" on the spot, and that's what we ended up going with in the end as it relates to what our F1 data is about. Additionally, someone who doesn't know anything about our data analysis could easily tell from our name that our project must have something to do with cars. 
+
 ## 2025-02-17: Acquire Data Milestone
 
 
@@ -172,3 +176,5 @@ In the bottom right corner of the dashboard, there is an information button that
 
 Here is a more in depth explanation:
 [Formula 1 Explanation](https://github.com/sethlors/data-drivers/blob/main/f1-explanation.md)
+
+## 2025-04-20: Finalize Dashboard Milestone
