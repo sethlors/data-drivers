@@ -178,3 +178,17 @@ Here is a more in depth explanation:
 [Formula 1 Explanation](https://github.com/sethlors/data-drivers/blob/main/f1-explanation.md)
 
 ## 2025-04-27: Finalize Dashboard Milestone
+
+After we finalized our dashboard for peer review, we received valualbe feedback on what we could imrpove on the dashboard. As a team, we summarized the main points of feedback:
+
+- *Audience Clarity:* Clarify whether the dashboard is meant for casual fans or dedicated F1 followers, and adjust the depth of insights accordingly (or explain your choice clearly in the introduction).
+ 
+-	*Context and Definitions:* Add brief definitions for key terms like tire compounds and explain how win probability is calculated, either in tooltips, a glossary tab, or an info section.
+ 
+-	*More Contextual Information:* Annotate major shifts in the win probability graph (e.g., crashes, penalties) to make the chart more meaningful.
+ 
+-	*Expand Visuals:* Include a few more general stats (e.g., histogram of finish times, fastest laps) and possibly a full race results tab to avoid crowding the main page.
+ 
+-	*Minor Layout Tweaks:* Improve how logos and portraits behave on vertical or mobile layouts to prevent overlap, and consider zoom or filter options for dense graphs like the win probability chart.
+
+With this feedback, we will focus on making changes related to the "Audience Clarity". This will be the easiest of the feedback to improve on with the little amount of time left in the semester.
