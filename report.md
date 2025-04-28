@@ -31,7 +31,7 @@ but including pictures and tables may make the report longer.
 
 
 
-#### Data collection (ETL)
+#### Data collection (ETL) - Ryan
 
 Describe how the data were collected, cleaned, and transformed into a suitable
 format for use in the project.
@@ -51,7 +51,7 @@ Address the following questions:
 - How were the data stored for use in the dashboard?
   - How was efficiency (hard drive, load time, etc) considered in storage?
   
-#### Modeling
+#### Modeling - Zack
 
 Describe the modeling used in the project include modeling attempts that were
 not (ultimately) included in the dashboard. 
@@ -71,7 +71,7 @@ not (ultimately) included in the dashboard.
   - If real-time, what can a user specify?
   - If pre-estimated, how are model results stored?
 
-#### Dashboard
+#### Dashboard - Seth
 
 Describe how the dashboard was constructed.
 
@@ -95,7 +95,7 @@ Describe how the dashboard was constructed.
 Application, in this context, refers to the scientific question of interest and
 the intended audience.
 
-#### Goal
+#### Goal - Max
 
 Early in the report, likely before any data is discussed, describe the goal
 for the project.
@@ -112,11 +112,11 @@ for the project.
 - How well does the modeling support your project goals?
 
 
-### Discussion
+### Discussion - Seth
 
 Provide a summary of the overall project and backend pipeline.
 
-#### Next steps
+#### Next steps - Ryan
 
 - What would you have done if you had more time? 
   - Would you have...
@@ -129,8 +129,7 @@ Provide a summary of the overall project and backend pipeline.
   - Large data
   - Client
   
-#### Availability
-
+#### Availability - Seth
 
 - Where can the code for the project be found? 
   - What is the plan to maintain the code?
