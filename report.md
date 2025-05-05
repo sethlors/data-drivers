@@ -1,4 +1,5 @@
-# DS 4010 Report By: Seth Lors, Ryan Riebesehl, Maxwell Skinner, Zack Swayne
+# DS 4010 Report 
+By: Seth Lors, Ryan Riebesehl, Maxwell Skinner, Zack Swayne
 
 
 
