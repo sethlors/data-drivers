@@ -1,3 +1,7 @@
+## Team Formation
+
+Once we were assigned to our groups at the beginning of the semester, our group first wanted to decide what our interests were and how we could apply them to our data exploration for the capstone project. Our group came to the conclusion that doing data analysis with Formula 1 data would be a great choice because we all either had previous F1 knowledge or were curious to learn more about it through creating the dashboard. When it was time to figure out what our team name should be shortly after, Ryan came up with the cool name "Data Drivers" on the spot, and that's what we ended up going with in the end as it relates to what our F1 data is about. Additionally, someone who doesn't know anything about our data analysis could easily tell from our name that our project must have something to do with cars. 
+
 ## 2025-02-17: Acquire Data Milestone
 
 
@@ -144,3 +148,47 @@ Tire Strategy Visualization: The tire strategy plot visualizes the tire stints f
 The user input directly influences the race data displayed, such as updating the results table with race outcomes and generating an updated tire strategy plot. This ensures that the dashboard is interactive and responsive to user selections.
 
 Here is the link to instructions to run locally (https://github.com/sethlors/data-drivers/blob/main/Info.md)
+
+## 2025-04-13: Add Models to Dashboard
+
+The current state of the F1 Race Analysis dashboard is the same as reported in the previous week with the addition of the win probability plot using our random forest win probability model.
+
+Model Overview: The win probability model used to create the plot is a random forest model. The training data is lap-by-lap data for each driver in each race. There are seven models trained for the seven years in the data set. Depending on which year is selected in the drop down menu, the predicted values correspond to the model in which that year was the testing data (to avoid over fitting/double dipping on training data) The model currently has 500 trees and a minimum node size of 200, but these numbers will likely change as we analyze which combinations perform the best.
+
+Response Variable: Winner, a numeric value of 0 if the driver lost the race and 1 if the driver won the race.
+
+Explanatory Variables:
+- Laps Remaining: Laps left in the race
+- Tire Compound: type of tire used by the driver in that lap; factor including hard,soft,medium,wet
+- Track Status: Factor indicating if the track is clear, at a yellow flag, red flag, or other status
+- Position: Place the driver currently is at in the race
+- Time Back: Time back, in milliseconds, the driver is from first
+- Circuit: The race track the race took place on
+- Season Standing: The place in the overall driver's standings the driver was before the race
+
+Future Plans: The win probability model is still a work in progress and we are working on cleaning the data and experimenting with other possible explanatory variables. We are also considering adding a similar random forest model that attempts to predict final position instead of simply winning or losing. The win probability model visualization plot also needs to be updated for usability. Overall, the group is in a good spot and the dashboard is nearly complete.
+
+Here is the link to instructions to run locally (https://github.com/sethlors/data-drivers/blob/main/Info.md)
+
+## 2025-04-20: Dashboard Peer Review
+[This dashboard](https://lorsseth-data-drivers.share.connect.posit.cloud/) is supposed to help you visualize and understand how race strategies evolve over the course of the race selected. 
+In the bottom right corner of the dashboard, there is an information button that will give a basic understanding of Formula 1 before using the dashboard. 
+
+Here is a more in depth explanation:
+[Formula 1 Explanation](https://github.com/sethlors/data-drivers/blob/main/f1-explanation.md)
+
+## 2025-04-27: Finalize Dashboard Milestone
+
+After we finalized our dashboard for peer review, we received valualbe feedback on what we could imrpove on the dashboard. As a team, we summarized the main points of feedback:
+
+- *Audience Clarity:* Clarify whether the dashboard is meant for casual fans or dedicated F1 followers, and adjust the depth of insights accordingly (or explain your choice clearly in the introduction).
+ 
+-	*Context and Definitions:* Add brief definitions for key terms like tire compounds and explain how win probability is calculated, either in tooltips, a glossary tab, or an info section.
+ 
+-	*More Contextual Information:* Annotate major shifts in the win probability graph (e.g., crashes, penalties) to make the chart more meaningful.
+ 
+-	*Expand Visuals:* Include a few more general stats (e.g., histogram of finish times, fastest laps) and possibly a full race results tab to avoid crowding the main page.
+ 
+-	*Minor Layout Tweaks:* Improve how logos and portraits behave on vertical or mobile layouts to prevent overlap, and consider zoom or filter options for dense graphs like the win probability chart.
+
+With this feedback, we will focus on making changes related to the "Audience Clarity". This will be the easiest of the feedback to improve on with the little amount of time left in the semester.

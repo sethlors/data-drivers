@@ -1,0 +1,347 @@
+@font-face {
+    font-family: Formula1Font;
+    src: url(fonts/f1-font-bold.ttf) format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Formula1Font;
+    src: url(fonts/f1-font-regular.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    background-color: #131c22;
+    color: white;
+    font-family: Formula1Font, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h4 {
+    font-family: Formula1Font, sans-serif;
+    font-weight: bold;
+}
+
+.container-fluid, .row, .col-12 {
+    background-color: #131c22;
+}
+
+.container-fluid {
+    padding: 20px;
+}
+
+.plot-container {
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: #ff5555;
+    text-align: center;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.control-panel {
+    background-color: #131c22;
+    padding: 10px;
+    margin-bottom: 1px;
+    transition: transform 0.2s;
+    position: relative;
+    z-index: 10;
+}
+
+.control-panel label {
+    color: white;
+    font-family: Formula1Font, sans-serif;
+}
+
+.control-panel select {
+    background-color: #131c22;
+    border: 1px solid #333333;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: Formula1Font, sans-serif;
+}
+
+.stats-bar {
+    background: linear-gradient(90deg, rgba(38, 30, 60, 1) 0%, rgba(61, 41, 95, 1) 100%);
+    color: white;
+    border-radius: 10px;
+    margin: 15px 0;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Formula1Font, sans-serif;
+}
+
+.stats-item {
+    display: flex;
+    align-items: center;
+}
+
+.stats-icon {
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stats-label {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-bottom: 2px;
+}
+
+.stats-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.driver-initial {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    margin-right: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.podium-row {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.podium-box {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    height: 250px;
+}
+
+.box-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+    z-index: 1;
+}
+
+.glass-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    z-index: 2;
+}
+
+.driver-code,
+.position-label,
+.time-diff {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: Formula1Font, emoji;
+}
+
+.time-diff {
+    font-size: 20px;
+}
+
+.driver-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 250px;
+    z-index: 1;
+    border-radius: 5px;
+    pointer-events: none;
+}
+
+.constructor-img {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 125px;
+    z-index: 2;
+}
+
+.race-results-container {
+    background-color: #181F29;
+    border-radius: 8px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.race-results-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    font-family: Formula1Font, sans-serif;
+    background-color: #181F29;
+}
+
+.race-results-table th {
+    background-color: #181F29;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+.race-results-table td {
+    background-color: #181F29;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    padding: 8px;
+}
+
+.race-results-table tr:nth-child(even) td {
+    background-color: #232732;
+}
+
+.race-results-table img {
+    vertical-align: middle;
+}
+
+#tireStrategyPlot,
+#winProbPlot {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#tireStrategyPlot {
+    background-color: #181F29;
+}
+
+#tireStrategyPlot .plotly .hovertext {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    font-family: Formula1Font, sans-serif !important;
+}
+
+#tireStrategyPlot text,
+#winProbPlot text {
+    font-family: Formula1Font, sans-serif !important;
+}
+
+#tireStrategyPlot .xtitle, #tireStrategyPlot .ytitle,
+#winProbPlot .xtitle, #winProbPlot .ytitle {
+    font-family: Formula1Font, sans-serif !important;
+}
+
+#tireStrategyPlot .xaxislayer-above .tick text, #tireStrategyPlot .yaxislayer-above .tick text,
+#winProbPlot .xaxislayer-above .tick text, #winProbPlot .yaxislayer-above .tick text {
+    font-family: Formula1Font, sans-serif !important;
+}
+
+#tireStrategyPlot .gtitle,
+#winProbPlot .gtitle {
+    font-family: Formula1Font, sans-serif !important;
+}
+
+#infoButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#githubButton {
+    position: fixed;
+    bottom: 20px;
+    right: 80px;
+    z-index: 1000;
+}
+
+.info-btn,
+.github-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #0056b3;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.github-btn {
+    text-decoration: none;
+}
+
+.info-btn:hover,
+.github-btn:hover {
+    background-color: #014a9c;
+    transform: scale(1.1);
+}
+
+.modal-content {
+    background-color: #131c22 !important;
+    color: white !important;
+}
+
+.modal-header {
+    background-color: #181F29 !important;
+    color: white !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+.modal-title {
+    color: white !important;
+}
+
+.close {
+    color: white !important;
+    opacity: 0.8 !important;
+}
+
+.close:hover {
+    color: white !important;
+    opacity: 1 !important;
+}
+
+.modal-body {
+    color: white !important;
+}
+
+.modal-body h4 {
+    color: white !important;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.modal-body li {
+    margin-bottom: 5px;
+}
+
+.modal-body b {
+    color: white !important;
+}
