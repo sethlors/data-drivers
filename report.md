@@ -53,23 +53,18 @@ Address the following questions:
   
 #### Modeling - Zack
 
-Describe the modeling used in the project include modeling attempts that were
-not (ultimately) included in the dashboard. 
+Our first idea for a potential model was to try to predict a racer's tire strategy throughout the race. We thought about using weather data, historical track strategies, position, and other factors to model what tires teams would use throughout a race. However, we were unable to move forward with this model as we switched data sources multiple times, and our final data set did not contain the weather data that a previous one had. Since it is very likely that weather would have a huge impact on a tire strategy model, we decided to move forward with other ideas. 
 
-- How does the modeling effort support the project goal?
-  - What is the purpose of the model? prediction? understanding?
-- What models were used?
-  - Response (dependent) variable(s)
-  - Explanatory (independent variable(s))
-  - What is the name of the model?
-  - Describe the model used. (it is not enough to simply name the model)
-    - Perhaps include the mathematics or algorithm behind the model.
-- What software is used to implement the model? 
-  - What packages were used? 
-  - Provide realistic, but simplified code.
-- Are models created in real-time or pre-estimated?
-  - If real-time, what can a user specify?
-  - If pre-estimated, how are model results stored?
+Another modeling idea we explored was predicting lap time or fastest lap time using linear regression. We tested predictors like position, tire compound, track, year, and others, but none of our models met the constant variance assumption. We attempted to remedy this by using log transformations, but the problem remained. We concluded that a linear regression model would not be an effective choice of model since drivers are constantly battling one another for spots, so each driver’s individual lap times would not be independent of each other.
+
+The final model we settled on for the dashboard was a random forest regression model that predicts in-race driver win probability. This idea came from previous work at Iowa State by Dennis Lock and Dan Nettleton, who used a random forest to predict the in-game win probability for National Football League games. A random forest regression model creates a  large number of decision trees that each predict a value. The output of the model is than the average of the predictions of all the trees. Each decision tree makes it’s prediction using a bootstrapped sample of the training data on a random subset of the predictors. The tree than uses the predictors to split the data set in pairs repeatedly using a variance splitting method.
+
+The data set used to train the model has rows that correspond to the ending of a lap for each driver in each race. The explanatory variables are tire type, the number of laps since the last pit, position in the race, time back from the leader, the track itself, the pole position, the driver’s current position in the season standings, and the laps remaining in the race. The response variable the model was trained on is a simple  0 or 1 indicator of whether or not the driver went on to win the race. However, instead of treating this variable as a factor, it is predicted as a number. This results in the model predicting values from 0 to 1 for each lap by each driver in each race. To make the results more interpretable, we then normalized the values so that for each lap in each race, all of the probabilities sum up to one. The model was fit using the ranger package in R with the following code
+
+winprob <- ranger(winner~., data=ftrain, num.trees = 500,
+              	min.node.size = 100, importance = "impurity")
+
+The model used in the dashboard are all pre-estimated. Users have the ability to select races from 2019-2024, so six separate models were created such that the training data for each year is all of the race data from the other five years. This was done to avoid making predictions on data the model was trained on. The results of these models were then stored in a data frame that was written into a csv file that can be accessed by the dashboard.
 
 #### Dashboard - Seth
 
