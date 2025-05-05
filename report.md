@@ -6,7 +6,6 @@ By: Seth Lors, Ryan Riebesehl, Maxwell Skinner, Zack Swayne
 ### Data Pipeline
 
 
-
 #### Data collection (ETL) - (Ryan)
 
 For our project, we used the OpenF1 API (https://openf1.org/) as our primary data source. OpenF1 provides real-time historical Formula 1 data from the 2019-2024 seasons. Data was obtained using R scripts that interacted with the OpenF1 API through GET requests. These scripts are designed to automate the download of specific datasets such as weather conditions, pit stops, lap times, stint details, and driver positions. The data was then saved locally as CSV files, organized by year, to allow for efficient storage and retrieval.
@@ -47,13 +46,10 @@ the intended audience.
 
 #### Goal - (Max)
 
-Early in the report, likely before any data is discussed, describe the goal
-for the project.
+The goal of this dashboard is to turn complex F1 race data into a form comprehensible format. We present race results at a glance displaying podium finishers, their time gaps, and points earned. This dashboard also aims to highlight key performance metrics including fastest lap, tire strategies, and win probabilities over time. Our dashboard aims to also allow easy comparison between drivers like tire usage or time gaps and show how each F1 race evolved lap by lap. Our final goal was to make F1 data more easily accessible, turning complex measurements, sometimes up to multiple records per second per driver, to easily readable images and charts rather than just relying on tables of numbers. 
 
-- What is the goal for the project?
-  - What are you trying to achieve with the project?
-- Who is the intended audience?
-  - Who would be interested in your project?
+The intended audience for this dashboard is a mix of casual F1 fans and those who are more interested in the data side of things. The visuals are very accessible and easy to understand with driver photos, team logos, and podium graphics which would appeal to fans that might not read raw stats but want to understand who won, by how much, and who led the race. We also include more detailed analytics including tire strategy and win probability over time which would cater to the more data centric fans of the sport. This is NOT for complicated analysis as much if not all of our statistics and metrics are summarized and simplified.
+
   
 #### Learning (Ryan)
 
