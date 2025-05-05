@@ -1,30 +1,5 @@
-# Report Rubric
+# DS 4010 Report By: Seth Lors, Ryan Riebesehl, Maxwell Skinner, Zack Swayne
 
-The intended audience for the report is new DS 4010 students. 
-Approximately 75% of the report should be devoted to behind the scenes data 
-pipeline content while the remaining 25% should be devoted to the application. 
-Throughout the report include visualizations and tables that will help the 
-reader understand the process you used. 
-
-Please mention anything that was unique to your group where relevant in the 
-report. For example, the size of you data set. 
-Also describe investigated approaches that were ultimately not used. 
-
-
-## Format
-
-With the targt audience being new DS 4010 students, what would be an appropriate
-format?
-
-- md/html?
-- Word/pdf?
-
-Ultimately this should live in your repository
-
-## Length
-
-The writing should be 3-5 pages, 
-but including pictures and tables may make the report longer. 
 
 
 ### Data Pipeline
