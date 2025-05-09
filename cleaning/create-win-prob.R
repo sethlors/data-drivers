@@ -1,20 +1,19 @@
 library(dplyr)
 library(tidyr)
-library(here)
 library(ranger)
 library(readr)
 
 # Load in necessary data sets
-races <- read.csv(here("shiny","data", "clean-data", "races.csv"))
-status <- read.csv(here("shiny","data", "clean-data", "status.csv"))
-standings <- read.csv(here("shiny","data", "clean-data", "driver_standings.csv"))
-circuits <- read.csv(here("shiny","data", "clean-data", "circuits.csv"))
-drivers <- read.csv(here("shiny","data", "clean-data", "drivers.csv"))
-stints <- read.csv(here("shiny","data", "clean-data", "stints.csv"))
-laptimes <- read.csv(here("shiny","data", "clean-data", "lap_times.csv"))
-pits <- read.csv(here("shiny","data", "clean-data", "pit_stops.csv"))
-results <- read.csv(here("shiny","data", "clean-data", "results.csv"))
-constructors <- read.csv(here("shiny","data", "clean-data", "constructors.csv"))
+races <- read.csv("shiny/data/clean-data/races.csv")
+status <- read.csv("shiny/data/clean-data/status.csv")
+standings <- read.csv("shiny/data/clean-data/driver_standings.csv")
+circuits <- read.csv("shiny/data/clean-data/circuits.csv")
+drivers <- read.csv("shiny/data/clean-data/drivers.csv")
+stints <- read.csv("shiny/data/clean-data/stints.csv")
+laptimes <- read.csv("shiny/data/clean-data/lap_times.csv")
+pits <- read.csv("shiny/data/clean-data/pit_stops.csv")
+results <- read.csv("shiny/data/clean-data/results.csv")
+constructors <- read.csv("shiny/data/clean-data/constructors.csv")
 
 # Join standings with races to get season standings and points before each race
 standingsj <- standings |>
@@ -199,4 +198,4 @@ test24 <- test24 |>
   ungroup()
 
 win_prob <- rbind(test19,test20,test21,test22,test23,test24)
-write_csv(win_prob, here("shiny","data", "clean-data", "win_prob.csv"))
+write_csv(win_prob, "shiny/data/clean-data/win_prob.csv")

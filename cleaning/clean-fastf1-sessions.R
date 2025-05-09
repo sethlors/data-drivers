@@ -6,10 +6,10 @@ library(stringr)
 library(readr)
 
 # Read CSV files
-df <- read_csv("../data/raw-data/fastf1-sessions.csv")
-drivers <- read_csv("../data/raw-data/drivers.csv")
-constructors <- read_csv("../data/raw-data/constructors.csv")
-races <- read_csv("../data/raw-data/races.csv")
+df <- read_csv("raw-data/fastf1-sessions.csv")
+drivers <- read_csv("raw-data/drivers.csv")
+constructors <- read_csv("raw-data/constructors.csv")
+races <- read_csv("raw-data/races.csv")
 
 # Function to convert time format to M:SS.sss
 convert_time <- function(time_str) {
@@ -103,7 +103,7 @@ df_clean <- df %>%
   rename(compoundColor = CompoundColor)
 
 # Save cleaned CSV to git repo
-write_csv(df_clean, "../data/clean-data/stints.csv")
+write_csv(df_clean, "shiny/data/clean-data/stints.csv")
 
 # Print first few rows
 head(df_clean)
