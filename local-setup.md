@@ -44,12 +44,8 @@ To run the project locally, you need to have R and RStudio installed on your mac
 Assuming you have R and RStudio installed, install the following libraries:
 
 ```r
-install.packages("shiny")
-install.packages("dplyr")
-install.packages("ggplot2")
-install.packages("plotly")
-install.packages("here")
+source("install-dependencies.R")
 ```
 
-After installing the required packages, you can run the Shiny app by opening the shiny.R file in RStudio and clicking
-the "Run App" button in the top right corner of the script editor. 
+After installing the required packages, you can run the Shiny app by opening the shiny/app.R file in RStudio and clicking
+the "Run App" button in the top right corner of the script editor.

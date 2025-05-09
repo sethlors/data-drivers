@@ -1,10 +1,9 @@
-setwd("/Users/ryanriebesehl/Desktop/DS 401/data-drivers/data/clean-data")
 library(ggplot2)
 library(dplyr)
 library(lubridate)
 library(readr)
 
-stints <- read_csv("stints.csv")
+stints <- read_csv("shiny/data/clean-data/stints.csv")
 names(stints)
 
 # Convert sector times to seconds for easier plotting

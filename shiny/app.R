@@ -2,7 +2,6 @@ library(shiny)
 library(dplyr)
 library(ggplot2)
 library(plotly)
-library(here)
 library(tibble)
 
 circuits <- read.csv("data/clean-data/circuits.csv")
