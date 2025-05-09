@@ -47,5 +47,5 @@ Assuming you have R and RStudio installed, install the following libraries:
 source("install-dependencies.R")
 ```
 
-After installing the required packages, you can run the Shiny app by opening the shiny.R file in RStudio and clicking
+After installing the required packages, you can run the Shiny app by opening the shiny/app.R file in RStudio and clicking
 the "Run App" button in the top right corner of the script editor.
